@@ -1,0 +1,174 @@
+/* ============================================================
+   文件功能：蛋糕详情页样式（UI-UX §5.4）
+   ============================================================ */
+
+.wrap { max-width: var(--wrap, 1280px); margin: 0 auto; padding: 0 40px 100px; }
+
+/* 主体两栏：1.1fr 1fr */
+.body {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* ---------- 左：产品大图 ---------- */
+.imgWrap {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  background: var(--bg-soft);
+}
+
+.imgWrap img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---------- 右：信息区 ---------- */
+.name { font-size: 54px; margin: 0 0 26px; letter-spacing: 0.04em; line-height: 1.2; }
+
+/* 规格与价格卡 */
+.specCard {
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  padding: 26px 30px;
+  margin-bottom: 22px;
+}
+
+.specHead {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: var(--ink-mute);
+  margin: 0 0 14px;
+}
+
+.specRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.specRow:last-child { border-bottom: none; }
+
+.specName { font-size: 15px; color: var(--ink-soft); }
+
+.specPrice {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--brown-deep);
+}
+
+.specYen { font-size: 14px; margin-right: 2px; }
+
+/* 订购引导卡：渐变底 + cream 字（全页最突出转化元素） */
+.orderCard {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: linear-gradient(135deg, var(--brown), var(--brown-deep));
+  border-radius: var(--radius-lg);
+  padding: 26px 30px;
+  margin-bottom: 26px;
+  text-decoration: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.orderCard:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+
+.orderIcon { color: var(--cream); flex-shrink: 0; }
+
+.orderText { display: flex; flex-direction: column; gap: 2px; }
+
+.orderLabel { font-size: 12px; letter-spacing: 0.2em; color: rgba(240, 225, 185, 0.8); }
+
+.orderHotline {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 24px;
+  color: var(--cream);
+  letter-spacing: 0.06em;
+}
+
+.orderSub { font-size: 13px; color: rgba(240, 225, 185, 0.75); }
+
+/* 产品描述 */
+.descBlock { margin-bottom: 24px; }
+
+.descTitle { font-size: 18px; margin: 0 0 10px; letter-spacing: 0.06em; }
+
+.descText { color: var(--ink-soft); font-size: 15px; line-height: 2; margin: 0; }
+
+/* 定制说明 */
+.tipsBlock {
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+}
+
+.tipsTitle { font-size: 15px; margin: 0 0 6px; letter-spacing: 0.08em; }
+
+.tipsText { font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.9; }
+
+/* ---------- 相关推荐 ---------- */
+.related {
+  margin-top: 90px;
+  border-top: 1px solid var(--line-soft);
+  padding-top: 60px;
+}
+
+.relatedTitle {
+  font-size: 32px;
+  margin: 0 0 32px;
+  letter-spacing: 0.06em;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+
+/* ---------- 蛋糕不存在 ---------- */
+.notFound { text-align: center; padding: 60px 0 40px; }
+
+.notFoundTitle { font-size: 26px; margin: 0 0 10px; letter-spacing: 0.06em; }
+
+.notFoundDesc { color: var(--ink-soft); margin-bottom: 28px; }
+
+.backBtn {
+  display: inline-block;
+  padding: 12px 36px;
+  background: var(--brown);
+  color: var(--bg-card);
+  border-radius: var(--radius);
+  text-decoration: none;
+  letter-spacing: 0.12em;
+  transition: background 0.3s;
+}
+
+.backBtn:hover { background: var(--brown-deep); }
+
+/* ============================================================
+   响应式
+   ============================================================ */
+@media (max-width: 1180px) {
+  .relatedGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 980px) {
+  .wrap { padding: 0 24px 80px; }
+  .body { grid-template-columns: 1fr; gap: 40px; }
+  .name { font-size: 40px; }
+}
+
+@media (max-width: 640px) {
+  .relatedGrid { grid-template-columns: 1fr; }
+}

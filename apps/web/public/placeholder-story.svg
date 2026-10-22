@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#FBF7F0"/>
+  <rect x="100" y="140" width="600" height="600" rx="24" fill="#F0E1B9"/>
+  <rect x="240" y="460" width="320" height="180" rx="12" fill="#8B6F52"/>
+  <rect x="220" y="430" width="360" height="40" rx="8" fill="#C6B291"/>
+  <circle x="0" cy="0" r="0"/>
+  <circle cx="300" cy="430" r="18" fill="#FFFCF6"/>
+  <circle cx="400" cy="430" r="18" fill="#FFFCF6"/>
+  <circle cx="500" cy="430" r="18" fill="#FFFCF6"/>
+  <text x="400" y="830" text-anchor="middle" font-family="Georgia, serif" font-size="30" fill="#6B5238">麦屿手作 · 图片占位</text>
+  <text x="400" y="870" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="16" letter-spacing="4" fill="#8B6F52">MAI·ISLE</text>
+</svg>

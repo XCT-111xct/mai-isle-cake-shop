@@ -1,0 +1,329 @@
+/* ============================================================
+   文件功能：首页样式（UI-UX §5.1）
+   ============================================================ */
+
+.wrap { max-width: var(--wrap, 1280px); margin: 0 auto; padding: 0 40px; }
+
+.section { padding: 96px 0; }
+.sectionSoft { background: var(--bg-soft); }
+.sectionOrder { background: var(--bg-soft); }
+
+.secHint { font-size: 13px; color: var(--ink-mute); letter-spacing: 0.08em; }
+
+/* ---------- Hero 轮播 ---------- */
+.hero {
+  position: relative;
+  height: 92vh;
+  min-height: 520px;
+  overflow: hidden;
+  color: var(--bg-card);
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  animation: heroFade 1.4s ease both;
+}
+
+/* 左侧文字区暗化蒙版（深棕→透明）：保证文字可读，同时让图片自然过渡 */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    rgba(62, 39, 25, 0.55) 0%,
+    rgba(62, 39, 25, 0.35) 25%,
+    rgba(62, 39, 25, 0.05) 55%,
+    transparent 75%);
+  z-index: 1;
+}
+
+@keyframes heroFade {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 80px;
+  max-width: var(--wrap, 1280px);
+  margin: 0 auto;
+}
+
+.heroEyebrow {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  letter-spacing: 0.34em;
+  color: var(--cream);
+  margin-bottom: 18px;
+  text-transform: uppercase;
+}
+
+.heroTitle {
+  font-size: 84px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  max-width: 640px;
+  margin: 0 0 30px;
+  color: var(--bg-card);
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.35);
+}
+
+.heroCta { display: flex; gap: 18px; }
+
+.primaryBtn {
+  display: inline-block;
+  padding: 15px 40px;
+  background: var(--brown);
+  color: var(--bg-card);
+  border-radius: var(--radius);
+  text-decoration: none;
+  letter-spacing: 0.14em;
+  font-size: 14px;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.primaryBtn:hover { background: var(--brown-deep); transform: translateY(-2px); }
+
+.ghostBtnLight {
+  display: inline-block;
+  padding: 14px 40px;
+  border: 1px solid rgba(255, 252, 246, 0.6);
+  color: var(--bg-card);
+  border-radius: var(--radius);
+  text-decoration: none;
+  letter-spacing: 0.14em;
+  font-size: 14px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.ghostBtnLight:hover { background: var(--bg-card); color: var(--brown-deep); }
+
+/* 底部控件：圆点 + 计数器 + 箭头 */
+.heroControls {
+  position: absolute;
+  bottom: 44px;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  max-width: var(--wrap, 1280px);
+  margin: 0 auto;
+  padding: 0 80px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.heroDots { display: flex; gap: 8px; }
+
+.heroDot {
+  width: 32px;
+  height: 4px;
+  border: none;
+  border-radius: 2px;
+  background: rgba(255, 252, 246, 0.35);
+  cursor: pointer;
+  padding: 0;
+  transition: width 0.4s, background 0.4s;
+}
+
+.heroDotActive {
+  width: 54px; /* 当前圆点 54px 宽（UI-UX §3.9） */
+  background: var(--cream);
+}
+
+.heroCounter {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  color: var(--cream);
+}
+
+.heroArrows { display: flex; gap: 10px; margin-left: auto; }
+
+.heroArrow {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 252, 246, 0.45);
+  background: rgba(255, 252, 246, 0.08);
+  color: var(--bg-card);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, color 0.3s;
+}
+
+.heroArrow:hover { background: var(--cream); color: var(--brown-deep); }
+
+/* ---------- 精选蛋糕 ---------- */
+.cakeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.centerBtn { text-align: center; margin-top: 48px; }
+
+.ghostBtn {
+  display: inline-block;
+  padding: 13px 40px;
+  border: 1px solid var(--brown);
+  color: var(--brown);
+  border-radius: var(--radius);
+  text-decoration: none;
+  letter-spacing: 0.14em;
+  font-size: 14px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.ghostBtn:hover { background: var(--brown); color: var(--bg-card); }
+
+/* ---------- 品牌故事 teaser ---------- */
+.aboutSplit {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--brown);
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+
+.aboutTitle { font-size: 46px; line-height: 1.3; margin: 0 0 22px; }
+
+.titleEm {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--brown);
+}
+
+.aboutPara { color: var(--ink-soft); line-height: 2; margin-bottom: 16px; }
+
+.aboutImg { border-radius: var(--radius-lg); overflow: hidden; }
+
+.aboutImg img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---------- 门店概览 ---------- */
+.storeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.storeCard {
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.35s, box-shadow 0.35s;
+}
+
+.storeCard:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+
+.storeCover {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-soft);
+}
+
+.storeCover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.storeNo {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: rgba(248, 243, 234, 0.92);
+  color: var(--brown-deep);
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+}
+
+.storeInfo { padding: 22px 24px 26px; }
+
+.storeName { font-size: 24px; margin: 0 0 12px; letter-spacing: 0.04em; }
+
+.storeInfo p { margin: 6px 0; font-size: 14px; color: var(--ink-soft); display: flex; align-items: center; gap: 8px; }
+
+.icon { font-size: 13px; opacity: 0.7; }
+
+/* ---------- 订购信息 ---------- */
+.orderGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.orderCard {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 40px 36px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+
+.orderLabel { font-size: 12px; letter-spacing: 0.28em; color: var(--ink-mute); margin: 0 0 10px; }
+
+.orderValue {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 38px;
+  color: var(--brown-deep);
+  margin: 0 0 8px;
+  word-break: break-all;
+}
+
+.orderDesc { font-size: 14px; color: var(--ink-soft); margin: 0; }
+
+/* ============================================================
+   响应式
+   ============================================================ */
+@media (max-width: 1180px) {
+  .cakeGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 980px) {
+  .wrap { padding: 0 24px; }
+  .heroContent { padding: 0 32px; }
+  .heroControls { padding: 0 32px; }
+  .heroTitle { font-size: 56px; }
+  .aboutSplit { grid-template-columns: 1fr; gap: 40px; }
+  .storeGrid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .section { padding: 64px 0; }
+  .cakeGrid { grid-template-columns: 1fr; }
+  .orderGrid { grid-template-columns: 1fr; }
+  .heroTitle { font-size: 40px; }
+  .heroContent { justify-content: flex-end; padding-bottom: 100px; }
+  .heroCta { flex-direction: column; align-items: flex-start; }
+}

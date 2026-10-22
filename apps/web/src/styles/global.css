@@ -1,0 +1,80 @@
+/* ============================================================
+   文件功能：全局基础样式（前台官网）
+   内容：
+   1. 基础 reset：清除浏览器默认边距，统一盒模型
+   2. 全局字体 / 背景色 / 文字颜色
+   3. 平滑滚动（锚点跳转）+ 无障碍：focus 可见环、reduced-motion 降级
+   ============================================================ */
+
+/* ---------- 1. 基础 reset ---------- */
+/* box-sizing: border-box 让 width/height 包含内边距和边框，
+   避免"设了宽度又撑大"的经典布局问题 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 清除 body 默认 8px 外边距 */
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- 2. 全局字体与底色 ---------- */
+body {
+  /* 字体：中文衬线体（品牌字体），西文数字用无衬线兜底 */
+  font-family: var(--font-serif);
+  /* 全局底色：暖米白 */
+  background-color: var(--bg-base);
+  /* 全局文字色：深棕主文字 */
+  color: var(--ink);
+  /* 行高：1.7 让中文阅读更舒适 */
+  line-height: 1.7;
+  /* 文字渲染优化（WebKit/Blink）：让笔画更平滑 */
+  -webkit-font-smoothing: antialiased;
+  /* 默认 15px 正文（对齐 UI-UX §3.3 正文 15） */
+  font-size: 15px;
+}
+
+/* 图片默认块级、最大不超过容器（防止撑破布局） */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* 链接去掉下划线，颜色继承品牌主色 */
+a {
+  color: var(--brown);
+  text-decoration: none;
+  transition: color 0.2s var(--ease);
+}
+
+a:hover {
+  color: var(--brown-deep);
+}
+
+/* ---------- 3. 平滑滚动 + 无障碍 ---------- */
+/* 页面内锚点跳转平滑滚动（关于麦屿页要求） */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 所有可交互元素显示可见的 focus 环（键盘导航无障碍，UI-UX §9） */
+:focus-visible {
+  outline: 3px solid #8a6bbf;
+  outline-offset: 2px;
+}
+
+/* 尊重用户系统"减少动态效果"偏好：动画全部降级为瞬时 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

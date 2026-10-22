@@ -1,0 +1,221 @@
+/* ============================================================
+   文件功能：关于麦屿页样式（UI-UX §5.2）
+   ============================================================ */
+
+.wrap { max-width: var(--wrap, 1280px); margin: 0 auto; padding: 0 40px; }
+
+.section { padding: 100px 0; }
+.sectionSoft { background: var(--bg-soft); }
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--brown);
+  text-transform: uppercase;
+  margin: 0 0 14px;
+}
+
+/* 区块大中文标题（eyebrow 下方、超大字号） */
+.brandZh {
+  font-family: var(--font-serif);
+  font-size: 64px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+/* 区块英文装饰（中文标题下方、大写 letter-spacing） */
+.brandEn {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 16px;
+  letter-spacing: 0.5em;
+  color: var(--brown);
+  margin: 0 0 36px;
+}
+
+.sectionTitle { font-size: 40px; margin: 0 0 44px; letter-spacing: 0.05em; }
+
+/* ---------- 左右分栏 ---------- */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 64px;
+  align-items: flex-start;
+}
+
+.flip { grid-template-columns: 1.1fr 1fr; }
+
+.textCol { position: relative; z-index: 2; }
+
+.imgCol { position: relative; border-radius: var(--radius-lg); overflow: hidden; }
+
+.imgCol img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+}
+
+/* Markdown 内容样式 */
+.markdown h1, .markdown h2, .markdown h3 { font-size: 30px; margin: 0 0 18px; letter-spacing: 0.04em; }
+.markdown p { color: var(--ink-soft); line-height: 2; margin: 0 0 16px; }
+.markdown ul { color: var(--ink-soft); line-height: 2.2; padding-left: 20px; margin: 0; }
+.markdown li { margin-bottom: 4px; }
+.markdown strong { color: var(--brown-deep); }
+
+/* 品牌理念漂浮卡片 */
+.floatCard {
+  position: absolute;
+  right: -24px;
+  bottom: 40px;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-hover);
+  padding: 20px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.floatEn { font-family: var(--font-en); font-style: italic; font-size: 18px; color: var(--brown); }
+.floatZh { font-size: 14px; letter-spacing: 0.2em; color: var(--ink-soft); }
+
+/* ---------- 品牌特色 ---------- */
+.charsSplit { align-items: stretch; }
+
+/* 品牌特色的图片列下移，让图片顶部与"01 甄选食材"文字行齐平
+   （对齐的是 charItem 内容起点，而非 charsList 容器顶部） */
+.charsSplit .imgCol { padding-top: 26px; }
+
+.charsList { display: flex; flex-direction: column; justify-content: flex-start; gap: 8px; }
+
+.charItem {
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+  padding: 26px 0;
+  border-bottom: 1px dashed var(--line-soft);
+}
+
+.charItem:last-child { border-bottom: none; }
+
+.charNo {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 26px;
+  color: var(--khaki);
+  min-width: 48px;
+}
+
+.charTitle { font-size: 22px; margin: 0 0 6px; letter-spacing: 0.04em; }
+
+.charDesc { color: var(--ink-soft); font-size: 14px; line-height: 1.9; margin: 0; }
+
+/* ---------- 品牌历程（时间线） ---------- */
+.timeline {
+  position: relative;
+  padding-left: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 左侧竖线 */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--line);
+}
+
+.timelineItem {
+  position: relative;
+  padding: 22px 0 22px 34px;
+}
+
+/* 圆点节点 */
+.timelineItem::before {
+  content: '';
+  position: absolute;
+  left: -36px;
+  top: 30px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg-base);
+  border: 3px solid var(--brown);
+}
+
+.timelineYear {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 30px;
+  color: var(--brown);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.timelineTitle { font-size: 20px; margin: 0 0 6px; letter-spacing: 0.04em; }
+
+.timelineDesc { color: var(--ink-soft); font-size: 14px; margin: 0; line-height: 1.9; }
+
+/* ---------- 硬件保障 / 软件实力 ---------- */
+.hsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+}
+
+.hsCol { border-top: 1px solid var(--line); padding-top: 34px; }
+
+.hsTitle { font-size: 26px; margin: 0 0 28px; letter-spacing: 0.06em; }
+
+.hsItem {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.hsIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--brown-deep);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hsName { font-size: 17px; margin: 0 0 4px; letter-spacing: 0.04em; }
+
+.hsDesc { color: var(--ink-soft); font-size: 14px; margin: 0; line-height: 1.8; }
+
+/* ============================================================
+   响应式
+   ============================================================ */
+@media (max-width: 980px) {
+  .wrap { padding: 0 24px; }
+  .split, .flip { grid-template-columns: 1fr; gap: 40px; }
+  .floatCard { right: 16px; }
+  .section { padding: 72px 0; }
+  .hsGrid { grid-template-columns: 1fr; gap: 40px; }
+}
+
+@media (max-width: 640px) {
+  .sectionTitle { font-size: 30px; }
+  .timeline { padding-left: 24px; }
+  .brandZh { font-size: 38px; }
+  .brandEn { font-size: 13px; letter-spacing: 0.36em; }
+}

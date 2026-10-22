@@ -1,0 +1,75 @@
+/* ============================================================
+   文件功能：管理员管理页样式（UI-UX §6.8）
+   ============================================================ */
+
+.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; }
+
+.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.account { font-family: var(--font-sans); color: var(--brown-deep); }
+
+.time { color: var(--ink-mute); font-size: 12px; }
+
+.ops { display: flex; gap: 2px; white-space: nowrap; }
+
+/* 权限说明提示条 */
+.notice {
+  margin-top: 32px;
+  background: var(--cream);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.noticeIcon { flex-shrink: 0; }
+
+.noticeText { font-size: 13px; color: var(--ink-soft); line-height: 1.8; margin: 0; }
+
+/* 弹窗 */
+.formRow2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-base);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--ink);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input:focus { outline: none; border-color: var(--brown); box-shadow: 0 0 0 3px rgba(139, 111, 82, 0.12); }
+.input:disabled { background: var(--bg-soft); color: var(--ink-mute); cursor: not-allowed; }
+
+.inputError { border-color: var(--danger); }
+
+.roleRow { display: flex; gap: 10px; }
+
+.roleBtn {
+  flex: 1;
+  padding: 10px 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  color: var(--ink-soft);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.roleActive { border-color: var(--brown); color: var(--brown); background: var(--bg-soft); font-weight: 500; }
+
+.switchRow { display: flex; align-items: center; gap: 12px; padding-top: 8px; }
+
+.switchText { font-size: 13px; color: var(--ink-soft); }
+
+.resetHint { font-size: 13px; color: var(--ink-soft); margin: 0 0 20px; }
+
+@media (max-width: 640px) {
+  .formRow2 { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>麦屿手作 · 蛋糕产品图清单（俯拍斜角 + 镜面淋面风格）</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #FAF7F2; padding: 32px 16px; color: #3A2E1F; }
+  .container { max-width: 1280px; margin: 0 auto; }
+  h1 { font-size: 28px; text-align: center; margin-bottom: 8px; letter-spacing: 4px; }
+  .subtitle { text-align: center; color: #8B6F52; font-size: 14px; margin-bottom: 32px; letter-spacing: 2px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(139, 111, 82, 0.08); transition: transform 0.2s; }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(139, 111, 82, 0.15); }
+  .card .img-wrap { aspect-ratio: 1 / 1; overflow: hidden; background: #EFE9DD; }
+  .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card .info { padding: 14px 16px 18px; }
+  .card .name { font-size: 17px; font-weight: 600; color: #3A2E1F; margin-bottom: 6px; }
+  .card .meta { display: flex; justify-content: space-between; align-items: center; }
+  .card .series { display: inline-block; padding: 3px 10px; background: #F0E1B9; color: #8B6F52; font-size: 12px; border-radius: 12px; }
+  .card .file { font-size: 11px; color: #A89880; font-family: 'Consolas', monospace; }
+  .legend { background: #fff; border-radius: 8px; padding: 16px 20px; margin-bottom: 28px; font-size: 13px; color: #6B5A45; line-height: 1.8; }
+  .legend strong { color: #3A2E1F; }
+  .badge { display: inline-block; padding: 2px 8px; background: #C8B898; color: #fff; border-radius: 4px; font-size: 11px; margin-right: 6px; }
+  footer { text-align: center; color: #A89880; font-size: 12px; margin-top: 40px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>麦屿手作 · 蛋糕产品图</h1>
+  <div class="subtitle">俯拍斜角 · 镜面淋面 · 深色背景 · 风格统一</div>
+
+  <div class="legend">
+    <span class="badge">10</span><strong>输出格式：</strong>蛋糕产品图（俯拍斜角风格） + <strong>蛋糕名称</strong> + <strong>蛋糕系列</strong><br>
+    <span class="badge">PNG</span>生成尺寸 1024×1024 ｜ <span class="badge">已替换</span>前台展示页 10 款全部更新 ｜ <span class="badge">路径</span>文件名 = 蛋糕名称_蛋糕系列.png（assets/generated/）
+  </div>
+
+  <div class="grid">
+    <div class="card"><div class="img-wrap"><img src="../assets/generated/醇香红丝绒_红丝绒系列.png" alt=""></div><div class="info"><div class="name">醇香红丝绒</div><div class="meta"><span class="series">红丝绒系列</span><span class="file">red_velvet.png</span></div></div></div>
+    <div class="card"><div class="img-wrap"><img src="../assets/generated/经典芝士蛋糕_芝士系列.png" alt=""></div><div class="info"><div class="name">经典芝士蛋糕</div><div class="meta"><span class="series">芝士系列</span><span class="file">cheesecake_classic.png</span></div></div></div>
+    <div class="card"><div class="img-wrap"><img src="../assets/generated/抹茶千层_抹茶系列.png" alt=""></div><div class="info"><div class="name">抹茶千层</div><div class="meta"><span class="series">抹茶系列</span><span class="file">matcha_mille_crepe.png</span></div></div></div>
+    <div class="card"><div class="img-wrap"><img src="../assets/generated/黑森林巧克力_巧克力系列.png" alt=""></div><div class="info"><div class="name">黑森林巧克力</div><div class="meta"><span class="series">巧克力系列</span><span class="file">black_forest_chocolate.png</span></div></div></div>
+    <div class="card"><div class="img-wrap"><img src="../assets/generated/草莓奶油蛋糕_水果系列.png" alt=""></div><div class="info"><div class="name">草莓奶油蛋糕</div><div class="meta"><span class="series">水果系列</span><span class="file">strawberry_cream.png</span></div></div></div>
+    <div class="card"><div class="img-wrap"><img src="../assets/generated/草莓蛋糕_水果系列.png" alt=""></div><div class="info"><div class="name">草莓蛋糕</div><div class="meta"><span class="series">水果系列</span><span class="file">strawberry_cake.png</span></div></div></div>
+    <div class="card"><div class="img-wrap"><img src="../assets/generated/芒果慕斯_慕斯系列.png" alt=""></div><div class="info"><div class="name">芒果慕斯</div><div class="meta"><span class="series">慕斯系列</span><span class="file">mango_mousse.png</span></div></div></div>
+    <div class="card"><div class="img-wrap"><img src="../assets/generated/黑森林慕斯_慕斯系列.png" alt=""></div><div class="info"><div class="name">黑森林慕斯</div><div class="meta"><span class="series">慕斯系列</span><span class="file">black_forest_mousse.png</span></div></div></div>
+    <div class="card"><div class="img-wrap"><img src="../assets/generated/节日翻糖礼盒_翻糖系列.png" alt=""></div><div class="info"><div class="name">节日翻糖礼盒</div><div class="meta"><span class="series">翻糖系列</span><span class="file">fondant_gift_box.png</span></div></div></div>
+    <div class="card"><div class="img-wrap"><img src="../assets/generated/圣诞限定款_节日限定.png" alt=""></div><div class="info"><div class="name">圣诞限定款</div><div class="meta"><span class="series">节日限定</span><span class="file">christmas_limited.png</span></div></div></div>
+  </div>
+
+  <footer>MAI-ISLE · 蛋糕产品图清单 · 2026-08-28</footer>
+</div>
+</body>
+</html>

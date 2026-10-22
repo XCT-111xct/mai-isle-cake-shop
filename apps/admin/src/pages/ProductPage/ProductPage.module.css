@@ -1,0 +1,149 @@
+/* ============================================================
+   文件功能：商品管理页样式（UI-UX §6.3）
+   ============================================================ */
+
+/* ---------- 工具栏 ---------- */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.tagNum { font-family: var(--font-en); font-style: italic; font-size: 11px; opacity: 0.7; }
+
+.toolRight { display: flex; gap: 12px; align-items: center; }
+
+/* ---------- 表格内 ---------- */
+.thumb {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius);
+  object-fit: cover;
+  display: block;
+  background: var(--bg-soft);
+}
+
+.nameCell { font-weight: 500; }
+
+.amount { font-family: var(--font-en); font-style: italic; color: var(--brown-deep); }
+
+.star { color: var(--cream-deep); text-shadow: 0 0 2px rgba(139, 111, 82, 0.4); font-size: 15px; }
+.starOff { color: var(--line); font-size: 15px; }
+
+.ops { display: flex; gap: 4px; white-space: nowrap; }
+
+/* ---------- 分类管理区 ---------- */
+.cateSection {
+  margin-top: 40px;
+  border-top: 1px solid var(--line-soft);
+  padding-top: 28px;
+}
+
+.cateHead { display: flex; align-items: baseline; gap: 16px; margin-bottom: 16px; }
+
+.cateTitle { font-size: 18px; margin: 0; letter-spacing: 0.06em; }
+
+.cateHint { font-size: 12px; color: var(--ink-mute); }
+
+.cateTags { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+.addCate {
+  padding: 8px 16px;
+  border: 1px dashed var(--khaki);
+  border-radius: var(--radius-full);
+  background: none;
+  color: var(--brown);
+  font-family: var(--font-serif);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.addCate:hover { border-color: var(--brown); background: var(--bg-soft); }
+
+.moveDesc { font-size: 14px; color: var(--ink-soft); line-height: 1.8; margin: 0 0 20px; }
+
+/* ---------- 弹窗内 ---------- */
+.formRow2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-base);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--ink);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input:focus { outline: none; border-color: var(--brown); box-shadow: 0 0 0 3px rgba(139, 111, 82, 0.12); }
+
+.inputError { border-color: var(--danger); }
+
+.textarea { resize: vertical; min-height: 90px; line-height: 1.8; }
+
+/* 规格子表 */
+.specTable { border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 14px; }
+
+.specHeadRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 44px;
+  gap: 12px;
+  padding-bottom: 8px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+}
+
+.specRow { display: grid; grid-template-columns: 1fr 1fr 44px; gap: 12px; margin-bottom: 10px; }
+
+.specDel {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: none;
+  color: var(--ink-mute);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.specDel:hover:not(:disabled) { border-color: var(--danger); color: var(--danger); }
+.specDel:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.addSpec {
+  width: 100%;
+  padding: 9px 0;
+  border: 1px dashed var(--khaki);
+  border-radius: var(--radius);
+  background: none;
+  color: var(--brown);
+  font-family: var(--font-serif);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.addSpec:hover { border-color: var(--brown); background: var(--bg-soft); }
+
+.switchRow { display: flex; align-items: center; gap: 12px; padding-top: 8px; }
+
+.switchText { font-size: 13px; color: var(--ink-soft); }
+
+/* ============================================================
+   响应式
+   ============================================================ */
+@media (max-width: 640px) {
+  .formRow2 { grid-template-columns: 1fr; }
+  .toolbar { flex-direction: column; align-items: stretch; }
+  .toolRight { flex-direction: column; align-items: stretch; }
+}

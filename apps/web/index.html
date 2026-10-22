@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!-- ============================================================
+  文件功能：前台官网的 HTML 入口文件
+  Vite 会以这个文件为起点，把 src/main.tsx 打包注入进来
+  ============================================================ -->
+<html lang="zh-CN">
+  <head>
+    <!-- 字符集：UTF-8，保证中文正常显示 -->
+    <meta charset="UTF-8" />
+    <!-- 移动端适配：让页面宽度跟随设备屏幕宽度，初始缩放 1 倍 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- 页面标题：显示在浏览器标签页上 -->
+    <title>麦屿手作 Mai-Isle · 手作每一份甜蜜</title>
+  </head>
+  <body>
+    <!-- React 挂载点：main.tsx 会把整个应用渲染到这个 div 里 -->
+    <div id="root"></div>
+    <!-- 引入打包入口脚本（Vite 会自动处理路径） -->
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

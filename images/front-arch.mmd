@@ -1,0 +1,34 @@
+flowchart TB
+    subgraph WEB["前台官网 React 应用（apps/web · mai-isle.com）"]
+        direction TB
+        subgraph P["页面模块 pages/"]
+            direction LR
+            P1["首页<br/>HomePage"]
+            P2["关于麦屿<br/>AboutPage"]
+            P3["蛋糕展示<br/>CakeListPage"]
+            P4["蛋糕详情<br/>CakeDetailPage"]
+            P5["门店信息<br/>StorePage"]
+            P6["联系我们<br/>ContactPage"]
+        end
+        subgraph L["布局模块 layouts/"]
+            direction LR
+            L1["Navbar 顶部导航<br/>二级菜单 · CN/EN · 汉堡"]
+            L2["Footer 页脚<br/>订购信息 · 联系方式"]
+        end
+        subgraph C["共享模块 components/ + hooks/"]
+            direction LR
+            C1["CakeCard 蛋糕卡片"]
+            C2["Button · Badge · Pagination<br/>Empty · Toast · Breadcrumb"]
+            C3["useCakes · useContent<br/>useStores"]
+        end
+        subgraph A["API 层 api/"]
+            direction LR
+            A1["client.ts<br/>axios 实例"]
+            A2["cake.ts · content.ts<br/>message.ts · types.ts"]
+        end
+    end
+    P --> C
+    P --> L
+    C --> A
+    L --> A
+    A -->|"HTTP + JSON"| BE["FastAPI 后端<br/>/api/v1 前台接口"]

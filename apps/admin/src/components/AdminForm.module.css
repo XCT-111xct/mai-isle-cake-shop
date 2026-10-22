@@ -1,0 +1,164 @@
+/* ============================================================
+   文件功能：后台表单组件样式（UI-UX §4.4/§4.7/§4.12）
+   ============================================================ */
+
+/* ---------- 按钮 ---------- */
+.btn {
+  padding: 10px 24px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btnPrimary { background: var(--brown); color: var(--bg-card); }
+.btnPrimary:hover:not(:disabled) { background: var(--brown-deep); }
+
+.btnGhost { background: var(--bg-card); border-color: var(--line); color: var(--ink-soft); }
+.btnGhost:hover:not(:disabled) { border-color: var(--brown); color: var(--brown); }
+
+.btnDanger { background: var(--danger); color: #fff; }
+.btnDanger:hover:not(:disabled) { background: #8a2626; }
+
+.btnText { background: none; color: var(--brown); padding: 6px 10px; }
+.btnText:hover:not(:disabled) { color: var(--brown-deep); text-decoration: underline; }
+
+.btnSm { padding: 6px 14px; font-size: 13px; }
+
+/* ---------- 表单字段 ---------- */
+.field { margin-bottom: 20px; }
+
+.label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.required { color: var(--danger); margin-left: 2px; }
+
+.fieldError { margin: 6px 0 0; font-size: 12px; color: var(--danger); }
+
+.fieldHelp { margin: 6px 0 0; font-size: 12px; color: var(--ink-mute); }
+
+/* ---------- 搜索框 ---------- */
+.searchBox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  color: var(--ink-mute);
+  display: flex;
+}
+
+.searchInput {
+  padding: 10px 14px 10px 36px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--ink);
+  width: 240px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.searchInput:focus { outline: none; border-color: var(--brown); box-shadow: 0 0 0 3px rgba(139, 111, 82, 0.12); }
+
+/* ---------- 下拉 ---------- */
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B5A47' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center;
+  padding: 10px 34px 10px 14px;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.select:focus { outline: none; border-color: var(--brown); }
+
+/* ---------- 上传 ---------- */
+.uploadPreview { position: relative; width: 220px; border-radius: var(--radius); overflow: hidden; }
+
+.uploadPreview img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
+
+.uploadActions {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(42, 31, 21, 0.45);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.uploadPreview:hover .uploadActions { opacity: 1; }
+
+.uploadBtn {
+  padding: 6px 14px;
+  background: var(--bg-card);
+  color: var(--brown-deep);
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-serif);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.uploadRemove {
+  padding: 6px 14px;
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-serif);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.uploadDrop {
+  width: 220px;
+  height: 150px;
+  border: 1px dashed var(--khaki);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s;
+}
+
+.uploadDrop:hover { border-color: var(--brown); background: var(--bg-card); }
+
+.uploadPlus { font-size: 22px; color: var(--brown); }
+
+.uploadHint { font-size: 11px; color: var(--ink-mute); }

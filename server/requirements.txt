@@ -1,0 +1,38 @@
+# ============================================================
+# 文件功能：后端 Python 依赖清单（pip install -r requirements.txt）
+# 版本策略：全部采用">= 最低版本"宽松约束，让 pip 自动解析
+#          当前环境最新兼容版（Python 3.13 已验证）
+# ============================================================
+
+# ---- Web 框架 ----
+fastapi>=0.110          # API 框架：路由、依赖注入、自动生成 Swagger 文档
+uvicorn[standard]>=0.29 # ASGI 服务器：负责真正跑起 FastAPI 应用
+
+# ---- 生产部署 ----
+gunicorn>=22.0          # 生产级 WSGI/ASGI 服务器（必须 -w 1 单 worker，见 README 部署说明）
+
+# ---- 数据库 ----
+sqlalchemy>=2.0         # ORM：用 Python 类映射数据库表，避免手写 SQL
+
+# ---- 数据校验 ----
+pydantic>=2.6           # 请求/响应数据模型校验（FastAPI 默认依赖，显式声明）
+
+# ---- 认证与安全 ----
+python-jose[cryptography]>=3.3  # JWT 令牌生成与校验（登录态）
+passlib>=1.7.4                  # 密码哈希库（bcrypt 算法封装）
+bcrypt==4.0.1                   # 固定 4.0.x！passlib 1.7.4 与 bcrypt>=4.1 存在兼容问题
+                                # （bcrypt 4.1+ 移除 __about__ 属性，passlib 导入时报错）
+                                # 对齐技术开发文档 §7.5 评审结论（2026-08-27 架构师评审 #8）
+
+# ---- 配置管理 ----
+python-dotenv>=1.0      # 从 server/.env 读取密钥等敏感配置（避免把密钥写进代码）
+
+# ---- 文件上传（multipart 表单解析必需） ----
+python-multipart>=0.0.9
+
+# ---- 图形验证码 ----
+Pillow>=10.3            # 生成图形验证码图片
+
+# ---- 测试 ----
+pytest>=8.0             # 单元/接口测试框架
+httpx>=0.27             # FastAPI TestClient 的底层 HTTP 客户端（pytest 需要）

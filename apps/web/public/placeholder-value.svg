@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#F8F3EA"/>
+  <circle cx="400" cy="430" r="240" fill="#F0E1B9"/>
+  <circle cx="400" cy="430" r="160" fill="#C6B291"/>
+  <circle cx="400" cy="430" r="86" fill="#8B6F52"/>
+  <text x="400" y="460" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="54" fill="#FBF7F0">M</text>
+  <text x="400" y="790" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#6B5238">麦屿手作 · 图片占位</text>
+</svg>

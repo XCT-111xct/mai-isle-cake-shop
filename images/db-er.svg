@@ -1,0 +1,177 @@
+<svg id="db-er" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 680 900" role="graphics-document document" aria-roledescription="er">
+<style>
+#db-er{font-family:"trebuchet ms",verdana,arial,sans-serif;background-color:#ffffff;}
+.entity{fill:#ECECFF;stroke:#9370DB;stroke-width:1.5;}
+.header{fill:#9370DB;}
+.hname{font:bold 13px sans-serif;fill:#ffffff;}
+.frow{fill:#ffffff;}
+.frow-alt{fill:#F5F5FF;}
+.fname{font:11px sans-serif;fill:#333333;}
+.ftype{font:10px sans-serif;fill:#666666;text-anchor:end;}
+.pk{fill:#E67E22;font:bold 8px sans-serif;}
+.fk{fill:#2980B9;font:bold 8px sans-serif;}
+.uk{fill:#27AE60;font:bold 8px sans-serif;}
+.rel{stroke:#9370DB;stroke-width:1.5;fill:none;}
+.rel-l{stroke:#9370DB;stroke-width:1.5;stroke-dasharray:6,4;fill:none;}
+.rl{font:9px sans-serif;fill:#8E6BB5;}
+.ttl{font:bold 16px sans-serif;fill:#333333;}
+.sub{font:11px sans-serif;fill:#888888;}
+.legend{font:10px sans-serif;fill:#555555;}
+</style>
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#9370DB"/>
+  </marker>
+</defs>
+
+<text class="ttl" x="20" y="26">麦屿手作 Mai-Isle · 数据库 E-R 图（升级版 · 含字段明细）</text>
+<text class="sub" x="20" y="44">8 张表 · 实线=物理外键（FK 约束） · 虚线=逻辑关系（快照/业务语义，无 FK 字段）</text>
+
+<!-- ===================== 左列：category / cake_spec ===================== -->
+<!-- category -->
+<g transform="translate(16,56)">
+  <rect class="entity" width="200" height="112"/>
+  <rect class="header" width="200" height="26"/>
+  <text class="hname" x="100" y="17" text-anchor="middle">category 分类表</text>
+  <rect class="frow" y="26" width="200" height="17"/><text class="fname" x="10" y="39">id<tspan class="pk">  PK</tspan></text><text class="ftype" x="190" y="39">INT</text>
+  <rect class="frow-alt" y="43" width="200" height="17"/><text class="fname" x="10" y="56">name<tspan class="uk">  UK</tspan></text><text class="ftype" x="190" y="56">TEXT</text>
+  <rect class="frow" y="60" width="200" height="17"/><text class="fname" x="10" y="73">sort_order</text><text class="ftype" x="190" y="73">INT</text>
+  <rect class="frow-alt" y="77" width="200" height="17"/><text class="fname" x="10" y="90">created_at</text><text class="ftype" x="190" y="90">DATETIME</text>
+</g>
+
+<!-- cake_spec -->
+<g transform="translate(16,220)">
+  <rect class="entity" width="200" height="129"/>
+  <rect class="header" width="200" height="26"/>
+  <text class="hname" x="100" y="17" text-anchor="middle">cake_spec 蛋糕规格表</text>
+  <rect class="frow" y="26" width="200" height="17"/><text class="fname" x="10" y="39">id<tspan class="pk">  PK</tspan></text><text class="ftype" x="190" y="39">INT</text>
+  <rect class="frow-alt" y="43" width="200" height="17"/><text class="fname" x="10" y="56">cake_id<tspan class="fk">  FK</tspan></text><text class="ftype" x="190" y="56">INT</text>
+  <rect class="frow" y="60" width="200" height="17"/><text class="fname" x="10" y="73">name</text><text class="ftype" x="190" y="73">TEXT</text>
+  <rect class="frow-alt" y="77" width="200" height="17"/><text class="fname" x="10" y="90">price</text><text class="ftype" x="190" y="90">NUM(10,2)</text>
+  <rect class="frow" y="94" width="200" height="17"/><text class="fname" x="10" y="107">sort_order</text><text class="ftype" x="190" y="107">INT</text>
+</g>
+
+<!-- ===================== 中列：cake / orders ===================== -->
+<!-- cake -->
+<g transform="translate(240,56)">
+  <rect class="entity" width="200" height="214"/>
+  <rect class="header" width="200" height="26"/>
+  <text class="hname" x="100" y="17" text-anchor="middle">cake 蛋糕表</text>
+  <rect class="frow" y="26" width="200" height="17"/><text class="fname" x="10" y="39">id<tspan class="pk">  PK</tspan></text><text class="ftype" x="190" y="39">INT</text>
+  <rect class="frow-alt" y="43" width="200" height="17"/><text class="fname" x="10" y="56">name<tspan class="uk">  UK</tspan></text><text class="ftype" x="190" y="56">TEXT</text>
+  <rect class="frow" y="60" width="200" height="17"/><text class="fname" x="10" y="73">category_id<tspan class="fk">  FK</tspan></text><text class="ftype" x="190" y="73">INT</text>
+  <rect class="frow-alt" y="77" width="200" height="17"/><text class="fname" x="10" y="90">description</text><text class="ftype" x="190" y="90">TEXT</text>
+  <rect class="frow" y="94" width="200" height="17"/><text class="fname" x="10" y="107">image_url</text><text class="ftype" x="190" y="107">TEXT</text>
+  <rect class="frow-alt" y="111" width="200" height="17"/><text class="fname" x="10" y="124">is_featured</text><text class="ftype" x="190" y="124">INT</text>
+  <rect class="frow" y="128" width="200" height="17"/><text class="fname" x="10" y="141">is_active</text><text class="ftype" x="190" y="141">INT</text>
+  <rect class="frow-alt" y="145" width="200" height="17"/><text class="fname" x="10" y="158">sort_order</text><text class="ftype" x="190" y="158">INT</text>
+  <rect class="frow" y="162" width="200" height="17"/><text class="fname" x="10" y="175">created_at</text><text class="ftype" x="190" y="175">DATETIME</text>
+  <rect class="frow-alt" y="179" width="200" height="17"/><text class="fname" x="10" y="192">updated_at</text><text class="ftype" x="190" y="192">DATETIME</text>
+</g>
+
+<!-- orders -->
+<g transform="translate(240,320)">
+  <rect class="entity" width="200" height="282"/>
+  <rect class="header" width="200" height="26"/>
+  <text class="hname" x="100" y="17" text-anchor="middle">orders 订单表</text>
+  <rect class="frow" y="26" width="200" height="17"/><text class="fname" x="10" y="39">id<tspan class="pk">  PK</tspan></text><text class="ftype" x="190" y="39">INT</text>
+  <rect class="frow-alt" y="43" width="200" height="17"/><text class="fname" x="10" y="56">order_no<tspan class="uk">  UK</tspan></text><text class="ftype" x="190" y="56">TEXT</text>
+  <rect class="frow" y="60" width="200" height="17"/><text class="fname" x="10" y="73">customer_name</text><text class="ftype" x="190" y="73">TEXT</text>
+  <rect class="frow-alt" y="77" width="200" height="17"/><text class="fname" x="10" y="90">customer_phone</text><text class="ftype" x="190" y="90">TEXT</text>
+  <rect class="frow" y="94" width="200" height="17"/><text class="fname" x="10" y="107">cake_snapshot</text><text class="ftype" x="190" y="107">TEXT</text>
+  <rect class="frow-alt" y="111" width="200" height="17"/><text class="fname" x="10" y="124">quantity</text><text class="ftype" x="190" y="124">INT</text>
+  <rect class="frow" y="128" width="200" height="17"/><text class="fname" x="10" y="141">amount</text><text class="ftype" x="190" y="141">NUM(10,2)</text>
+  <rect class="frow-alt" y="145" width="200" height="17"/><text class="fname" x="10" y="158">pickup_type</text><text class="ftype" x="190" y="158">TEXT</text>
+  <rect class="frow" y="162" width="200" height="17"/><text class="fname" x="10" y="175">delivery_address</text><text class="ftype" x="190" y="175">TEXT</text>
+  <rect class="frow-alt" y="179" width="200" height="17"/><text class="fname" x="10" y="192">custom_note</text><text class="ftype" x="190" y="192">TEXT</text>
+  <rect class="frow" y="196" width="200" height="17"/><text class="fname" x="10" y="209">remark</text><text class="ftype" x="190" y="209">TEXT</text>
+  <rect class="frow-alt" y="213" width="200" height="17"/><text class="fname" x="10" y="226">status</text><text class="ftype" x="190" y="226">TEXT</text>
+  <rect class="frow" y="230" width="200" height="17"/><text class="fname" x="10" y="243">created_at</text><text class="ftype" x="190" y="243">DATETIME</text>
+  <rect class="frow-alt" y="247" width="200" height="17"/><text class="fname" x="10" y="260">updated_at</text><text class="ftype" x="190" y="260">DATETIME</text>
+</g>
+
+<!-- ===================== 右列：admin_user / store / message / content ===================== -->
+<!-- admin_user -->
+<g transform="translate(460,56)">
+  <rect class="entity" width="200" height="231"/>
+  <rect class="header" width="200" height="26"/>
+  <text class="hname" x="100" y="17" text-anchor="middle">admin_user 管理员表</text>
+  <rect class="frow" y="26" width="200" height="17"/><text class="fname" x="10" y="39">id<tspan class="pk">  PK</tspan></text><text class="ftype" x="190" y="39">INT</text>
+  <rect class="frow-alt" y="43" width="200" height="17"/><text class="fname" x="10" y="56">username<tspan class="uk">  UK</tspan></text><text class="ftype" x="190" y="56">TEXT</text>
+  <rect class="frow" y="60" width="200" height="17"/><text class="fname" x="10" y="73">name</text><text class="ftype" x="190" y="73">TEXT</text>
+  <rect class="frow-alt" y="77" width="200" height="17"/><text class="fname" x="10" y="90">password_hash</text><text class="ftype" x="190" y="90">TEXT</text>
+  <rect class="frow" y="94" width="200" height="17"/><text class="fname" x="10" y="107">role</text><text class="ftype" x="190" y="107">TEXT</text>
+  <rect class="frow-alt" y="111" width="200" height="17"/><text class="fname" x="10" y="124">is_active</text><text class="ftype" x="190" y="124">INT</text>
+  <rect class="frow" y="128" width="200" height="17"/><text class="fname" x="10" y="141">failed_attempts</text><text class="ftype" x="190" y="141">INT</text>
+  <rect class="frow-alt" y="145" width="200" height="17"/><text class="fname" x="10" y="158">locked_until</text><text class="ftype" x="190" y="158">DATETIME</text>
+  <rect class="frow" y="162" width="200" height="17"/><text class="fname" x="10" y="175">last_login_at</text><text class="ftype" x="190" y="175">DATETIME</text>
+  <rect class="frow-alt" y="179" width="200" height="17"/><text class="fname" x="10" y="192">created_at</text><text class="ftype" x="190" y="192">DATETIME</text>
+  <rect class="frow" y="196" width="200" height="17"/><text class="fname" x="10" y="209">updated_at</text><text class="ftype" x="190" y="209">DATETIME</text>
+</g>
+
+<!-- store -->
+<g transform="translate(460,320)">
+  <rect class="entity" width="200" height="197"/>
+  <rect class="header" width="200" height="26"/>
+  <text class="hname" x="100" y="17" text-anchor="middle">store 门店表</text>
+  <rect class="frow" y="26" width="200" height="17"/><text class="fname" x="10" y="39">id<tspan class="pk">  PK</tspan></text><text class="ftype" x="190" y="39">INT</text>
+  <rect class="frow-alt" y="43" width="200" height="17"/><text class="fname" x="10" y="56">name</text><text class="ftype" x="190" y="56">TEXT</text>
+  <rect class="frow" y="60" width="200" height="17"/><text class="fname" x="10" y="73">address</text><text class="ftype" x="190" y="73">TEXT</text>
+  <rect class="frow-alt" y="77" width="200" height="17"/><text class="fname" x="10" y="90">phone</text><text class="ftype" x="190" y="90">TEXT</text>
+  <rect class="frow" y="94" width="200" height="17"/><text class="fname" x="10" y="107">hours</text><text class="ftype" x="190" y="107">TEXT</text>
+  <rect class="frow-alt" y="111" width="200" height="17"/><text class="fname" x="10" y="124">sort_order</text><text class="ftype" x="190" y="124">INT</text>
+  <rect class="frow" y="128" width="200" height="17"/><text class="fname" x="10" y="141">is_active</text><text class="ftype" x="190" y="141">INT</text>
+  <rect class="frow-alt" y="145" width="200" height="17"/><text class="fname" x="10" y="158">created_at</text><text class="ftype" x="190" y="158">DATETIME</text>
+  <rect class="frow" y="162" width="200" height="17"/><text class="fname" x="10" y="175">updated_at</text><text class="ftype" x="190" y="175">DATETIME</text>
+</g>
+
+<!-- message -->
+<g transform="translate(460,550)">
+  <rect class="entity" width="200" height="146"/>
+  <rect class="header" width="200" height="26"/>
+  <text class="hname" x="100" y="17" text-anchor="middle">message 留言表</text>
+  <rect class="frow" y="26" width="200" height="17"/><text class="fname" x="10" y="39">id<tspan class="pk">  PK</tspan></text><text class="ftype" x="190" y="39">INT</text>
+  <rect class="frow-alt" y="43" width="200" height="17"/><text class="fname" x="10" y="56">name</text><text class="ftype" x="190" y="56">TEXT</text>
+  <rect class="frow" y="60" width="200" height="17"/><text class="fname" x="10" y="73">phone</text><text class="ftype" x="190" y="73">TEXT</text>
+  <rect class="frow-alt" y="77" width="200" height="17"/><text class="fname" x="10" y="90">content</text><text class="ftype" x="190" y="90">TEXT</text>
+  <rect class="frow" y="94" width="200" height="17"/><text class="fname" x="10" y="107">status</text><text class="ftype" x="190" y="107">TEXT</text>
+  <rect class="frow-alt" y="111" width="200" height="17"/><text class="fname" x="10" y="124">created_at</text><text class="ftype" x="190" y="124">DATETIME</text>
+</g>
+
+<!-- content -->
+<g transform="translate(460,730)">
+  <rect class="entity" width="200" height="112"/>
+  <rect class="header" width="200" height="26"/>
+  <text class="hname" x="100" y="17" text-anchor="middle">content 内容表</text>
+  <rect class="frow" y="26" width="200" height="17"/><text class="fname" x="10" y="39">id<tspan class="pk">  PK</tspan></text><text class="ftype" x="190" y="39">INT</text>
+  <rect class="frow-alt" y="43" width="200" height="17"/><text class="fname" x="10" y="56">key<tspan class="uk">  UK</tspan></text><text class="ftype" x="190" y="56">TEXT</text>
+  <rect class="frow" y="60" width="200" height="17"/><text class="fname" x="10" y="73">value</text><text class="ftype" x="190" y="73">TEXT</text>
+  <rect class="frow-alt" y="77" width="200" height="17"/><text class="fname" x="10" y="90">updated_at</text><text class="ftype" x="190" y="90">DATETIME</text>
+</g>
+
+<!-- ===================== 关系连线 ===================== -->
+<!-- 1. category 1:N cake（物理外键） -->
+<line class="rel" x1="216" y1="90" x2="238" y2="68" marker-end="url(#arr)"/>
+<text class="rl" x="222" y="100">包含 1:N</text>
+
+<!-- 2. cake 1:N cake_spec（物理外键 CASCADE） -->
+<line class="rel" x1="240" y1="48" x2="218" y2="276" marker-end="url(#arr)"/>
+<text class="rl" x="222" y="160">多规格 1:N</text>
+
+<!-- 3. cake 1:N orders（逻辑关系 · 快照，无物理 FK） -->
+<line class="rel-l" x1="340" y1="270" x2="340" y2="318" marker-end="url(#arr)"/>
+<text class="rl" x="346" y="300">快照关联</text>
+
+<!-- 4. admin_user 1:N orders（逻辑关系 · 录入，无物理 FK） -->
+<line class="rel-l" x1="460" y1="130" x2="442" y2="410" marker-end="url(#arr)"/>
+<text class="rl" x="444" y="272">录入</text>
+
+<!-- ===================== 图例 ===================== -->
+<g class="legend">
+  <line class="rel" x1="40" y1="876" x2="80" y2="876" marker-end="url(#arr)"/>
+  <text x="90" y="879">物理外键（DDL 中 REFERENCES / ON DELETE CASCADE）</text>
+  <line class="rel-l" x1="330" y1="876" x2="370" y2="876" marker-end="url(#arr)"/>
+  <text x="380" y="879">逻辑关系（快照/录入语义，表内无 FK 字段）</text>
+  <text x="40" y="896">徽标：<tspan class="pk">PK</tspan> 主键　<tspan class="fk">FK</tspan> 外键　<tspan class="uk">UK</tspan> 唯一</text>
+</g>
+</svg>

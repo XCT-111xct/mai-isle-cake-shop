@@ -1,0 +1,85 @@
+<svg id="order-state" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 680 340" role="graphics-document document" aria-roledescription="state diagram">
+<style>
+#order-state{font-family:"trebuchet ms",verdana,arial,sans-serif;background-color:#ffffff;}
+.ttl{font:bold 16px sans-serif;fill:#333333;}
+.sub{font:11px sans-serif;fill:#888888;}
+.st-pending{fill:#E8F1FF;stroke:#3B6FB5;stroke-width:1.5;}
+.st-confirmed{fill:#E6F7EC;stroke:#2E8B57;stroke-width:1.5;}
+.st-completed{fill:#EDE7F6;stroke:#7B5BA7;stroke-width:1.5;}
+.st-cancelled{fill:#F2F2F2;stroke:#999999;stroke-width:1.5;}
+.st-text{font:bold 14px sans-serif;text-anchor:middle;}
+.st-pending .st-text{fill:#1F4E8C;}
+.st-confirmed .st-text{fill:#1B5E3B;}
+.st-completed .st-text{fill:#5B3D8E;}
+.st-cancelled .st-text{fill:#666666;}
+.edge{stroke:#666666;stroke-width:1.5;fill:none;}
+.elabel{font:11px sans-serif;fill:#555555;}
+.point{fill:#666666;}
+.endpoint{fill:#ffffff;stroke:#666666;stroke-width:1.5;}
+.legend{font:10px sans-serif;fill:#555555;}
+</style>
+<defs>
+  <marker id="sarr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#666666"/>
+  </marker>
+</defs>
+
+<text class="ttl" x="20" y="26">订单状态机（orders.status 合法流转）</text>
+<text class="sub" x="20" y="44">后端 PATCH 接口强制校验 · 已完成 / 已取消为终止态，不可再流转</text>
+
+<!-- 起始点 -->
+<circle class="point" cx="22" cy="107" r="6"/>
+<text class="elabel" x="34" y="102">新建</text>
+<text class="elabel" x="34" y="115">手动录入</text>
+
+<!-- pending -->
+<g class="st-pending">
+  <rect x="90" y="80" width="150" height="54" rx="10"/>
+  <text class="st-text" x="165" y="112">pending 待处理</text>
+</g>
+<!-- confirmed -->
+<g class="st-confirmed">
+  <rect x="280" y="80" width="150" height="54" rx="10"/>
+  <text class="st-text" x="355" y="112">confirmed 已确认</text>
+</g>
+<!-- completed -->
+<g class="st-completed">
+  <rect x="470" y="80" width="150" height="54" rx="10"/>
+  <text class="st-text" x="545" y="112">completed 已完成</text>
+</g>
+<!-- cancelled -->
+<g class="st-cancelled">
+  <rect x="280" y="200" width="150" height="54" rx="10"/>
+  <text class="st-text" x="355" y="232">cancelled 已取消</text>
+</g>
+
+<!-- 连线：起始 -> pending -->
+<line class="edge" x1="28" y1="107" x2="88" y2="107" marker-end="url(#sarr)"/>
+
+<!-- pending -> confirmed -->
+<line class="edge" x1="240" y1="107" x2="278" y2="107" marker-end="url(#sarr)"/>
+<text class="elabel" x="248" y="100">确认</text>
+<text class="elabel" x="248" y="124">PATCH status=confirmed</text>
+
+<!-- confirmed -> completed -->
+<line class="edge" x1="430" y1="107" x2="468" y2="107" marker-end="url(#sarr)"/>
+<text class="elabel" x="438" y="100">完成</text>
+<text class="elabel" x="438" y="124">status=completed</text>
+
+<!-- pending -> cancelled -->
+<line class="edge" x1="165" y1="134" x2="300" y2="198" marker-end="url(#sarr)"/>
+<text class="elabel" x="196" y="170">取消</text>
+
+<!-- confirmed -> cancelled -->
+<line class="edge" x1="355" y1="134" x2="355" y2="198" marker-end="url(#sarr)"/>
+<text class="elabel" x="363" y="172">取消</text>
+
+<!-- 终态 -->
+<circle class="endpoint" cx="650" cy="107" r="6"/>
+<text class="elabel" x="596" y="138">终态</text>
+<circle class="endpoint" cx="385" cy="284" r="6"/>
+<text class="elabel" x="398" y="288">终态</text>
+
+<!-- 图例 -->
+<text class="legend" x="20" y="322">约束：pending→completed 非法；cancelled 不可再变更；completed 不可再编辑产品与数量；订单金额 = 快照价格 × 数量（Decimal 计算）</text>
+</svg>

@@ -1,0 +1,33 @@
+{
+  "name": "麦屿手作官网",
+  "type": "web",
+  "version": "1.0.0",
+  "description": "麦屿手作 Mai-Isle 蛋糕店品牌展示官网前台原型",
+  "pages": [
+    {
+      "id": "home",
+      "name": "首页",
+      "file": "index.html",
+      "type": "page",
+      "thumbnail": ""
+    }
+  ],
+  "assets": [],
+  "designSystem": {
+    "colors": {
+      "cream": "#FBF6EE",
+      "creamSoft": "#F5ECDD",
+      "chocolate": "#33241B",
+      "chocolate2": "#5C4433",
+      "rose": "#C06A4B",
+      "roseDeep": "#A95338",
+      "gold": "#C9A76A"
+    },
+    "fonts": {
+      "serif": "Noto Serif SC",
+      "sans": "Noto Sans SC"
+    },
+    "style": "elegant-warm-artisan"
+  },
+  "source": "ui-ux-pro-max + PRD v2.2"
+}

@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>麦屿手作 Mai-Isle ｜ 品牌官网 & 后台管理原型</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ========== Design Tokens ========== */
+    :root{
+      --bg-base: #F8F3EA;          /* 暖米白 主底色 */
+      --bg-soft: #FBF7F0;          /* 奶霜米 */
+      --bg-card: #FFFCF6;          /* 卡片底 */
+      --khaki: #C6B291;            /* 浅卡其 主色 */
+      --khaki-soft: #D9C6A8;       /* 卡其浅色 */
+      --brown: #8B6F52;            /* 浅棕 主色 */
+      --brown-deep: #6B5238;       /* 深棕 强调 */
+      --ink: #3F2E1F;              /* 主文字 */
+      --ink-soft: #6B5A47;         /* 次文字 */
+      --ink-mute: #9B8A73;         /* 弱文字 */
+      --cream: #F0E1B9;            /* 淡奶油黄 点缀 */
+      --cream-deep: #E6D098;       /* 奶油深色 */
+      --line: #E5D8BF;             /* 细线 */
+      --line-soft: #EFE6D2;
+      --shadow-soft: 0 12px 40px -16px rgba(139,111,82,0.18);
+      --shadow-card: 0 8px 28px -12px rgba(139,111,82,0.14);
+      --shadow-hover: 0 18px 44px -14px rgba(139,111,82,0.28);
+      --radius: 6px;
+      --radius-lg: 14px;
+      --easing: cubic-bezier(.22,.61,.36,1);
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg-base);color:var(--ink);font-family:"Inter","Noto Serif SC",serif;font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
+    button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+    /* ========== Typography ========== */
+    .serif{font-family:"Cormorant Garamond","Noto Serif SC",serif;letter-spacing:.02em}
+    .cn-serif{font-family:"Noto Serif SC",serif}
+    .upper{text-transform:uppercase;letter-spacing:.32em;font-size:11px;color:var(--brown)}
+    .small-cap{font-family:"Cormorant Garamond",serif;font-weight:500;letter-spacing:.28em;text-transform:uppercase;font-size:13px;color:var(--brown)}
+    h1,h2,h3,h4{font-family:"Noto Serif SC",serif;font-weight:500;color:var(--ink);margin:0;letter-spacing:.02em}
+
+    /* ========== Layout ========== */
+    .wrap{max-width:1280px;margin:0 auto;padding:0 48px}
+    .wrap-sm{max-width:1080px;margin:0 auto;padding:0 32px}
+    .section{padding:96px 0;position:relative}
+    .section-sm{padding:64px 0}
+
+    /* ========== Top Navigation ========== */
+    .top-bar{position:sticky;top:0;z-index:50;background:rgba(248,243,234,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft);padding:12px 0}
+    .top-bar .inner{display:flex;align-items:center;justify-content:space-between;min-height:68px}
+    .logo{display:flex;align-items:center;gap:14px;cursor:pointer;padding:6px 0}
+    .logo-mark{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--khaki) 0%,var(--brown) 100%);display:grid;place-items:center;color:var(--cream);font-family:"Cormorant Garamond",serif;font-size:24px;font-style:italic;font-weight:500;box-shadow:var(--shadow-card);flex-shrink:0}
+    .logo-text{display:flex;flex-direction:column;line-height:1.2}
+    .logo-text b{font-family:"Noto Serif SC",serif;font-weight:600;color:var(--ink);font-size:19px;letter-spacing:.22em}
+    .logo-text span{font-family:"Cormorant Garamond",serif;font-size:12px;letter-spacing:.42em;color:var(--brown);text-transform:uppercase;margin-top:6px}
+
+    .nav-main{display:flex;align-items:center;gap:38px}
+    .nav-item{position:relative;cursor:pointer}
+    .nav-item > a{display:flex;align-items:center;gap:6px;padding:8px 2px;font-size:14px;font-weight:500;color:var(--ink);letter-spacing:.16em;position:relative;transition:color .25s var(--easing)}
+    .nav-item > a::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:1px;background:var(--brown);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--easing)}
+    .nav-item:hover > a,.nav-item.active > a{color:var(--brown)}
+    .nav-item:hover > a::after,.nav-item.active > a::after{transform:scaleX(1)}
+
+    .has-sub:hover .sub-nav{opacity:1;visibility:visible;transform:translate(-50%,0)}
+    .has-sub .caret{display:inline-block;width:8px;height:8px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .25s var(--easing);margin-left:4px}
+    .has-sub:hover .caret{transform:rotate(-135deg) translateY(2px)}
+    .sub-nav{position:absolute;top:calc(100% + 22px);left:50%;transform:translate(-50%,8px);min-width:180px;background:var(--bg-card);border:1px solid var(--line-soft);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:14px 0;opacity:0;visibility:hidden;transition:all .3s var(--easing)}
+    .sub-nav::before{content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%) rotate(45deg);width:12px;height:12px;background:var(--bg-card);border-left:1px solid var(--line-soft);border-top:1px solid var(--line-soft)}
+    .sub-nav a{display:block;padding:10px 24px;font-size:13px;letter-spacing:.18em;color:var(--ink-soft);transition:color .25s var(--easing),background .25s var(--easing)}
+    .sub-nav a:hover{color:var(--brown);background:var(--bg-soft)}
+
+    .nav-aux{display:flex;align-items:center;gap:20px}
+    .lang-toggle{font-size:12px;letter-spacing:.2em;color:var(--ink-soft);display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--line);border-radius:99px;background:transparent;transition:all .25s var(--easing)}
+    .lang-toggle:hover{background:var(--bg-soft);border-color:var(--khaki)}
+    .admin-entry{font-size:12px;letter-spacing:.2em;color:var(--brown);display:flex;align-items:center;gap:6px;padding:7px 18px;border:1px solid var(--brown);border-radius:99px;transition:all .25s var(--easing)}
+    .admin-entry:hover{background:var(--brown);color:var(--cream)}
+
+    /* ========== Mobile Hamburger ========== */
+    .hamburger{display:none;width:40px;height:40px;border:1px solid var(--line);border-radius:8px;background:transparent;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;transition:all .25s var(--easing)}
+    .hamburger span{display:block;width:18px;height:1.5px;background:var(--ink);transition:all .3s var(--easing)}
+    .hamburger:hover{border-color:var(--khaki)}
+    .hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+    .mobile-menu{display:none;position:fixed;top:80px;left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--line-soft);box-shadow:var(--shadow-card);z-index:49;padding:10px 0;max-height:calc(100vh - 80px);overflow-y:auto}
+    .mobile-menu.open{display:block;animation:menuIn .3s var(--easing)}
+    @keyframes menuIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    .mobile-menu a{display:block;padding:14px 32px;font-family:"Noto Serif SC",serif;font-size:15px;color:var(--ink);letter-spacing:.14em;border-bottom:1px solid var(--line-soft);transition:all .2s var(--easing)}
+    .mobile-menu a:last-child{border-bottom:none}
+    .mobile-menu a.mm-sub{font-size:13px;color:var(--ink-soft);padding-left:56px;letter-spacing:.1em;border-bottom:none}
+    .mobile-menu a:hover{color:var(--brown);background:var(--bg-soft)}
+    @media (max-width: 980px){
+      .hamburger{display:flex}
+    }
+
+    /* ========== Hero ========== */
+    .hero{position:relative;min-height:88vh;display:flex;align-items:center;background:var(--bg-base);overflow:hidden}
+    .hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:88px;align-items:center;width:100%}
+    .hero-text .eyebrow{display:inline-flex;align-items:center;gap:14px;color:var(--brown);font-family:"Cormorant Garamond",serif;letter-spacing:.45em;font-size:13px;text-transform:uppercase;margin-bottom:32px}
+    .hero-text .eyebrow::before{content:"";width:36px;height:1px;background:var(--brown)}
+    .hero-text h1{font-size:78px;line-height:1.1;letter-spacing:.04em;color:var(--ink);font-weight:400;margin-bottom:28px}
+    .hero-text h1 em{font-style:italic;color:var(--brown);font-weight:400}
+    .hero-text p{font-size:17px;color:var(--ink-soft);max-width:520px;line-height:1.9;margin-bottom:42px}
+    .hero-actions{display:flex;gap:18px;align-items:center}
+    .btn{display:inline-flex;align-items:center;gap:12px;padding:16px 32px;background:var(--brown);color:var(--cream);border-radius:var(--radius);font-family:"Noto Serif SC",serif;letter-spacing:.18em;font-size:13px;transition:all .3s var(--easing);border:1px solid var(--brown)}
+    .btn:hover{background:var(--brown-deep);border-color:var(--brown-deep);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+    .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+    .btn-ghost:hover{color:var(--brown);border-color:var(--brown);background:transparent;box-shadow:none;transform:translateY(-2px)}
+    .btn .arrow{width:18px;height:10px;position:relative;flex-shrink:0;align-self:center}
+    .btn .arrow::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:currentColor}
+    .btn .arrow::after{content:"";position:absolute;right:0;top:0;width:7px;height:7px;border-top:1px solid currentColor;border-right:1px solid currentColor;transform:rotate(45deg) translate(1px,-2px)}
+    .btn .btn-arrow{flex-shrink:0;align-self:center;transform:translateY(.5px);transition:transform .3s var(--easing)}
+    .btn:hover .btn-arrow{transform:translateX(4px) translateY(.5px)}
+
+    .hero-img{position:relative;height:78vh;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-soft)}
+    .hero-img img{width:100%;height:100%;object-fit:cover;transition:transform 8s ease}
+    .hero:hover .hero-img img{transform:scale(1.04)}
+    .hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,transparent 50%,rgba(63,46,31,.18))}
+    .hero-tag{position:absolute;left:32px;bottom:32px;background:rgba(255,252,246,.92);padding:18px 24px;border-radius:var(--radius);backdrop-filter:blur(8px);font-family:"Cormorant Garamond",serif;color:var(--ink);font-size:14px;letter-spacing:.2em;display:flex;align-items:center;gap:14px;border:1px solid rgba(255,255,255,.6)}
+    .hero-tag .dot{width:8px;height:8px;border-radius:50%;background:var(--brown)}
+
+    /* ========== Hero Slider (首页全屏背景图轮播) ========== */
+    .hero{position:relative;min-height:92vh;padding:0;overflow:hidden;background:#2a1f15}
+    .hero-slides{position:absolute;inset:0}
+    .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.4s var(--easing),transform 8s ease;transform:scale(1.04)}
+    .hero-slide.active{opacity:1;transform:scale(1.0)}
+    .hero-slide::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,rgba(45,30,18,.55) 0%,rgba(45,30,18,.25) 45%,rgba(45,30,18,0) 70%)}
+    .hero-content{position:relative;z-index:2;min-height:92vh;display:flex;align-items:center}
+    .hero-content .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:center;width:100%;color:var(--cream)}
+    .hero-content .eyebrow{display:inline-flex;align-items:center;gap:14px;font-family:"Cormorant Garamond",serif;letter-spacing:.45em;font-size:13px;text-transform:uppercase;color:var(--cream);margin-bottom:32px;opacity:.85}
+    .hero-content .eyebrow::before{content:"";width:36px;height:1px;background:var(--cream)}
+    .hero-content h1{font-size:84px;line-height:1.08;letter-spacing:.04em;color:var(--cream);font-weight:400;margin:0 0 30px;text-shadow:0 2px 28px rgba(0,0,0,.25)}
+    .hero-content h1 em{font-style:italic;color:#F0E1B9;font-weight:400}
+    .hero-content p{font-size:18px;color:rgba(255,252,246,.85);max-width:520px;line-height:1.9;margin-bottom:44px}
+    .hero-content .btn{background:#F8F3EA;color:var(--brown-deep);border-color:#F8F3EA;font-weight:500}
+    .hero-content .btn:hover{background:#fff;border-color:#fff;box-shadow:0 18px 44px -14px rgba(0,0,0,.45)}
+    .hero-content .btn-ghost{background:transparent;color:var(--cream);border-color:rgba(255,252,246,.5)}
+    .hero-content .btn-ghost:hover{background:rgba(248,243,234,.12);color:#fff;border-color:#fff;box-shadow:none}
+    .hero-poster{position:relative;height:60vh;display:none}
+    .hero-side{padding:48px;background:rgba(248,243,234,.92);backdrop-filter:blur(14px);border-radius:var(--radius-lg);border:1px solid rgba(255,255,255,.6)}
+    .hero-side h3{font-family:"Noto Serif SC",serif;font-size:24px;color:var(--ink);margin-bottom:18px;font-weight:500}
+    .hero-side ul{list-style:none;padding:0;margin:0;display:grid;gap:14px}
+    .hero-side li{font-size:14px;color:var(--ink-soft);padding-left:20px;position:relative;line-height:1.7}
+    .hero-side li::before{content:"";position:absolute;left:0;top:11px;width:8px;height:1px;background:var(--brown)}
+
+    /* 轮播控件 */
+    .hero-controls{position:absolute;left:0;right:0;bottom:48px;z-index:3;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 48px;color:var(--cream);gap:24px}
+    .hero-cta{display:flex;gap:14px;align-items:center;justify-self:start}
+    .hero-cta .btn{padding:14px 30px}
+    .hero-cta .btn-ghost{padding:14px 30px}
+    .hero-center{display:flex;align-items:center;gap:20px;justify-self:center}
+    .hero-dots{display:flex;gap:14px;align-items:center}
+    .hero-dot{width:32px;height:2px;background:rgba(248,243,234,.3);cursor:pointer;position:relative;overflow:hidden;transition:width .3s var(--easing)}
+    .hero-dot::after{content:"";position:absolute;inset:0;background:var(--cream);transform:translateX(-100%);transition:transform .35s var(--easing)}
+    .hero-dot.active{width:54px}
+    .hero-dot.active::after{transform:translateX(0)}
+    .hero-arrows{display:flex;gap:10px;justify-self:end}
+    .hero-arrow{width:46px;height:46px;border:1px solid rgba(248,243,234,.4);border-radius:50%;display:grid;place-items:center;cursor:pointer;transition:all .3s var(--easing);background:rgba(0,0,0,.18);backdrop-filter:blur(6px)}
+    .hero-arrow:hover{background:var(--cream);border-color:var(--cream);color:var(--brown-deep)}
+    .hero-counter{font-family:"Cormorant Garamond",serif;font-size:14px;letter-spacing:.32em;color:rgba(248,243,234,.85);font-style:italic}
+    .hero-counter b{color:var(--cream);font-weight:500;font-size:18px;letter-spacing:.18em;margin:0 6px;font-style:normal}
+
+    /* ========== Static Page Banner (静态背景图) ========== */
+    .static-banner{position:relative;height:62vh;min-height:420px;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--cream);overflow:hidden;background:#3a2a1a}
+    .static-banner .bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 12s ease}
+    .static-banner:hover .bg{transform:scale(1.04)}
+    .static-banner .mask{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.35) 100%)}
+    .static-banner .content{position:relative;z-index:2;padding:120px 24px 80px;max-width:780px}
+    .static-banner .en{font-family:"Cormorant Garamond",serif;font-style:italic;color:rgba(240,225,185,.95);font-size:22px;letter-spacing:.4em;text-transform:uppercase;margin-bottom:18px}
+    .static-banner h1{font-size:72px;font-weight:400;color:var(--cream);letter-spacing:.04em;margin:0 0 18px;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+    .static-banner h1 em{font-style:italic;color:#F0E1B9;font-weight:400}
+    .static-banner p{font-family:"Noto Serif SC",serif;letter-spacing:.5em;font-size:14px;color:rgba(255,252,246,.85);margin:0;text-transform:uppercase}
+    .static-banner .divider{width:48px;height:1px;background:rgba(240,225,185,.6);margin:24px auto 0}
+    @media (max-width: 980px){
+      .hero-content .grid{grid-template-columns:1fr;gap:40px;text-align:left}
+      .hero-content h1{font-size:52px}
+      .static-banner h1{font-size:48px}
+      .hero-controls{padding:0 24px;bottom:24px}
+      .hero-dot{width:24px}
+      .hero-dot.active{width:40px}
+    }
+    .hero-marquee{display:flex;justify-content:space-between;margin-top:50px;padding-top:32px;border-top:1px solid var(--line-soft);color:var(--ink-mute);font-family:"Cormorant Garamond",serif;font-size:13px;letter-spacing:.32em;text-transform:uppercase}
+    .hero-marquee span{display:flex;align-items:center;gap:14px}
+    .hero-marquee span::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--khaki)}
+
+    /* ========== Section Heading ========== */
+    .sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:64px;gap:40px}
+    .sec-head .left{max-width:600px}
+    .sec-head h2{font-size:48px;line-height:1.2;font-weight:400;margin-top:14px;color:var(--ink)}
+    .sec-head h2 em{font-style:italic;color:var(--brown)}
+    .sec-head .right{max-width:340px;font-size:15px;color:var(--ink-soft);line-height:1.9}
+    .sec-head .meta{display:flex;align-items:center;gap:18px;color:var(--brown);font-family:"Cormorant Garamond",serif;letter-spacing:.32em;font-size:13px;text-transform:uppercase}
+    .sec-head .meta::before{content:"";width:28px;height:1px;background:var(--brown)}
+
+    /* ========== Selected Cakes (首页精选) ========== */
+    .cakes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+    .cake-card{background:var(--bg-card);border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--line-soft);transition:all .4s var(--easing);cursor:pointer;display:flex;flex-direction:column}
+    .cake-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover);border-color:var(--khaki-soft)}
+    .cake-img{aspect-ratio:4/3;overflow:hidden;background:var(--bg-soft);position:relative}
+    .cake-img img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--easing)}
+    .cake-card:hover .cake-img img{transform:scale(1.07)}
+    .cake-tag{position:absolute;top:16px;left:16px;background:rgba(255,252,246,.94);color:var(--brown);padding:6px 14px;border-radius:99px;font-family:"Cormorant Garamond",serif;letter-spacing:.2em;font-size:11px;text-transform:uppercase;border:1px solid var(--line-soft);backdrop-filter:blur(6px)}
+    .cake-body{padding:28px 26px 26px;flex:1;display:flex;flex-direction:column;gap:14px}
+    .cake-body h3{font-size:22px;font-weight:500;color:var(--ink);letter-spacing:.04em}
+    .cake-body p{font-size:13px;color:var(--ink-soft);line-height:1.7;margin:0;flex:1}
+    .cake-foot{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--line-soft)}
+    .cake-price{font-family:"Cormorant Garamond",serif;font-size:24px;color:var(--brown-deep);font-weight:500}
+    .cake-price small{font-size:12px;color:var(--ink-mute);margin-left:4px;letter-spacing:.1em}
+    .cake-more{font-size:12px;color:var(--brown);letter-spacing:.24em;display:flex;align-items:center;gap:6px;font-family:"Cormorant Garamond",serif;text-transform:uppercase}
+
+    /* ========== Brand Story / About Split ========== */
+    .about-split{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:start}
+    .about-split.flip{grid-template-columns:1.1fr 1fr}
+    .about-text .eyebrow{display:inline-flex;align-items:center;gap:14px;color:var(--brown);font-family:"Cormorant Garamond",serif;letter-spacing:.42em;font-size:13px;text-transform:uppercase;margin-bottom:24px}
+    .about-text .eyebrow::before{content:"";width:30px;height:1px;background:var(--brown)}
+    .about-text h2{font-size:46px;line-height:1.25;color:var(--ink);font-weight:400;margin-bottom:18px}
+    .about-text h2 em{font-style:italic;color:var(--brown)}
+    .about-text .sub{font-family:"Noto Serif SC",serif;font-size:18px;color:var(--ink-soft);font-weight:400;letter-spacing:.36em;margin-bottom:30px}
+    .about-text p{font-size:15.5px;color:var(--ink-soft);line-height:2;margin-bottom:18px}
+    .about-feature{margin-top:32px;display:grid;gap:22px}
+    .feature-row{display:flex;gap:22px;align-items:flex-start;padding:22px 0;border-top:1px solid var(--line-soft)}
+    .feature-row:last-child{border-bottom:1px solid var(--line-soft)}
+    .feature-num{font-family:"Cormorant Garamond",serif;font-size:30px;color:var(--brown);font-weight:500;font-style:italic;flex-shrink:0;width:48px;letter-spacing:.04em}
+    .feature-row h4{font-family:"Noto Serif SC",serif;font-weight:500;font-size:17px;color:var(--ink);margin-bottom:6px;letter-spacing:.12em}
+    .feature-row p{font-size:13.5px;color:var(--ink-soft);line-height:1.85;margin:0}
+    .about-img{position:relative;border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:4/5;box-shadow:var(--shadow-soft)}
+    .about-img img{width:100%;height:100%;object-fit:cover}
+    .about-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 70%,rgba(63,46,31,.12))}
+    .about-img .floating-card{position:absolute;left:-32px;bottom:48px;background:var(--bg-card);padding:24px 28px;border-radius:var(--radius);box-shadow:var(--shadow-soft);max-width:240px;border:1px solid var(--line-soft)}
+    .floating-card .lbl{font-family:"Cormorant Garamond",serif;letter-spacing:.32em;font-size:11px;text-transform:uppercase;color:var(--brown);margin-bottom:10px;display:block}
+    .floating-card b{display:block;font-family:"Noto Serif SC",serif;font-size:24px;color:var(--ink);margin-bottom:6px;font-weight:500}
+    .floating-card small{font-size:12px;color:var(--ink-soft);line-height:1.7}
+
+    /* ========== Timeline ========== */
+    .timeline{position:relative;padding-left:88px}
+    .timeline::before{content:"";position:absolute;left:60px;top:8px;bottom:8px;width:1px;background:var(--line)}
+    .tl-item{position:relative;padding:24px 0 24px 40px}
+    .tl-item::before{content:"";position:absolute;left:-32px;top:32px;width:14px;height:14px;border-radius:50%;background:var(--bg-base);border:1.5px solid var(--brown)}
+    .tl-item::after{content:"";position:absolute;left:-25px;top:38px;width:6px;height:6px;border-radius:50%;background:var(--brown)}
+    .tl-year{font-family:"Cormorant Garamond",serif;font-size:26px;color:var(--brown);font-style:italic;margin-bottom:6px}
+    .tl-item h4{font-size:18px;color:var(--ink);font-weight:500;margin-bottom:8px;letter-spacing:.12em}
+    .tl-item p{font-size:14px;color:var(--ink-soft);line-height:1.85;margin:0}
+
+    /* ========== About (left-right 风格的核心区块) ========== */
+    .about-section{background:var(--bg-soft);padding-top:0;padding-bottom:0}
+    .anchor-tab-wrap{position:sticky;top:80px;z-index:20;background:var(--bg-soft);border-bottom:1px solid var(--line-soft);padding:0}
+    .anchor-tab{display:flex;justify-content:center;gap:0;align-items:stretch}
+    .anchor-tab a{padding:22px 38px;font-family:"Noto Serif SC",serif;font-size:14px;color:var(--ink-soft);letter-spacing:.24em;position:relative;transition:color .3s var(--easing)}
+    .anchor-tab a::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:0;height:2px;background:var(--brown);transition:width .35s var(--easing)}
+    .anchor-tab a:hover,.anchor-tab a.active{color:var(--brown)}
+    .anchor-tab a:hover::after,.anchor-tab a.active::after{width:36px}
+
+    /* ========== Stores ========== */
+    .stores-list{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+    .store-card{display:grid;grid-template-columns:1fr 1.4fr;gap:0;border:1px solid var(--line-soft);border-radius:var(--radius-lg);overflow:hidden;background:var(--bg-card);transition:all .35s var(--easing);cursor:pointer}
+    .store-card:hover{box-shadow:var(--shadow-hover);border-color:var(--khaki-soft)}
+    .store-cover{position:relative;aspect-ratio:1/1;background:var(--bg-soft);overflow:hidden}
+    .store-cover img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--easing)}
+    .store-card:hover .store-cover img{transform:scale(1.05)}
+    .store-cover .num{position:absolute;top:18px;left:18px;background:rgba(255,252,246,.92);color:var(--brown);font-family:"Cormorant Garamond",serif;font-size:13px;letter-spacing:.2em;padding:6px 12px;border-radius:99px;backdrop-filter:blur(6px)}
+    .store-info{padding:32px 28px;display:flex;flex-direction:column;justify-content:center}
+    .store-info h3{font-size:24px;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:.06em}
+    .store-info .en{font-family:"Cormorant Garamond",serif;font-style:italic;color:var(--brown);letter-spacing:.18em;font-size:13px;margin-bottom:20px;text-transform:uppercase}
+    .store-info ul{list-style:none;padding:0;margin:0;display:grid;gap:14px}
+    .store-info li{display:flex;align-items:flex-start;gap:14px;font-size:13.5px;color:var(--ink-soft)}
+    .store-info li svg{flex-shrink:0;color:var(--brown)}
+    .store-info li b{display:block;color:var(--ink);font-weight:500;margin-bottom:2px;font-family:"Noto Serif SC",serif;font-size:13px;letter-spacing:.16em}
+
+    /* ========== Cakes Page ========== */
+    .page-banner{padding:140px 0 90px;background:var(--bg-soft);position:relative;overflow:hidden;text-align:center}
+    .page-banner::before{content:"";position:absolute;top:-30%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,var(--cream) 0%,transparent 70%);opacity:.5;border-radius:50%}
+    .page-banner .en{font-family:"Cormorant Garamond",serif;font-style:italic;color:var(--brown);font-size:22px;letter-spacing:.32em;margin-bottom:18px;text-transform:uppercase}
+    .page-banner h1{font-size:64px;font-weight:400;color:var(--ink);margin-bottom:18px}
+    .page-banner p{font-family:"Noto Serif SC",serif;letter-spacing:.5em;font-size:14px;color:var(--ink-soft);max-width:600px;margin:0 auto}
+    .crumbs{padding:24px 0;font-size:13px;color:var(--ink-soft);border-bottom:1px solid var(--line-soft)}
+    .crumbs a{color:var(--ink-soft);transition:color .25s var(--easing)}
+    .crumbs a:hover{color:var(--brown)}
+    .crumbs .sep{margin:0 12px;color:var(--khaki)}
+    .crumbs .current{color:var(--brown)}
+
+    /* ========== Cakes Page: 左侧分类 + 右侧产品网格（参考 1cake.com 风格） ========== */
+    .cakes-page{display:grid;grid-template-columns:200px 1fr;gap:40px;padding:64px 0 100px}
+    .cakes-sidebar{background:var(--bg-soft);padding:28px 0;border-radius:var(--radius-lg);position:sticky;top:100px;align-self:start;max-height:calc(100vh - 120px);overflow-y:auto}
+    .cakes-sidebar h4{font-family:"Cormorant Garamond",serif;letter-spacing:.32em;font-size:12px;text-transform:uppercase;color:var(--brown);padding:0 24px 16px;margin:0 0 4px;border-bottom:1px solid var(--line);font-weight:500}
+    .cakes-sidebar ul{list-style:none;padding:10px 10px;margin:0;display:grid;gap:2px}
+    .cakes-sidebar li a{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;font-family:"Noto Serif SC",serif;font-size:13.5px;color:var(--ink-soft);letter-spacing:.08em;border-radius:6px;transition:all .25s var(--easing);position:relative}
+    .cakes-sidebar li a:hover{color:var(--brown);background:rgba(240,225,185,.3)}
+    .cakes-sidebar li a.active{background:var(--cream);color:var(--brown-deep);font-weight:500}
+    .cakes-sidebar li a .count{font-family:"Cormorant Garamond",serif;font-size:11px;color:var(--ink-mute);font-style:italic;letter-spacing:.04em;opacity:.7}
+    .cakes-sidebar li a.active .count{color:var(--brown);opacity:1}
+    .cakes-main{min-width:0}
+    .cakes-main-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;margin-bottom:28px;border-bottom:1px solid var(--line-soft);flex-wrap:wrap;gap:14px}
+    .cakes-main-head .current-cat{font-family:"Noto Serif SC",serif;font-size:20px;color:var(--ink);font-weight:500;letter-spacing:.04em}
+    .cakes-main-head .current-cat em{font-style:italic;color:var(--brown);font-family:"Cormorant Garamond",serif;font-weight:400;margin-right:8px}
+    .cakes-main-head .sort{font-size:12px;color:var(--ink-soft);display:flex;align-items:center;gap:12px}
+    .cakes-main-head .sort select{padding:6px 10px;background:transparent;border:1px solid var(--line);border-radius:6px;font-family:inherit;font-size:12px;color:var(--ink-soft);cursor:pointer}
+    .cakes-page-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px 24px;margin-bottom:0}
+    @media (max-width: 1180px){
+      .cakes-page{grid-template-columns:180px 1fr;gap:28px}
+      .cakes-page-grid{grid-template-columns:repeat(2,1fr);gap:28px 20px}
+    }
+    @media (max-width: 980px){
+      .cakes-page{grid-template-columns:1fr;gap:20px;padding:40px 0 60px}
+      .cakes-sidebar{position:relative;top:auto;max-height:none}
+      .cakes-page-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width: 640px){
+      .cakes-page-grid{grid-template-columns:1fr}
+    }
+    @media (max-width: 980px){
+      .cakes-page{grid-template-columns:1fr;gap:24px;padding:40px 0 60px}
+      .cakes-sidebar{position:relative;top:auto;max-height:none}
+    }
+
+
+    /* ========== Product detail ========== */
+    .detail-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:flex-start}
+    .detail-img{position:relative;border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:4/5;box-shadow:var(--shadow-soft);background:var(--bg-soft)}
+    .detail-img img{width:100%;height:100%;object-fit:cover}
+    .detail-text h1{font-size:54px;font-weight:400;color:var(--ink);margin-bottom:14px;letter-spacing:.04em}
+    .detail-text .en{font-family:"Cormorant Garamond",serif;font-style:italic;color:var(--brown);letter-spacing:.2em;text-transform:uppercase;margin-bottom:26px;font-size:14px}
+    .detail-spec{background:var(--bg-card);border:1px solid var(--line-soft);border-radius:var(--radius-lg);padding:32px;margin-bottom:32px}
+    .detail-spec h4{font-size:13px;letter-spacing:.32em;color:var(--brown);text-transform:uppercase;font-family:"Cormorant Garamond",serif;margin-bottom:24px;font-weight:500}
+    .spec-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line-soft)}
+    .spec-row:last-child{border-bottom:none}
+    .spec-row .name{font-family:"Noto Serif SC",serif;color:var(--ink);font-size:15px}
+    .spec-row .name small{color:var(--ink-mute);font-size:12px;margin-left:8px;letter-spacing:.1em}
+    .spec-row .price{font-family:"Cormorant Garamond",serif;color:var(--brown-deep);font-size:22px;font-weight:500}
+    .order-hint{background:linear-gradient(135deg,var(--brown) 0%,var(--brown-deep) 100%);color:var(--cream);padding:28px 32px;border-radius:var(--radius-lg);margin-bottom:32px;display:flex;align-items:center;gap:24px}
+    .order-hint .icon{width:48px;height:48px;background:rgba(240,225,185,.18);border-radius:50%;display:grid;place-items:center;flex-shrink:0}
+    .order-hint b{display:block;font-family:"Cormorant Garamond",serif;font-size:24px;letter-spacing:.18em;margin-bottom:4px}
+    .order-hint small{font-size:12px;color:rgba(240,225,185,.8);letter-spacing:.16em}
+    .detail-desc p{font-size:15px;color:var(--ink-soft);line-height:2}
+    .detail-desc h5{font-family:"Noto Serif SC",serif;color:var(--ink);font-size:16px;margin:30px 0 14px;letter-spacing:.18em}
+
+    /* ========== Contact ========== */
+    .contact-wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:60px}
+    .contact-info{padding:48px;background:var(--bg-card);border:1px solid var(--line-soft);border-radius:var(--radius-lg)}
+    .contact-info h3{font-size:30px;margin-bottom:8px;font-weight:500}
+    .contact-info .en{font-family:"Cormorant Garamond",serif;color:var(--brown);font-style:italic;letter-spacing:.3em;text-transform:uppercase;font-size:14px;margin-bottom:36px}
+    .contact-list{display:grid;gap:24px}
+    .contact-list .row{display:flex;align-items:flex-start;gap:18px;padding-bottom:24px;border-bottom:1px solid var(--line-soft)}
+    .contact-list .row:last-child{border-bottom:none}
+    .contact-list .row svg{color:var(--brown);flex-shrink:0;margin-top:2px}
+    .contact-list .row b{display:block;font-family:"Noto Serif SC",serif;font-size:15px;color:var(--ink);margin-bottom:4px;letter-spacing:.16em}
+    .contact-list .row span{font-size:14px;color:var(--ink-soft);line-height:1.7}
+    .form-card{padding:48px;background:var(--bg-card);border:1px solid var(--line-soft);border-radius:var(--radius-lg)}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+    .form-field{display:flex;flex-direction:column;gap:8px}
+    .form-field label{font-size:12px;color:var(--brown);letter-spacing:.2em;text-transform:uppercase;font-family:"Cormorant Garamond",serif;font-weight:500}
+    .form-field input,.form-field textarea{padding:14px 16px;background:var(--bg-base);border:1px solid var(--line);border-radius:var(--radius);font-family:inherit;font-size:14px;color:var(--ink);transition:all .25s var(--easing);width:100%;resize:vertical}
+    .form-field input:focus,.form-field textarea:focus{outline:none;border-color:var(--brown);background:var(--bg-card);box-shadow:0 0 0 3px rgba(139,111,82,.08)}
+    .captcha-row{display:grid;grid-template-columns:1fr 130px;gap:18px}
+    .captcha-box{display:grid;place-items:center;background:var(--cream);color:var(--brown-deep);font-family:"Cormorant Garamond",serif;font-size:22px;letter-spacing:.32em;border-radius:var(--radius);font-style:italic;font-weight:600;border:1px solid var(--cream-deep)}
+    .form-foot{display:flex;justify-content:space-between;align-items:center;margin-top:30px;padding-top:24px;border-top:1px solid var(--line-soft);font-size:12px;color:var(--ink-mute)}
+
+    /* ========== Footer ========== */
+    footer{background:var(--brown-deep);color:var(--cream);padding:80px 0 36px;margin-top:80px;position:relative;overflow:hidden}
+    footer::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cream),var(--khaki),var(--cream))}
+    .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:48px;padding-bottom:56px;border-bottom:1px solid rgba(240,225,185,.18)}
+    .foot-brand .logo-text b{color:var(--cream)}
+    .foot-brand .logo-text span{color:var(--khaki-soft)}
+    .foot-brand p{font-size:14px;color:rgba(240,225,185,.7);line-height:1.9;margin-top:24px;max-width:300px}
+    .foot-col h5{font-family:"Cormorant Garamond",serif;letter-spacing:.32em;font-size:13px;text-transform:uppercase;color:var(--cream);margin-bottom:24px;font-weight:500}
+    .foot-col ul{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+    .foot-col a{font-size:13.5px;color:rgba(240,225,185,.7);transition:color .25s var(--easing);letter-spacing:.06em}
+    .foot-col a:hover{color:var(--cream)}
+    .foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:28px;font-size:12px;color:rgba(240,225,185,.6);letter-spacing:.12em;font-family:"Cormorant Garamond",serif;text-transform:uppercase}
+
+    /* ========== Admin Login ========== */
+    .admin-login{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;background:var(--bg-base)}
+    .admin-side{position:relative;background:linear-gradient(135deg,var(--brown) 0%,var(--brown-deep) 100%);color:var(--cream);padding:60px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+    .admin-side::before{content:"";position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(240,225,185,.18) 0%,transparent 70%);top:-200px;right:-200px}
+    .admin-side::after{content:"";position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(240,225,185,.12) 0%,transparent 70%);bottom:-150px;left:-100px}
+    .admin-side h2{font-family:"Cormorant Garamond",serif;color:var(--cream);font-size:48px;font-weight:400;letter-spacing:.04em;line-height:1.2;margin-bottom:18px}
+    .admin-side h2 em{font-style:italic;color:var(--cream-deep)}
+    .admin-side .slogan{color:rgba(240,225,185,.85);font-size:15px;letter-spacing:.18em}
+    .admin-quote{position:relative;z-index:2}
+    .admin-quote blockquote{font-family:"Noto Serif SC",serif;font-size:18px;line-height:1.9;color:rgba(240,225,185,.85);border-left:2px solid var(--cream-deep);padding-left:24px;margin:0;font-style:normal}
+    .admin-quote cite{display:block;margin-top:14px;font-family:"Cormorant Garamond",serif;font-style:italic;color:var(--cream);letter-spacing:.2em;font-size:13px}
+    .admin-form-side{display:flex;align-items:center;justify-content:center;padding:40px}
+    .login-card{width:100%;max-width:440px;padding:48px;background:var(--bg-card);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--shadow-card)}
+    .login-card .eyebrow{display:flex;align-items:center;gap:14px;color:var(--brown);font-family:"Cormorant Garamond",serif;letter-spacing:.4em;font-size:12px;text-transform:uppercase;margin-bottom:18px}
+    .login-card .eyebrow::before{content:"";width:30px;height:1px;background:var(--brown)}
+    .login-card h3{font-size:34px;font-weight:400;margin-bottom:36px}
+    .login-card h3 em{font-style:italic;color:var(--brown)}
+    .login-card label{font-size:12px;letter-spacing:.18em;color:var(--brown);font-family:"Cormorant Garamond",serif;text-transform:uppercase;font-weight:500;display:block;margin-bottom:8px}
+    .login-card input{width:100%;padding:14px 18px;background:var(--bg-base);border:1px solid var(--line);border-radius:var(--radius);font-size:14px;color:var(--ink);margin-bottom:22px;transition:all .25s var(--easing)}
+    .login-card input:focus{outline:none;border-color:var(--brown);box-shadow:0 0 0 3px rgba(139,111,82,.08)}
+    .login-card .btn{width:100%;justify-content:center;margin-top:8px}
+
+    /* ========== Admin Layout ========== */
+    .admin-layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;background:var(--bg-base)}
+    .admin-sidebar{background:var(--bg-card);border-right:1px solid var(--line-soft);padding:32px 0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+    .admin-logo{padding:0 32px 32px;border-bottom:1px solid var(--line-soft);margin-bottom:24px}
+    .admin-logo .logo-text b{font-size:17px}
+    .admin-logo .logo-text span{font-size:9px}
+    .admin-menu{list-style:none;margin:0;padding:0;flex:1}
+    .admin-menu li a{display:flex;align-items:center;gap:14px;padding:14px 32px;font-size:14px;color:var(--ink-soft);letter-spacing:.1em;transition:all .25s var(--easing);position:relative}
+    .admin-menu li a:hover{color:var(--brown);background:var(--bg-soft)}
+    .admin-menu li a.active{color:var(--brown);background:var(--bg-soft);font-weight:500}
+    .admin-menu li a.active::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;background:var(--brown);border-radius:0 2px 2px 0}
+    .admin-menu li a svg{color:var(--brown);opacity:.7}
+    .admin-user{padding:24px 32px;border-top:1px solid var(--line-soft);display:flex;align-items:center;gap:14px}
+    .admin-exit{padding:4px 32px 28px}
+    .admin-exit .logout-btn{width:100%;padding:11px 0;border:1px solid var(--line);border-radius:var(--radius);font-size:12px;letter-spacing:.18em;color:var(--ink-soft);background:transparent;cursor:pointer;font-family:"Noto Serif SC",serif;transition:all .25s var(--easing);display:flex;align-items:center;justify-content:center;gap:8px}
+    .admin-exit .logout-btn:hover{color:var(--brown);border-color:var(--brown);background:var(--bg-soft)}
+    .back-home{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;color:var(--brown);cursor:pointer;transition:color .25s var(--easing)}
+    .back-home:hover{color:var(--brown-deep)}
+
+    /* ========== Modal (弹窗) ========== */
+    .modal-mask{position:fixed;inset:0;background:rgba(45,30,18,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:40px 24px;opacity:0;transition:opacity .3s var(--easing)}
+    .modal-mask.open{display:flex;opacity:1}
+    .modal-card{background:var(--bg-card);border-radius:var(--radius-lg);width:100%;max-width:680px;max-height:88vh;overflow-y:auto;box-shadow:0 30px 80px -20px rgba(0,0,0,.4);border:1px solid var(--line-soft);transform:translateY(20px);transition:transform .3s var(--easing)}
+    .modal-mask.open .modal-card{transform:translateY(0)}
+    .modal-head{padding:28px 36px 22px;border-bottom:1px solid var(--line-soft);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bg-card);z-index:2}
+    .modal-head h3{font-family:"Noto Serif SC",serif;font-size:22px;font-weight:500;color:var(--ink);margin:0;letter-spacing:.04em}
+    .modal-head h3 em{font-style:italic;color:var(--brown);font-family:"Cormorant Garamond",serif;font-weight:400;margin-right:6px}
+    .modal-close{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--ink-mute);transition:all .25s var(--easing)}
+    .modal-close:hover{background:var(--bg-soft);color:var(--brown)}
+    .modal-body{padding:28px 36px}
+    .modal-foot{padding:20px 36px 28px;border-top:1px solid var(--line-soft);display:flex;justify-content:flex-end;gap:12px;position:sticky;bottom:0;background:var(--bg-card)}
+    .modal-foot .btn-ghost{padding:14px 24px}
+    .modal-foot .btn-primary{padding:14px 32px;background:var(--brown);color:var(--cream);border:1px solid var(--brown);border-radius:var(--radius);font-family:"Noto Serif SC",serif;letter-spacing:.18em;font-size:13px;cursor:pointer;transition:all .3s var(--easing)}
+    .modal-foot .btn-primary:hover{background:var(--brown-deep);border-color:var(--brown-deep)}
+    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+    .field-row.full{grid-template-columns:1fr}
+    .field{display:flex;flex-direction:column;gap:8px}
+    .field label{font-size:12px;letter-spacing:.2em;color:var(--brown);font-family:"Cormorant Garamond",serif;text-transform:uppercase;font-weight:500}
+    .field label .req{color:#A32D2D;margin-left:4px}
+    .field input,.field select,.field textarea{padding:12px 14px;background:var(--bg-base);border:1px solid var(--line);border-radius:var(--radius);font-family:inherit;font-size:13.5px;color:var(--ink);transition:all .25s var(--easing);width:100%;font-family:"Noto Serif SC",serif;resize:vertical}
+    .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--brown);background:var(--bg-card);box-shadow:0 0 0 3px rgba(139,111,82,.08)}
+    .field textarea{rows:3;min-height:80px}
+    .spec-list{border:1px solid var(--line);border-radius:var(--radius);padding:14px;background:var(--bg-base);display:grid;gap:10px}
+    .spec-item{display:grid;grid-template-columns:1fr 130px 32px;gap:10px;align-items:center}
+    .spec-item input{background:var(--bg-card);border:1px solid var(--line)}
+    .spec-item .del{width:32px;height:32px;border:1px solid var(--line);border-radius:6px;background:var(--bg-card);color:var(--ink-mute);cursor:pointer;display:grid;place-items:center;transition:all .2s var(--easing)}
+    .spec-item .del:hover{color:#A32D2D;border-color:#A32D2D}
+    .add-spec{padding:8px 14px;border:1px dashed var(--khaki);border-radius:var(--radius);color:var(--brown);background:transparent;font-family:"Noto Serif SC",serif;font-size:12px;letter-spacing:.16em;cursor:pointer;transition:all .25s var(--easing)}
+    .add-spec:hover{background:var(--bg-soft);border-color:var(--brown)}
+    .switch-row{display:flex;align-items:center;gap:12px;padding:10px 0}
+    .switch{position:relative;width:42px;height:24px;background:var(--line);border-radius:99px;cursor:pointer;transition:background .25s var(--easing);flex-shrink:0}
+    .switch::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .25s var(--easing)}
+    .switch.on{background:var(--brown)}
+    .switch.on::after{left:20px}
+    .switch-row span{font-size:13.5px;color:var(--ink-soft)}
+    .upload-box{padding:32px 20px;border:1px dashed var(--khaki);border-radius:var(--radius);background:var(--bg-base);text-align:center;color:var(--ink-mute);font-size:13px;cursor:pointer;transition:all .25s var(--easing)}
+    .upload-box:hover{border-color:var(--brown);color:var(--brown)}
+    .admin-user .avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--khaki),var(--brown));display:grid;place-items:center;color:var(--cream);font-family:"Cormorant Garamond",serif;font-size:16px}
+    .admin-user b{display:block;font-family:"Noto Serif SC",serif;font-size:13px;color:var(--ink);font-weight:500;margin-bottom:2px}
+    .admin-user span{font-size:11px;color:var(--ink-mute);letter-spacing:.16em;text-transform:uppercase;font-family:"Cormorant Garamond",serif}
+    .admin-main{padding:48px 56px;overflow-y:auto;height:100vh}
+    .page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line-soft)}
+    .page-head h1{font-size:34px;font-weight:400;color:var(--ink);letter-spacing:.04em}
+    .page-head h1 em{font-style:italic;color:var(--brown)}
+    .page-head .meta{font-family:"Cormorant Garamond",serif;color:var(--brown);letter-spacing:.32em;font-size:13px;text-transform:uppercase;margin-bottom:8px}
+
+    /* ========== Stat Cards ========== */
+    .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:48px}
+    .stat-card{padding:28px;background:var(--bg-card);border:1px solid var(--line-soft);border-radius:var(--radius-lg);position:relative;overflow:hidden}
+    .stat-card::before{content:"";position:absolute;top:0;left:0;width:60px;height:2px;background:var(--brown)}
+    .stat-card .lbl{font-family:"Cormorant Garamond",serif;letter-spacing:.32em;font-size:11px;text-transform:uppercase;color:var(--brown);margin-bottom:16px;font-weight:500}
+    .stat-card .num{font-family:"Cormorant Garamond",serif;font-size:48px;color:var(--ink);font-weight:500;line-height:1;letter-spacing:.02em}
+    .stat-card .trend{font-size:12px;color:var(--ink-soft);margin-top:12px;letter-spacing:.08em}
+    .stat-card .trend b{color:var(--brown)}
+
+    /* ========== Tables ========== */
+    .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;gap:16px;flex-wrap:wrap}
+    .toolbar .right{display:flex;gap:12px;align-items:center}
+    .input-search{display:flex;align-items:center;gap:10px;padding:10px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);font-size:13px;color:var(--ink-soft);min-width:240px}
+    .input-search input{border:none;outline:none;background:transparent;width:100%;font-family:inherit;font-size:13px;color:var(--ink)}
+    .select{padding:10px 16px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);font-size:13px;color:var(--ink-soft);font-family:inherit}
+    .btn-sm{padding:8px 16px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);font-size:12px;letter-spacing:.18em;color:var(--ink-soft);transition:all .25s var(--easing);font-family:"Cormorant Garamond",serif;text-transform:uppercase;font-weight:500}
+    .btn-sm:hover{background:var(--bg-soft);border-color:var(--khaki);color:var(--brown)}
+    .btn-sm.primary{background:var(--brown);color:var(--cream);border-color:var(--brown)}
+    .btn-sm.primary:hover{background:var(--brown-deep);border-color:var(--brown-deep);color:var(--cream)}
+
+    .adm-table{width:100%;border-collapse:collapse;background:var(--bg-card);border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--line-soft)}
+    .adm-table thead{background:var(--bg-soft)}
+    .adm-table th{padding:18px 24px;text-align:left;font-family:"Cormorant Garamond",serif;letter-spacing:.2em;font-size:11px;text-transform:uppercase;color:var(--brown);font-weight:500;border-bottom:1px solid var(--line-soft)}
+    .adm-table td{padding:20px 24px;font-size:13.5px;color:var(--ink-soft);border-bottom:1px solid var(--line-soft);vertical-align:middle}
+    .adm-table tr:last-child td{border-bottom:none}
+    .adm-table tr:hover{background:var(--bg-soft)}
+    .badge{display:inline-block;padding:4px 12px;border-radius:99px;font-size:11px;letter-spacing:.18em;font-family:"Cormorant Garamond",serif;text-transform:uppercase;font-weight:500}
+    .badge-on{background:var(--cream);color:var(--brown-deep)}
+    .badge-off{background:#E8DFD0;color:var(--ink-mute)}
+    .badge-pending{background:var(--cream);color:var(--brown-deep)}
+    .badge-confirmed{background:#DDE5D2;color:#5B6E47}
+    .badge-completed{background:#D2DDD9;color:#3F5A56}
+    .badge-cancel{background:#E5D2D2;color:#8B5252}
+    .table-actions{display:flex;gap:8px}
+    .table-actions button{padding:5px 12px;font-size:11px;letter-spacing:.16em;color:var(--ink-soft);border-radius:var(--radius);border:1px solid var(--line);background:transparent;transition:all .2s var(--easing);font-family:"Cormorant Garamond",serif;text-transform:uppercase}
+    .table-actions button:hover{color:var(--brown);border-color:var(--brown)}
+
+    /* ========== Page sections visibility ========== */
+    .pg{display:none}
+    .pg.active{display:block}
+
+    /* ========== Utilities ========== */
+    .tag-pill{display:inline-block;padding:6px 14px;background:var(--cream);color:var(--brown-deep);font-family:"Cormorant Garamond",serif;font-size:11px;letter-spacing:.2em;border-radius:99px;text-transform:uppercase;font-weight:500}
+
+    /* ========== Responsive ========== */
+    @media (max-width: 980px){
+      .hero-grid,.about-split,.about-split.flip,.detail-grid,.contact-wrap,.admin-login,.admin-layout{grid-template-columns:1fr}
+      .nav-main{display:none}
+      .cakes-grid,.cakes-page-grid,.stores-list{grid-template-columns:repeat(2,1fr)}
+      .stat-grid{grid-template-columns:repeat(2,1fr)}
+      .wrap{padding:0 24px}
+      .hero-text h1{font-size:48px}
+      .admin-sidebar{position:relative;height:auto}
+      .admin-main{padding:32px 24px;height:auto}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     顶部导航（5 项主导航，关于麦屿 二级）
+     ============================================================ -->
+<div class="top-bar">
+  <div class="wrap inner">
+    <div class="logo" onclick="go('home')">
+      <div class="logo-mark">M</div>
+      <div class="logo-text">
+        <b>麦屿手作</b>
+        <span>MAI&middot;ISLE</span>
+      </div>
+    </div>
+
+    <nav class="nav-main">
+      <div class="nav-item active" data-target="home"><a onclick="go('home')">首页</a></div>
+      <div class="nav-item has-sub" data-target="about">
+        <a onclick="go('about')">关于麦屿 <span class="caret"></span></a>
+        <div class="sub-nav">
+          <a onclick="scrollAnchor('brand-story')">品牌故事</a>
+          <a onclick="scrollAnchor('brand-value')">品牌理念</a>
+          <a onclick="scrollAnchor('brand-chars')">品牌特色</a>
+        </div>
+      </div>
+      <div class="nav-item" data-target="cakes"><a onclick="go('cakes')">蛋糕展示</a></div>
+      <div class="nav-item" data-target="stores"><a onclick="go('stores')">门店信息</a></div>
+      <div class="nav-item" data-target="contact"><a onclick="go('contact')">联系我们</a></div>
+    </nav>
+
+    <div class="nav-aux">
+      <button class="lang-toggle">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        CN / EN
+      </button>
+      <!-- 移动端汉堡菜单按钮 -->
+      <button class="hamburger" onclick="toggleMenu()" aria-label="打开菜单">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</div>
+<!-- 移动端下拉菜单 -->
+<div class="mobile-menu" id="mobileMenu">
+  <a onclick="go('home')">首页</a>
+  <a onclick="go('about')">关于麦屿</a>
+  <a class="mm-sub" onclick="scrollAnchor('brand-story')">— 品牌故事</a>
+  <a class="mm-sub" onclick="scrollAnchor('brand-value')">— 品牌理念</a>
+  <a class="mm-sub" onclick="scrollAnchor('brand-chars')">— 品牌特色</a>
+  <a onclick="go('cakes')">蛋糕展示</a>
+  <a onclick="go('stores')">门店信息</a>
+  <a onclick="go('contact')">联系我们</a>
+</div>
+
+<!-- ============================================================
+     PAGE: 首页 HOME
+     ============================================================ -->
+<section class="pg active" id="pg-home">
+
+  <!-- HERO · 全屏背景图轮播 -->
+  <div class="hero">
+    <div class="hero-slides">
+      <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=2000&q=80')"></div>
+      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=2000&q=80')"></div>
+      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=2000&q=80')"></div>
+      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=2000&q=80')"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="wrap">
+        <div class="grid">
+          <div>
+            <div class="eyebrow" data-slide-eyebrow>SLIDE 01 · EST. 2020 SHANGHAI</div>
+            <h1 data-slide-title>麦屿手作<br><em>手作</em>每一份<em>甜蜜</em></h1>
+            <p data-slide-sub>甄选食材，匠心手作。<br>在每一口绵密里，遇见北纬 30° 麦田吹来的风。</p>
+          </div>
+          <div class="hero-poster"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-controls">
+      <div class="hero-cta">
+        <a class="btn" onclick="go('cakes')">探索系列</a>
+        <a class="btn btn-ghost" onclick="go('about')">了解我们</a>
+      </div>
+      <div class="hero-center">
+        <div class="hero-dots">
+          <div class="hero-dot active" data-slide-to="0"></div>
+          <div class="hero-dot" data-slide-to="1"></div>
+          <div class="hero-dot" data-slide-to="2"></div>
+          <div class="hero-dot" data-slide-to="3"></div>
+        </div>
+        <div class="hero-counter">
+          <b data-slide-current>01</b>/<span data-slide-total style="opacity:.7">04</span>
+        </div>
+      </div>
+      <div class="hero-arrows">
+        <div class="hero-arrow" data-slide-prev><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 18l-6-6 6-6"/></svg></div>
+        <div class="hero-arrow" data-slide-next><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18l6-6-6-6"/></svg></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 精选蛋糕 -->
+  <div class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="left">
+          <div class="upper">SELECTED · 精选</div>
+          <h2>本周<em>精选</em><br>治愈系手作蛋糕</h2>
+        </div>
+        <div class="right">
+          <p>甄选优质食材，遵循自然发酵节奏，<br>每一款都来自麦屿手作人对烘焙的温柔坚持。</p>
+        </div>
+      </div>
+      <div class="cakes-grid">
+        <div class="cake-card" onclick="go('detail')">
+          <div class="cake-img">
+            <span class="cake-tag">BEST · 招牌</span>
+            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80" alt="红丝绒">
+          </div>
+          <div class="cake-body">
+            <h3>醇香红丝绒</h3>
+            <p>比利时可可 · 奶油芝士 · 慢烤三小时</p>
+            <div class="cake-foot">
+              <span class="cake-price">¥168<small>起</small></span>
+              <span class="cake-more">VIEW <span style="margin-left:4px">→</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="cake-card" onclick="go('detail')">
+          <div class="cake-img">
+            <span class="cake-tag">NEW · 新品</span>
+            <img src="https://images.unsplash.com/photo-1565808229224-2645d2fe6ae7?w=800&q=80" alt="抹茶">
+          </div>
+          <div class="cake-body">
+            <h3>宇治抹茶慕斯</h3>
+            <p>京都宇治抹茶 · 轻盈慕斯 · 微苦回甘</p>
+            <div class="cake-foot">
+              <span class="cake-price">¥198<small>起</small></span>
+              <span class="cake-more">VIEW <span style="margin-left:4px">→</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="cake-card" onclick="go('detail')">
+          <div class="cake-img">
+            <span class="cake-tag">LIMITED · 限定</span>
+            <img src="https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=800&q=80" alt="栗子">
+          </div>
+          <div class="cake-body">
+            <h3>焦糖栗子磅蛋糕</h3>
+            <p>秋日限定 · 法国栗子泥 · 焦糖琥珀</p>
+            <div class="cake-foot">
+              <span class="cake-price">¥158<small>起</small></span>
+              <span class="cake-more">VIEW <span style="margin-left:4px">→</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:50px">
+        <a class="btn btn-ghost" onclick="go('cakes')">查看全部蛋糕 <svg class="btn-arrow" width="18" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 5h15M12 1l4 4-4 4"/></svg></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Home 关于麦屿 teaser（左右分栏）-->
+  <div class="section about-section">
+    <div class="wrap">
+      <div class="about-split">
+        <div class="about-text">
+          <div class="eyebrow">BRAND STORY · 品牌故事</div>
+          <h2>喧嚣城市里<br>一座<em>甜蜜</em>的小岛</h2>
+          <div class="sub">麦屿手作 · MAI·ISLE</div>
+          <p>城市的节奏总是匆匆，流水线的甜品层出不穷，大多追逐网红爆款与花哨外表，却慢慢丢失了烘焙本身最质朴的味道。</p>
+          <p>麦屿手作的主理人深耕甜品行业多年，走访多地学习烘焙技艺，尝过无数甜点之后，内心萌生一个想法：想要在喧嚣的城市之中，打造一座专属于甜蜜的小小岛屿。</p>
+          <a class="btn" style="margin-top:24px" onclick="go('about')">了解麦屿 <svg class="btn-arrow" width="18" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 5h15M12 1l4 4-4 4"/></svg></a>
+        </div>
+        <div class="about-img">
+          <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&q=80" alt="Brand Story">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 门店概览 -->
+  <div class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="left">
+          <div class="upper">STORES · 门店</div>
+          <h2>欢迎您的<em>到来</em></h2>
+        </div>
+        <div class="right">
+          <p>在城市的不同角落，<br>与您相遇在麦屿手作。</p>
+        </div>
+      </div>
+      <div class="stores-list">
+        <div class="store-card" onclick="go('stores')">
+          <div class="store-cover">
+            <div class="num">No. 01</div>
+            <img src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=800&q=80" alt="联洋店">
+          </div>
+          <div class="store-info">
+            <h3>联洋店</h3>
+            <span class="en">Lianyang Store</span>
+            <ul>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span><b>地址</b>上海市浦东新区迎春路 767 号</span></li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z"/></svg><span><b>电话</b>021-58388761</span></li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span><b>营业时间</b>08:00 — 21:00</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="store-card" onclick="go('stores')">
+          <div class="store-cover">
+            <div class="num">No. 02</div>
+            <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&q=80" alt="八佰伴店">
+          </div>
+          <div class="store-info">
+            <h3>八佰伴店</h3>
+            <span class="en">Baibuban Store</span>
+            <ul>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span><b>地址</b>上海市浦东新区浦东南路 1138 号</span></li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z"/></svg><span><b>电话</b>021-58606828</span></li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span><b>营业时间</b>08:00 — 21:00</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 订购信息 -->
+  <div class="section" style="background:var(--bg-soft);padding:64px 0">
+    <div class="wrap">
+      <div class="sec-head" style="margin-bottom:36px">
+        <div class="left">
+          <div class="upper">ORDER · 订购信息</div>
+          <h2>电话订购，<em>当日</em>送达</h2>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+        <div style="background:var(--bg-card);padding:36px;border:1px solid var(--line-soft);border-radius:var(--radius-lg);text-align:center">
+          <div class="small-cap" style="margin-bottom:18px">Hotline · 订购专线</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:38px;color:var(--brown-deep);letter-spacing:.1em;margin-bottom:14px">021-XXXXXXX</div>
+          <p style="font-size:13px;color:var(--ink-soft);margin:0">专业顾问为您一对一推荐</p>
+        </div>
+        <div style="background:var(--bg-card);padding:36px;border:1px solid var(--line-soft);border-radius:var(--radius-lg);text-align:center">
+          <div class="small-cap" style="margin-bottom:18px">Hours · 服务时间</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:38px;color:var(--brown-deep);letter-spacing:.1em;margin-bottom:14px">08:00 — 18:00</div>
+          <p style="font-size:13px;color:var(--ink-soft);margin:0">全年无休，节假日照常</p>
+        </div>
+        <div style="background:var(--bg-card);padding:36px;border:1px solid var(--line-soft);border-radius:var(--radius-lg);text-align:center">
+          <div class="small-cap" style="margin-bottom:18px">Delivery · 配送说明</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:38px;color:var(--brown-deep);letter-spacing:.1em;margin-bottom:14px">11:00 截止</div>
+          <p style="font-size:13px;color:var(--ink-soft);margin:0">11 点前订购当日送达 · 市内免费配送</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PAGE: 关于麦屿 (左右分栏布局)
+     ============================================================ -->
+<section class="pg" id="pg-about">
+  <div class="static-banner" data-banner="about">
+    <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=2000&q=80')"></div>
+    <div class="mask"></div>
+    <div class="content">
+      <div class="en">About Mai-Isle</div>
+      <h1>关于<em>麦屿</em></h1>
+      <p>BRAND · 关于麦屿</p>
+      <div class="divider"></div>
+    </div>
+  </div>
+
+  <!-- 品牌故事（参考截图：左文右图） -->
+  <div class="section" id="anchor-story">
+    <div class="wrap">
+      <div class="about-split">
+        <div class="about-text">
+          <div class="eyebrow">BRAND STORY</div>
+          <h2>品牌故事</h2>
+          <div class="sub">OUR · STORY</div>
+          <p>城市的节奏总是匆匆，流水线的甜品层出不穷，大多追逐网红爆款与花哨外表，却慢慢丢失了烘焙本身最质朴的味道。</p>
+          <p>麦屿手作的主理人深耕甜品行业多年，走访多地学习烘焙技艺，尝过无数甜点之后，内心萌生一个想法：想要在喧嚣的城市之中，打造一座专属于甜蜜的小小岛屿。</p>
+          <p>2020 年，麦屿手作正式诞生。取名 "麦屿"，"麦" 代表面粉、谷物，是一切烘焙的起点；"屿" 寓意一处远离浮躁、安下心打磨甜品的静谧小岛。</p>
+        </div>
+        <div class="about-img">
+          <img src="https://images.unsplash.com/photo-1517433367423-c7e5b0f35086?w=1200&q=80" alt="品牌故事">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 品牌理念（右文左图，反向） -->
+  <div class="section" style="background:var(--bg-soft)" id="anchor-value">
+    <div class="wrap">
+      <div class="about-split flip">
+        <div class="about-img">
+          <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=1200&q=80" alt="品牌理念">
+          <div class="floating-card">
+            <span class="lbl">Brand Value</span>
+            <b>极致之道</b>
+            <small>匠，是一种极致之道。<br>每一个细节都值得被温柔对待。</small>
+          </div>
+        </div>
+        <div class="about-text">
+          <div class="eyebrow">BRAND VALUE</div>
+          <h2>品牌理念</h2>
+          <div class="sub">OUR · PHILOSOPHY</div>
+          <p>匠，是一种极致之道。</p>
+          <p>在工业化与规模化的今天，我们仍选择保留手作的方式。因为我们相信：一份蛋糕的温度，来自于双手与时间的共同作用。</p>
+          <p>无论是面团的揉捏、发酵的时间，还是烘焙的温度，每一道工序都凝聚着手作人对生活方式的回应。</p>
+          <p>我们希望通过手作，传递一种慢下来的生活方式。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 品牌特色（左文 + 三项特色 + 右侧大图） -->
+  <div class="section" id="anchor-chars">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="left">
+          <div class="upper">BRAND CHARACTERISTICS</div>
+          <h2><em>品牌特色</em><br>甄选、手作、初心</h2>
+        </div>
+        <div class="right">
+          <p>从原料到工艺，<br>再到对每一位顾客的用心。</p>
+        </div>
+      </div>
+
+      <div class="about-split">
+        <div class="about-text">
+          <div class="feature-row">
+            <div class="feature-num">01</div>
+            <div>
+              <h4>甄选食材 · Selected</h4>
+              <p>选用法国 AOP 黄油、日本日清面粉、京都宇治抹茶等世界优质原料，每一份食材都可追溯源头。</p>
+            </div>
+          </div>
+          <div class="feature-row">
+            <div class="feature-num">02</div>
+            <div>
+              <h4>手作工艺 · Handcraft</h4>
+              <p>坚持低温慢发酵、手工揉面、逐个烘焙。不添加防腐剂与人造香精，让食物呈现本真的味道。</p>
+            </div>
+          </div>
+          <div class="feature-row">
+            <div class="feature-num">03</div>
+            <div>
+              <h4>服务初心 · Sincere</h4>
+              <p>从下单到送达，每一个环节都由专人跟进。我们希望为您提供的不只是一份蛋糕，更是一份用心。</p>
+            </div>
+          </div>
+        </div>
+        <div class="about-img">
+          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80" alt="品牌特色">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 品牌历程 -->
+  <div class="section" style="background:var(--bg-soft)">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="left">
+          <div class="upper">BRAND JOURNEY</div>
+          <h2>品牌<em>历程</em></h2>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-year">2020</div>
+          <h4>麦屿手作 · 诞生</h4>
+          <p>主理人走访多地学习烘焙技艺后，于上海正式创立麦屿手作，首店落地浦东联洋。"麦" 是起点，"屿" 是归处。</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2021</div>
+          <h4>中央手作工坊建立</h4>
+          <p>自建 1200㎡ 中央手作工坊，所有产品由工坊每日新鲜手作，统一冷链配送至全部门店。</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2022</div>
+          <h4>甄选食材体系</h4>
+          <p>与法国 AOP 奶源、日本日清面粉、京都宇治抹茶建立长期合作，搭建可追溯的食材供应体系。</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2024</div>
+          <h4>门店拓展至 8 家</h4>
+          <p>线下门店覆盖上海、苏州，逐步构建长三角品牌矩阵，"麦屿" 成为都市里的一处甜蜜小岛。</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2026</div>
+          <h4>官网 & 数字化运营</h4>
+          <p>品牌官网与后台管理系统正式上线，开启可持续的品牌数字化运营，让每份甜蜜都能在线上被温柔呈现。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 硬件保障 & 软件实力 -->
+  <div class="section">
+    <div class="wrap">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px">
+        <!-- 硬件保障 -->
+        <div>
+          <div class="upper" style="margin-bottom:18px">HARDWARE · 硬件保障</div>
+          <h2 style="font-size:38px;line-height:1.25;margin-bottom:32px"><em>硬件</em>保障</h2>
+          <ul style="list-style:none;padding:0;margin:0;display:grid;gap:0">
+            <li style="display:flex;gap:22px;padding:24px 0;border-top:1px solid var(--line-soft);align-items:flex-start">
+              <div style="width:48px;height:48px;background:var(--cream);border-radius:50%;display:grid;place-items:center;color:var(--brown-deep);flex-shrink:0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              </div>
+              <div>
+                <h4 style="font-size:17px;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:.08em">1200㎡ 中央手作工坊</h4>
+                <p style="font-size:14px;color:var(--ink-soft);line-height:1.85;margin:0">自建符合食品级 SC 认证的中央工坊，恒温恒湿，全工坊紫外线杀菌 + 二次更衣风淋。</p>
+              </div>
+            </li>
+            <li style="display:flex;gap:22px;padding:24px 0;border-top:1px solid var(--line-soft);align-items:flex-start">
+              <div style="width:48px;height:48px;background:var(--cream);border-radius:50%;display:grid;place-items:center;color:var(--brown-deep);flex-shrink:0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div>
+                <h4 style="font-size:17px;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:.08em">全程 0-4℃ 冷链配送</h4>
+                <p style="font-size:14px;color:var(--ink-soft);line-height:1.85;margin:0">自有冷链车队与第三方专业冷链双备份，从工坊到门店全程温控监测，守护每一份新鲜。</p>
+              </div>
+            </li>
+            <li style="display:flex;gap:22px;padding:24px 0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);align-items:flex-start">
+              <div style="width:48px;height:48px;background:var(--cream);border-radius:50%;display:grid;place-items:center;color:var(--brown-deep);flex-shrink:0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+              </div>
+              <div>
+                <h4 style="font-size:17px;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:.08em">SC 食品生产许可</h4>
+                <p style="font-size:14px;color:var(--ink-soft);line-height:1.85;margin:0">通过国家 SC 食品生产许可认证，每年接受第三方飞行检查，所有产品投保食品安全责任险。</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 软件实力 -->
+        <div>
+          <div class="upper" style="margin-bottom:18px">SOFTWARE · 软件实力</div>
+          <h2 style="font-size:38px;line-height:1.25;margin-bottom:32px"><em>软件</em>实力</h2>
+          <ul style="list-style:none;padding:0;margin:0;display:grid;gap:0">
+            <li style="display:flex;gap:22px;padding:24px 0;border-top:1px solid var(--line-soft);align-items:flex-start">
+              <div style="width:48px;height:48px;background:var(--cream);border-radius:50%;display:grid;place-items:center;color:var(--brown-deep);flex-shrink:0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+              </div>
+              <div>
+                <h4 style="font-size:17px;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:.08em">资深手作团队</h4>
+                <p style="font-size:14px;color:var(--ink-soft);line-height:1.85;margin:0">主厨团队均拥有 10 年以上法式 / 日式烘焙经验，定期前往日本、法国学习进修。</p>
+              </div>
+            </li>
+            <li style="display:flex;gap:22px;padding:24px 0;border-top:1px solid var(--line-soft);align-items:flex-start">
+              <div style="width:48px;height:48px;background:var(--cream);border-radius:50%;display:grid;place-items:center;color:var(--brown-deep);flex-shrink:0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              </div>
+              <div>
+                <h4 style="font-size:17px;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:.08em">1V1 顾问服务</h4>
+                <p style="font-size:14px;color:var(--ink-soft);line-height:1.85;margin:0">每位客户配专属甜品顾问，从场景推荐到定制设计全程跟进，承载每一份专属心意。</p>
+              </div>
+            </li>
+            <li style="display:flex;gap:22px;padding:24px 0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);align-items:flex-start">
+              <div style="width:48px;height:48px;background:var(--cream);border-radius:50%;display:grid;place-items:center;color:var(--brown-deep);flex-shrink:0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+              </div>
+              <div>
+                <h4 style="font-size:17px;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:.08em">可追溯服务体系</h4>
+                <p style="font-size:14px;color:var(--ink-soft);line-height:1.85;margin:0">订单全程可视化追踪，从下单到送达每一步可查，客户反馈 24 小时内响应。</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PAGE: 蛋糕展示 (左侧分类 + 右侧网格)
+     ============================================================ -->
+<section class="pg" id="pg-cakes">
+  <div class="static-banner" data-banner="cakes">
+    <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1488477181946-6428a0291777?w=2000&q=80')"></div>
+    <div class="mask"></div>
+    <div class="content">
+      <div class="en">Cakes Collection</div>
+      <h1>蛋糕<em>展示</em></h1>
+      <p>SELECTION · 全部系列</p>
+      <div class="divider"></div>
+    </div>
+  </div>
+
+  <div class="wrap crumbs">
+    <a onclick="go('home')">首页</a><span class="sep">/</span><span class="current">蛋糕展示</span>
+  </div>
+
+  <div class="wrap">
+    <div class="cakes-page">
+      <aside class="cakes-sidebar">
+        <h4>CATEGORIES</h4>
+        <ul>
+          <li><a class="active" data-cat="all">全部 <span class="count">28</span></a></li>
+          <li><a data-cat="red">红丝绒系列 <span class="count">4</span></a></li>
+          <li><a data-cat="mousse">慕斯系列 <span class="count">5</span></a></li>
+          <li><a data-cat="cheese">芝士系列 <span class="count">3</span></a></li>
+          <li><a data-cat="matcha">抹茶系列 <span class="count">3</span></a></li>
+          <li><a data-cat="choco">巧克力系列 <span class="count">4</span></a></li>
+          <li><a data-cat="fruit">水果系列 <span class="count">3</span></a></li>
+          <li><a data-cat="fondant">翻糖系列 <span class="count">3</span></a></li>
+          <li><a data-cat="holiday">节日限定 <span class="count">3</span></a></li>
+        </ul>
+      </aside>
+      <div class="cakes-main">
+        <div class="cakes-main-head">
+          <div class="current-cat"><em>All</em>全部系列</div>
+          <div class="sort">
+            <span>排序</span>
+            <select>
+              <option>推荐</option>
+              <option>价格 低到高</option>
+              <option>价格 高到低</option>
+              <option>新品优先</option>
+            </select>
+          </div>
+        </div>
+        <div class="cakes-page-grid" id="cakeGrid">
+
+      <div class="cake-card" data-cat="red" onclick="go('detail')">
+        <div class="cake-img">
+          <span class="cake-tag">招牌</span>
+          <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80" alt="">
+        </div>
+        <div class="cake-body">
+          <h3>醇香红丝绒</h3>
+          <p>比利时可可 · 奶油芝士</p>
+          <div class="cake-foot">
+            <span class="cake-price">¥168<small>起</small></span>
+            <span class="cake-more">VIEW →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cake-card" data-cat="matcha" onclick="go('detail')">
+        <div class="cake-img">
+          <span class="cake-tag">新品</span>
+          <img src="https://images.unsplash.com/photo-1565808229224-2645d2fe6ae7?w=800&q=80" alt="">
+        </div>
+        <div class="cake-body">
+          <h3>宇治抹茶慕斯</h3>
+          <p>京都宇治抹茶 · 轻盈慕斯</p>
+          <div class="cake-foot">
+            <span class="cake-price">¥198<small>起</small></span>
+            <span class="cake-more">VIEW →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cake-card" data-cat="holiday" onclick="go('detail')">
+        <div class="cake-img">
+          <span class="cake-tag">限定</span>
+          <img src="https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=800&q=80" alt="">
+        </div>
+        <div class="cake-body">
+          <h3>焦糖栗子磅蛋糕</h3>
+          <p>秋日限定 · 法国栗子泥</p>
+          <div class="cake-foot">
+            <span class="cake-price">¥158<small>起</small></span>
+            <span class="cake-more">VIEW →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cake-card" data-cat="cheese" onclick="go('detail')">
+        <div class="cake-img">
+          <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=800&q=80" alt="">
+        </div>
+        <div class="cake-body">
+          <h3>经典芝士蛋糕</h3>
+          <p>澳洲奶油芝士 · 慢烤四小时</p>
+          <div class="cake-foot">
+            <span class="cake-price">¥178<small>起</small></span>
+            <span class="cake-more">VIEW →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cake-card" data-cat="choco" onclick="go('detail')">
+        <div class="cake-img">
+          <img src="https://images.unsplash.com/photo-1606313564200-e2d739a25d6e?w=800&q=80" alt="">
+        </div>
+        <div class="cake-body">
+          <h3>黑巧熔岩</h3>
+          <p>法芙娜 70% 黑巧 · 浓郁醇厚</p>
+          <div class="cake-foot">
+            <span class="cake-price">¥188<small>起</small></span>
+            <span class="cake-more">VIEW →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cake-card" data-cat="fruit" onclick="go('detail')">
+        <div class="cake-img">
+          <span class="cake-tag">当季</span>
+          <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&q=80" alt="">
+        </div>
+        <div class="cake-body">
+          <h3>夏日水果塔</h3>
+          <p>新鲜水果 · 杏仁奶油馅</p>
+          <div class="cake-foot">
+            <span class="cake-price">¥218<small>起</small></span>
+            <span class="cake-more">VIEW →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cake-card" data-cat="fondant" onclick="go('detail')">
+        <div class="cake-img">
+          <img src="https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=800&q=80" alt="">
+        </div>
+        <div class="cake-body">
+          <h3>经典翻糖</h3>
+          <p>纯手工翻糖 · 定制图案</p>
+          <div class="cake-foot">
+            <span class="cake-price">¥288<small>起</small></span>
+            <span class="cake-more">VIEW →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cake-card" data-cat="mousse" onclick="go('detail')">
+        <div class="cake-img">
+          <img src="https://images.unsplash.com/photo-1557925923-c4f8b07d6cfe?w=800&q=80" alt="">
+        </div>
+        <div class="cake-body">
+          <h3>香草千层</h3>
+          <p>马达加斯加香草 · 36 层薄饼</p>
+          <div class="cake-foot">
+            <span class="cake-price">¥198<small>起</small></span>
+            <span class="cake-more">VIEW →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cake-card" data-cat="fruit" onclick="go('detail')">
+        <div class="cake-img">
+          <span class="cake-tag">节日</span>
+          <img src="https://images.unsplash.com/photo-1542826438-bd32f43d626f?w=800&q=80" alt="">
+        </div>
+        <div class="cake-body">
+          <h3>草莓奶油</h3>
+          <p>当季草莓 · 轻乳脂奶油</p>
+          <div class="cake-foot">
+            <span class="cake-price">¥168<small>起</small></span>
+            <span class="cake-more">VIEW →</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+        <!-- Pagination -->
+        <div id="cakePager" style="display:flex;justify-content:center;gap:10px;align-items:center;margin-top:48px">
+          <button class="btn-sm" style="padding:10px 18px">‹ 上一页</button>
+          <button class="btn-sm primary" style="padding:10px 16px">1</button>
+          <button class="btn-sm" style="padding:10px 16px">2</button>
+          <button class="btn-sm" style="padding:10px 16px">3</button>
+          <button class="btn-sm" style="padding:10px 18px">下一页 ›</button>
+        </div>
+
+        <!-- 空状态（PRD §6.2.3 F2-4）：该分类暂无产品 -->
+        <div id="cakeEmpty" style="display:none;padding:80px 24px;text-align:center">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--khaki)" stroke-width="1" style="margin:0 auto 20px;display:block"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg>
+          <div style="font-family:'Noto Serif SC',serif;font-size:20px;color:var(--ink);letter-spacing:.08em;margin-bottom:10px">该分类暂无产品</div>
+          <p style="font-size:13px;color:var(--ink-soft);margin:0">我们会尽快上新，敬请期待</p>
+        </div>
+      </div><!-- /cakes-main -->
+    </div><!-- /cakes-page -->
+  </div>
+</section>
+
+<!-- ============================================================
+     PAGE: 蛋糕详情
+     ============================================================ -->
+<section class="pg" id="pg-detail">
+  <div class="static-banner" data-banner="detail" style="height:46vh;min-height:340px">
+    <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=2000&q=80')"></div>
+    <div class="mask" style="background:linear-gradient(180deg,rgba(0,0,0,.25) 0%,rgba(0,0,0,.55) 100%)"></div>
+    <div class="content">
+      <div class="en">Cake Details</div>
+      <h1>醇香<em>红丝绒</em></h1>
+      <p>CLASSIC · 招牌系列</p>
+      <div class="divider"></div>
+    </div>
+  </div>
+
+  <div class="wrap crumbs">
+    <a onclick="go('home')">首页</a><span class="sep">/</span><a onclick="go('cakes')">蛋糕展示</a><span class="sep">/</span><span class="current">醇香红丝绒</span>
+  </div>
+
+  <div class="wrap section">
+    <div class="detail-grid">
+      <div class="detail-img">
+        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1200&q=80" alt="红丝绒">
+      </div>
+      <div class="detail-text">
+        <h1>醇香红丝绒</h1>
+        <div class="en">Classic Red Velvet</div>
+
+        <div class="detail-spec">
+          <h4>规格与价格 · SPECIFICATIONS</h4>
+          <div class="spec-row">
+            <span class="name">6 寸 <small>约 2 人份</small></span>
+            <span class="price">¥168</span>
+          </div>
+          <div class="spec-row">
+            <span class="name">8 寸 <small>约 4 人份</small></span>
+            <span class="price">¥228</span>
+          </div>
+          <div class="spec-row">
+            <span class="name">10 寸 <small>约 7 人份</small></span>
+            <span class="price">¥288</span>
+          </div>
+        </div>
+
+        <div class="order-hint">
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div>
+            <b>订购热线 021-XXXXXXX</b>
+            <small>服务时间 08:00 — 18:00 ｜ 11 点前订购当日送达</small>
+          </div>
+        </div>
+
+        <div class="detail-desc">
+          <h5>产品描述</h5>
+          <p>比利时可可粉与马达加斯加香草的曼妙碰撞，覆以澳洲奶油芝士手工打发，三小时慢烤而成。浓郁而不甜腻，是麦屿手作十年不变的经典款。</p>
+          <h5>定制说明</h5>
+          <p>支持尺寸 / 口味 / 图案 / 祝福语定制，建议提前 1 天电话预约，节日期间建议提前 3 天。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap section-sm" style="border-top:1px solid var(--line-soft);padding-top:64px">
+    <div class="sec-head" style="margin-bottom:32px">
+      <div class="left">
+        <div class="upper">RELATED · 相关推荐</div>
+        <h2>同系列<em>推荐</em></h2>
+      </div>
+    </div>
+    <div class="cakes-grid">
+      <div class="cake-card" onclick="go('detail')">
+        <div class="cake-img"><img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=800&q=80" alt=""></div>
+        <div class="cake-body"><h3>经典芝士蛋糕</h3><p>澳洲奶油芝士 · 慢烤四小时</p><div class="cake-foot"><span class="cake-price">¥178<small>起</small></span><span class="cake-more">VIEW →</span></div></div>
+      </div>
+      <div class="cake-card" onclick="go('detail')">
+        <div class="cake-img"><img src="https://images.unsplash.com/photo-1606313564200-e2d739a25d6e?w=800&q=80" alt=""></div>
+        <div class="cake-body"><h3>黑巧熔岩</h3><p>法芙娜 70% 黑巧 · 浓郁醇厚</p><div class="cake-foot"><span class="cake-price">¥188<small>起</small></span><span class="cake-more">VIEW →</span></div></div>
+      </div>
+      <div class="cake-card" onclick="go('detail')">
+        <div class="cake-img"><img src="https://images.unsplash.com/photo-1565808229224-2645d2fe6ae7?w=800&q=80" alt=""></div>
+        <div class="cake-body"><h3>宇治抹茶慕斯</h3><p>京都宇治抹茶 · 轻盈慕斯</p><div class="cake-foot"><span class="cake-price">¥198<small>起</small></span><span class="cake-more">VIEW →</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PAGE: 门店信息
+     ============================================================ -->
+<section class="pg" id="pg-stores">
+  <div class="static-banner" data-banner="stores">
+    <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=2000&q=80')"></div>
+    <div class="mask"></div>
+    <div class="content">
+      <div class="en">Our Stores</div>
+      <h1>门店<em>信息</em></h1>
+      <p>STORES · 欢迎您的到来</p>
+      <div class="divider"></div>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding:80px 0 120px">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+
+      <div class="store-card" style="grid-template-columns:1fr">
+        <div class="store-cover" style="aspect-ratio:5/4">
+          <div class="num">No. 01</div>
+          <img src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=800&q=80" alt="">
+        </div>
+        <div class="store-info">
+          <h3>联洋店</h3>
+          <span class="en">Lianyang Store</span>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span><b>地址</b>上海市浦东新区迎春路 767 号</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z"/></svg><span><b>电话</b>021-58388761</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span><b>营业时间</b>08:00 — 21:00</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="store-card" style="grid-template-columns:1fr">
+        <div class="store-cover" style="aspect-ratio:5/4">
+          <div class="num">No. 02</div>
+          <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&q=80" alt="">
+        </div>
+        <div class="store-info">
+          <h3>八佰伴店</h3>
+          <span class="en">Baibuban Store</span>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span><b>地址</b>上海市浦东新区浦东南路 1138 号</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z"/></svg><span><b>电话</b>021-58606828</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span><b>营业时间</b>08:00 — 21:00</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="store-card" style="grid-template-columns:1fr">
+        <div class="store-cover" style="aspect-ratio:5/4">
+          <div class="num">No. 03</div>
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="">
+        </div>
+        <div class="store-info">
+          <h3>徐汇店</h3>
+          <span class="en">Xuhui Store</span>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span><b>地址</b>上海市徐汇区淮海中路 999 号</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z"/></svg><span><b>电话</b>021-64215678</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span><b>营业时间</b>09:00 — 22:00</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="store-card" style="grid-template-columns:1fr">
+        <div class="store-cover" style="aspect-ratio:5/4">
+          <div class="num">No. 04</div>
+          <img src="https://images.unsplash.com/photo-1502301197179-65228ab57f78?w=800&q=80" alt="">
+        </div>
+        <div class="store-info">
+          <h3>静安店</h3>
+          <span class="en">Jingan Store</span>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span><b>地址</b>上海市静安区南京西路 1601 号</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z"/></svg><span><b>电话</b>021-62588901</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span><b>营业时间</b>08:00 — 22:00</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="store-card" style="grid-template-columns:1fr">
+        <div class="store-cover" style="aspect-ratio:5/4">
+          <div class="num">No. 05</div>
+          <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80" alt="">
+        </div>
+        <div class="store-info">
+          <h3>苏州诚品店</h3>
+          <span class="en">Suzhou Store</span>
+          <ul>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span><b>地址</b>苏州市工业园区苏州大道东 8 号</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z"/></svg><span><b>电话</b>0512-62918888</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span><b>营业时间</b>10:00 — 22:00</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PAGE: 联系我们
+     ============================================================ -->
+<section class="pg" id="pg-contact">
+  <div class="static-banner" data-banner="contact">
+    <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=2000&q=80')"></div>
+    <div class="mask"></div>
+    <div class="content">
+      <div class="en">Contact Us</div>
+      <h1>联系<em>我们</em></h1>
+      <p>CONTACT · 期待您的留言</p>
+      <div class="divider"></div>
+    </div>
+  </div>
+
+  <div class="wrap section">
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <h3>始终<br>在这里</h3>
+        <div class="en">Always Here</div>
+        <div class="contact-list">
+          <div class="row">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z"/></svg>
+            <div>
+              <b>订购专线</b>
+              <span>021-XXXXXXX（多门店统一订购）</span>
+            </div>
+          </div>
+          <div class="row">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <div>
+              <b>服务时间</b>
+              <span>每日 08:00 — 18:00（全年无休）</span>
+            </div>
+          </div>
+          <div class="row">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div>
+              <b>总部地址</b>
+              <span>上海市浦东新区迎春路 767 号 麦屿中心 3F</span>
+            </div>
+          </div>
+          <div class="row">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <div>
+              <b>邮箱</b>
+              <span>hello@mai-isle.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <form id="contactForm" style="margin:0" novalidate>
+        <div class="eyebrow" style="display:inline-flex;align-items:center;gap:14px;color:var(--brown);font-family:'Cormorant Garamond',serif;letter-spacing:.4em;font-size:12px;text-transform:uppercase;margin-bottom:18px"><span>✦</span>LEAVE A MESSAGE</div>
+        <h3 style="font-size:30px;font-weight:400;margin-bottom:30px">给我们<em style="font-style:italic;color:var(--brown)">留言</em></h3>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>姓名 *</label>
+            <input type="text" id="cName" placeholder="您的姓名" autocomplete="name">
+          </div>
+          <div class="form-field">
+            <label>联系电话 *</label>
+            <input type="tel" id="cPhone" placeholder="11 位手机号" autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="form-field" style="margin-bottom:18px">
+          <label>留言内容 *</label>
+          <textarea rows="5" id="cMsg" placeholder="请描述您的需求，例如：蛋糕类型、规格、取货日期、定制需求等"></textarea>
+        </div>
+
+        <div class="captcha-row" style="margin-bottom:24px">
+          <div class="form-field" style="margin:0">
+            <label>验证码 *</label>
+            <input type="text" id="cCaptcha" placeholder="请输入图形验证码" maxlength="4">
+          </div>
+          <div class="captcha-box">M8A2</div>
+        </div>
+
+        <button type="submit" class="btn" style="width:100%;justify-content:center">提交留言 <svg class="btn-arrow" width="18" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button>
+        <div class="form-foot">
+          <span>提交留言后我们将在 24 小时内回复</span>
+          <span style="font-family:'Cormorant Garamond',serif;letter-spacing:.32em;text-transform:uppercase">Free · Privacy</span>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     后台：登录
+     ============================================================ -->
+
+
+<!-- ============================================================
+     后台：仪表盘
+     ============================================================ -->
+
+
+<!-- ============================================================
+     后台：商品管理
+     ============================================================ -->
+
+
+<!-- ============================================================
+     后台：订单管理
+     ============================================================ -->
+
+
+<!-- ============================================================
+     后台：门店管理
+     ============================================================ -->
+
+
+<!-- ============================================================
+     后台：内容管理
+     ============================================================ -->
+
+
+<!-- ============================================================
+     后台：留言管理
+     ============================================================ -->
+
+
+<!-- ============================================================
+     后台：管理员管理
+     ============================================================ -->
+
+
+<!-- ============================================================
+ <!-- ============================================================
+     全局 FOOTER (前台页面专属)
+     ============================================================ -->
+<footer id="global-footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <div class="logo">
+        <div class="logo-mark">M</div>
+        <div class="logo-text">
+          <b>麦屿手作</b>
+          <span>MAI&middot;ISLE</span>
+        </div>
+      </div>
+      <p>源于一捧麦田的温柔坚持。<br>甄选食材 · 手作工艺 · 服务初心。</p>
+      <div style="display:flex;gap:14px;margin-top:28px">
+        <a style="width:36px;height:36px;border:1px solid rgba(240,225,185,.3);border-radius:50%;display:grid;place-items:center;transition:all .3s var(--easing);color:var(--cream)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 5.52 3.58 10.11 8.56 11.74.62.11.85-.27.85-.6v-2.16c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.21.08 1.85 1.24 1.85 1.24 1.07 1.84 2.81 1.3 3.5 1 .11-.78.42-1.3.76-1.6-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 016 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22v3.29c0 .33.22.72.85.6C18.42 22.11 22 17.52 22 12 22 6.48 17.52 2 12 2z"/></svg>
+        </a>
+        <a style="width:36px;height:36px;border:1px solid rgba(240,225,185,.3);border-radius:50%;display:grid;place-items:center;transition:all .3s var(--easing);color:var(--cream)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zM17.5 6.5h.01"/></svg>
+        </a>
+        <a style="width:36px;height:36px;border:1px solid rgba(240,225,185,.3);border-radius:50%;display:grid;place-items:center;transition:all .3s var(--easing);color:var(--cream)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>NAVIGATION</h5>
+      <ul>
+        <li><a onclick="go('home')">首页</a></li>
+        <li><a onclick="go('about')">关于麦屿</a></li>
+        <li><a onclick="go('cakes')">蛋糕展示</a></li>
+        <li><a onclick="go('stores')">门店信息</a></li>
+        <li><a onclick="go('contact')">联系我们</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>CONTACT</h5>
+      <ul>
+        <li><a>订购专线 · 021-XXXXXXX</a></li>
+        <li><a>服务时间 · 08:00 — 18:00</a></li>
+        <li><a>邮箱 · hello@mai-isle.com</a></li>
+        <li><a>地址 · 上海市浦东新区迎春路 767 号</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>JOIN US</h5>
+      <ul>
+        <li><a>企业订购</a></li>
+        <li><a>媒体合作</a></li>
+        <li><a>门店加盟</a></li>
+        <li><a>供应商联系</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 MAI·ISLE · 麦屿手作 · ALL RIGHTS RESERVED</span>
+    <span>沪 ICP 备 XXXXXXXX 号 · 沪公网安备 XXXXXXXXXX 号</span>
+  </div>
+</footer>
+
+<script>
+  // ========== Hero Slider (首页全屏背景图轮播) ==========
+  (function(){
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots   = document.querySelectorAll('.hero-dot');
+    const prev   = document.querySelector('[data-slide-prev]');
+    const next   = document.querySelector('[data-slide-next]');
+    const currentEl = document.querySelector('[data-slide-current]');
+    if(!slides.length) return;
+
+    // 每张幻灯片的文案（eyebrow / title / sub）
+    const contents = [
+      {eyebrow:'SLIDE 01 · EST. 2020 SHANGHAI',title:'麦屿手作<br><em>手作</em>每一份<em>甜蜜</em>',sub:'喧嚣城市里，一座专属于甜蜜的小小岛屿。<br>"麦" 是起点，"屿" 是归处。'},
+      {eyebrow:'SLIDE 02 · SELECTED INGREDIENTS',title:'甄选<em>食材</em><br>是麦屿的<em>第一份坚持</em>',sub:'法国 AOP 黄油 · 日本日清面粉 · 京都宇治抹茶。<br>每一份食材都可追溯源头。'},
+      {eyebrow:'SLIDE 03 · HANDCRAFT EVERY DAY',title:'慢一点<br><em>手作</em>的温度',sub:'低温慢发酵 · 手工揉面 · 逐个烘焙。<br>不添加防腐剂，让食物呈现本真的味道。'},
+      {eyebrow:'SLIDE 04 · ORDERED TODAY',title:'11点前订购<br><em>当日</em>送到你手中',sub:'专业顾问为您一对一推荐 · 市内免费配送。<br>服务时间 08:00 — 18:00，全年无休。'}
+    ];
+
+    let idx = 0, timer = null;
+    const eyebrow = document.querySelector('[data-slide-eyebrow]');
+    const title   = document.querySelector('[data-slide-title]');
+    const sub     = document.querySelector('[data-slide-sub]');
+
+    function goTo(i){
+      idx = (i + slides.length) % slides.length;
+      slides.forEach((s,k)=>s.classList.toggle('active', k===idx));
+      dots.forEach((d,k)=>d.classList.toggle('active', k===idx));
+      currentEl.textContent = String(idx+1).padStart(2,'0');
+      // 文本切换（淡入）
+      const c = contents[idx];
+      [eyebrow,title,sub].forEach(el=>{el.style.transition='opacity .6s';el.style.opacity='0';});
+      setTimeout(()=>{
+        eyebrow.innerHTML = c.eyebrow;
+        title.innerHTML   = c.title;
+        sub.innerHTML     = c.sub;
+        [eyebrow,title,sub].forEach(el=>el.style.opacity='1');
+      }, 300);
+    }
+
+    function play(){ stop(); timer = setInterval(()=>goTo(idx+1), 5000); }
+    function stop(){ if(timer){ clearInterval(timer); timer=null; } }
+
+    dots.forEach((d,k)=>d.addEventListener('click',()=>{ goTo(k); play(); }));
+    prev.addEventListener('click',()=>{ goTo(idx-1); play(); });
+    next.addEventListener('click',()=>{ goTo(idx+1); play(); });
+
+    // 鼠标悬停在 hero 上时暂停
+    const heroEl = document.querySelector('.hero');
+    heroEl.addEventListener('mouseenter', stop);
+    heroEl.addEventListener('mouseleave', play);
+
+    // 进入首页时播放，离开时停止
+    const homePg = document.getElementById('pg-home');
+    const obs = new MutationObserver(()=>{
+      if(homePg.classList.contains('active')) play();
+      else stop();
+    });
+    obs.observe(homePg, {attributes:true, attributeFilter:['class']});
+
+    play();
+  })();
+
+  // ========== Navigation Router ==========
+  const ROUTES = {
+    'home':'pg-home','about':'pg-about','cakes':'pg-cakes','detail':'pg-detail',
+    'stores':'pg-stores','contact':'pg-contact'
+  };
+
+  function go(name){
+    const isAdmin = name.startsWith('admin-');
+    // hide all
+    document.querySelectorAll('.pg').forEach(el=>el.classList.remove('active'));
+    // show target
+    const id = ROUTES[name];
+    if(id && document.getElementById(id)){
+      document.getElementById(id).classList.add('active');
+    }
+    // 同步更新主导航 active 高亮
+    document.querySelectorAll('.nav-item').forEach(item=>{
+      item.classList.toggle('active', item.dataset.target === name);
+    });
+    // 关闭移动端菜单
+    document.getElementById('mobileMenu') && document.getElementById('mobileMenu').classList.remove('open');
+    document.querySelector('.hamburger') && document.querySelector('.hamburger').classList.remove('open');
+    // 同步 URL hash
+    if(window.location.hash !== '#' + name){
+      history.replaceState(null,'','#' + name);
+    }
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  // 监听 URL hash 变化（用户在地址栏改 #xxx 也能跳转）
+  window.addEventListener('hashchange',()=>{
+    const h = window.location.hash.replace('#','');
+    if(ROUTES[h] && document.getElementById(ROUTES[h])){
+      go(h);
+    }
+  });
+  // 页面加载时如有 hash，按 hash 跳到对应页
+  (function(){
+    const h = window.location.hash.replace('#','');
+    if(ROUTES[h] && document.getElementById(ROUTES[h])){
+      go(h);
+    }
+  })();
+
+  // ========== 移动端汉堡菜单 ==========
+  function toggleMenu(){
+    const m = document.getElementById('mobileMenu');
+    const h = document.querySelector('.hamburger');
+    if(!m || !h) return;
+    m.classList.toggle('open');
+    h.classList.toggle('open');
+  }
+  document.querySelectorAll('.mobile-menu a').forEach(a=>{
+    a.addEventListener('click',()=>{
+      document.getElementById('mobileMenu') && document.getElementById('mobileMenu').classList.remove('open');
+      document.querySelector('.hamburger') && document.querySelector('.hamburger').classList.remove('open');
+    });
+  });
+
+  // ========== 留言表单校验（PRD §6.2.7 字段级规则） ==========
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const form = document.getElementById('contactForm');
+    if(!form) return;
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('cName');
+      const phone = document.getElementById('cPhone');
+      const msg = document.getElementById('cMsg');
+      const cap = document.getElementById('cCaptcha');
+      const errs = document.querySelectorAll('.field .err');
+      errs.forEach(x=>x.remove());
+      let ok = true;
+
+      function fail(input, text){
+        const span = document.createElement('div');
+        span.className = 'err';
+        span.style.cssText = 'color:#A32D2D;font-size:12px;letter-spacing:.04em;margin-top:6px';
+        span.textContent = text;
+        input.parentNode.appendChild(span);
+        input.style.borderColor = '#A32D2D';
+        ok = false;
+      }
+      function pass(input){ input.style.borderColor = ''; }
+
+      const vName = name.value.trim();
+      if(vName.length < 2 || vName.length > 20) fail(name, '姓名需为 2-20 个字符');
+      else pass(name);
+
+      const vPhone = phone.value.trim();
+      if(!/^1[3-9]\d{9}$/.test(vPhone)) fail(phone, '请输入 11 位有效手机号');
+      else pass(phone);
+
+      const vMsg = msg.value.trim();
+      if(vMsg.length < 1 || vMsg.length > 500) fail(msg, '留言内容不能为空，且不超过 500 字');
+      else pass(msg);
+
+      const vCap = cap.value.trim();
+      if(vCap.length !== 4 || vCap.toUpperCase() !== 'M8A2') fail(cap, '验证码错误，请重新输入');
+      else pass(cap);
+
+      if(ok){
+        const tip = document.createElement('div');
+        tip.id = 'submitOk';
+        tip.style.cssText = 'margin-top:20px;padding:14px 18px;background:var(--cream);border:1px solid var(--cream-deep);border-radius:var(--radius);color:var(--brown-deep);font-size:13px;letter-spacing:.08em;text-align:center';
+        tip.textContent = '提交成功，我们会尽快与您联系';
+        form.appendChild(tip);
+        form.reset();
+        setTimeout(()=>{ const t = document.getElementById('submitOk'); if(t) t.remove(); }, 4000);
+      }
+    });
+  });
+
+  // initial state: hide footer on admin pages
+  document.querySelectorAll('.admin-login, .admin-layout').forEach(el=>{
+    if(el) document.getElementById('global-footer').style.display = 'none';
+  });
+
+  // ========== 退出登录：返回前台首页 ==========
+  function logout(){
+    go('home');
+  }
+
+  // ========== Modal 弹窗控制 ==========
+  function openModal(id){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  // ESC 关闭
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){
+      document.querySelectorAll('.modal-mask.open').forEach(m=>m.classList.remove('open'));
+      document.body.style.overflow = '';
+    }
+  });
+
+  // ========== 蛋糕展示：分类筛选 + 分页（PRD §6.2.3 F2-1/F2-2/F2-3） ==========
+  const PAGE_SIZE = 12; // 每页 12 个产品（PRD）
+  const cakeGrid = document.getElementById('cakeGrid');
+  const cakePager = document.getElementById('cakePager');
+  const cakeEmpty = document.getElementById('cakeEmpty');
+  const allCards = cakeGrid ? Array.from(cakeGrid.querySelectorAll('.cake-card')) : [];
+  let currentCat = 'all';
+  let currentPage = 1;
+
+  function getVisibleCards(){
+    if(currentCat === 'all') return allCards;
+    return allCards.filter(c => c.dataset.cat === currentCat);
+  }
+
+  function renderPaging(){
+    if(!cakePager) return;
+    const total = getVisibleCards().length;
+    const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    if(currentPage > totalPages) currentPage = totalPages;
+    const html = [];
+    html.push('<button class="btn-sm' + (currentPage === 1 ? '" disabled style="padding:10px 18px;opacity:.4;cursor:not-allowed' : '" style="padding:10px 18px') + '" data-pg="prev">‹ 上一页</button>');
+    for(let i=1;i<=totalPages;i++){
+      const on = i === currentPage ? ' primary' : '';
+      html.push('<button class="btn-sm' + on + '" style="padding:10px 16px" data-pg="' + i + '">' + i + '</button>');
+    }
+    html.push('<button class="btn-sm' + (currentPage === totalPages ? '" disabled style="padding:10px 18px;opacity:.4;cursor:not-allowed' : '" style="padding:10px 18px') + '" data-pg="next">下一页 ›</button>');
+    cakePager.innerHTML = html.join('');
+  }
+
+  function renderGrid(){
+    if(!cakeGrid) return;
+    const cards = getVisibleCards();
+    const total = cards.length;
+    const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    if(currentPage > totalPages) currentPage = totalPages;
+    const startIdx = (currentPage - 1) * PAGE_SIZE;
+    const endIdx = startIdx + PAGE_SIZE;
+    allCards.forEach(card => { card.style.display = 'none'; });
+    cards.slice(startIdx, endIdx).forEach(card => { card.style.display = ''; });
+    // 空状态：当前分类下没有任何产品
+    if(cakeEmpty){
+      if(total === 0){
+        cakeGrid.style.display = 'none';
+        cakeEmpty.style.display = 'block';
+        if(cakePager) cakePager.style.display = 'none';
+      }else{
+        cakeGrid.style.display = '';
+        cakeEmpty.style.display = 'none';
+        if(cakePager) cakePager.style.display = '';
+      }
+    }
+    renderPaging();
+  }
+
+  document.querySelectorAll('.cakes-sidebar li a').forEach(a=>{
+    a.addEventListener('click',()=>{
+      document.querySelectorAll('.cakes-sidebar li a').forEach(x=>x.classList.remove('active'));
+      a.classList.add('active');
+      currentCat = a.dataset.cat;
+      currentPage = 1;
+      const head = document.querySelector('.cakes-main-head .current-cat');
+      if(head){
+        const name = a.textContent.trim().split(/\s+/)[0];
+        head.innerHTML = '<em>' + currentCat + '</em>' + name;
+      }
+      renderGrid();
+    });
+  });
+
+  if(cakePager){
+    cakePager.addEventListener('click', e=>{
+      const btn = e.target.closest('[data-pg]');
+      if(!btn || btn.disabled) return;
+      const v = btn.dataset.pg;
+      const total = getVisibleCards().length;
+      const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      if(v === 'prev'){ if(currentPage > 1) currentPage--; }
+      else if(v === 'next'){ if(currentPage < totalPages) currentPage++; }
+      else { currentPage = parseInt(v,10) || 1; }
+      renderGrid();
+      // 滚动到产品区上方（可选）
+      const main = document.querySelector('.cakes-main-head');
+      if(main){ window.scrollTo({top: main.getBoundingClientRect().top + window.scrollY - 100, behavior:'smooth'}); }
+    });
+  }
+
+  // 初次渲染
+  renderGrid();
+
+  // ========== Anchor Scroll (within About page) ==========
+  function scrollAnchor(target){
+    const mapping = {'brand-story':'anchor-story','brand-value':'anchor-value','brand-chars':'anchor-chars'};
+    const el = document.getElementById(mapping[target]);
+    if(el){
+      go('about');
+      setTimeout(()=>{
+        const top = el.getBoundingClientRect().top + window.scrollY - 130;
+        window.scrollTo({top,behavior:'smooth'});
+      },80);
+    }
+  }
+
+  // ========== Filter tabs (UX only) ==========
+  document.querySelectorAll('.filter-bar').forEach(bar=>{
+    bar.querySelectorAll('a').forEach(t=>{
+      t.addEventListener('click',()=>{
+        bar.querySelectorAll('a').forEach(x=>x.classList.remove('active'));
+        t.classList.add('active');
+      });
+    });
+  });
+
+  // ========== Admin sidebar nav highlight ==========
+  document.querySelectorAll('.admin-menu li a').forEach(a=>{
+    if(a.classList.contains('active')) a.style.color = 'var(--brown)';
+  });
+</script>
+
+</body>
+</html>

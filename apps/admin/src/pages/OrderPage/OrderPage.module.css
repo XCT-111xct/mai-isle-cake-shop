@@ -1,0 +1,125 @@
+/* ============================================================
+   文件功能：订单管理页样式（UI-UX §6.4）
+   ============================================================ */
+
+.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+
+.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.toolRight { display: flex; gap: 12px; align-items: center; }
+
+.orderNo { font-weight: 600; }
+
+.phone { font-family: var(--font-sans); color: var(--ink-soft); }
+
+.spec { color: var(--ink-mute); font-size: 12px; margin-left: 2px; }
+
+.amount { font-family: var(--font-en); font-style: italic; color: var(--brown-deep); }
+
+.time { color: var(--ink-mute); font-size: 12px; }
+
+.ops { display: flex; gap: 2px; white-space: nowrap; }
+
+/* ---------- 状态机示意条 ---------- */
+.machineBar {
+  margin-top: 28px;
+  background: var(--bg-soft);
+  border-radius: var(--radius-lg);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.machineLabel { font-family: var(--font-sans); font-size: 12px; letter-spacing: 0.14em; color: var(--ink-mute); }
+
+.machineFlow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.machineStep {
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+  background: var(--badge-pending-bg, #f0e1b9);
+  color: var(--badge-pending-text, #6b5a47);
+  font-size: 12px;
+}
+
+.machineArrow { color: var(--khaki); font-size: 14px; }
+
+.machineDivider { color: var(--line); }
+
+.machineNote { font-size: 12px; color: var(--ink-mute); margin-left: auto; }
+
+/* ---------- 详情 ---------- */
+.detailGrid { display: flex; flex-direction: column; }
+
+.detailRow { display: flex; gap: 20px; padding: 11px 0; border-bottom: 1px solid var(--line-soft); font-size: 14px; }
+
+.detailRow:last-child { border-bottom: none; }
+
+.detailLabel { width: 90px; flex-shrink: 0; color: var(--ink-mute); font-size: 13px; }
+
+.detailValue { color: var(--ink); word-break: break-all; }
+
+.detailValueBold { font-family: var(--font-en); font-style: italic; font-size: 17px; color: var(--brown-deep); }
+
+/* ---------- 弹窗 ---------- */
+.formRow2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-base);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--ink);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input:focus { outline: none; border-color: var(--brown); box-shadow: 0 0 0 3px rgba(139, 111, 82, 0.12); }
+
+.inputError { border-color: var(--danger); }
+
+.pickupRow { display: flex; gap: 10px; }
+
+.pickupBtn {
+  flex: 1;
+  padding: 10px 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  color: var(--ink-soft);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.pickupActive { border-color: var(--brown); color: var(--brown); background: var(--bg-soft); font-weight: 500; }
+
+/* 金额区（cream 底） */
+.amountBox {
+  background: var(--cream);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.amountLabel { font-size: 12px; color: var(--ink-soft); letter-spacing: 0.04em; }
+
+.amountValue { font-family: var(--font-en); font-style: italic; font-size: 36px; color: var(--brown-deep); }
+
+/* ============================================================
+   响应式
+   ============================================================ */
+@media (max-width: 640px) {
+  .formRow2 { grid-template-columns: 1fr; }
+  .toolbar { flex-direction: column; align-items: stretch; }
+  .toolRight { flex-direction: column; align-items: stretch; }
+  .machineNote { margin-left: 0; width: 100%; }
+}

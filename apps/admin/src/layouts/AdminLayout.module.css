@@ -1,0 +1,156 @@
+/* ============================================================
+   文件功能：后台布局样式（UI-UX §6.0）
+   ============================================================ */
+
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+/* ---------- 侧边栏 ---------- */
+.sidebar {
+  background: var(--bg-card);
+  border-right: 1px solid var(--line-soft);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+}
+
+/* Logo 区 */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px 26px;
+  border-bottom: 1px solid var(--line-soft);
+  margin-bottom: 18px;
+}
+
+.logoMark {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  background: var(--bg-card);
+}
+
+.logoText { display: flex; flex-direction: column; line-height: 1.3; }
+
+.logoZh { font-size: 17px; letter-spacing: 0.14em; font-weight: 600; }
+
+.logoEn {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  letter-spacing: 0.34em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+
+/* 菜单 */
+.nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-radius: var(--radius);
+  position: relative;
+  transition: background 0.25s, color 0.25s;
+}
+
+.navItem:hover { background: var(--bg-soft); }
+
+/* 当前项：bg-soft 底 + brown 字 + 左侧 3px 竖线指示 */
+.navActive {
+  background: var(--bg-soft);
+  color: var(--brown);
+  font-weight: 500;
+}
+
+.navActive::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 20%;
+  bottom: 20%;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--brown);
+}
+
+.menuIcon { flex-shrink: 0; }
+
+/* 底部用户 */
+.footer { border-top: 1px solid var(--line-soft); padding-top: 16px; }
+
+.userRow { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--khaki), var(--brown));
+  color: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.userInfo { display: flex; flex-direction: column; line-height: 1.4; }
+
+.userName { font-size: 14px; letter-spacing: 0.04em; }
+
+.userRole { font-family: var(--font-sans); font-size: 11px; color: var(--ink-mute); }
+
+.logoutBtn {
+  width: 100%;
+  padding: 9px 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: none;
+  color: var(--ink-soft);
+  font-family: var(--font-serif);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.logoutBtn:hover { border-color: var(--brown); color: var(--brown); }
+
+/* ---------- 主区 ---------- */
+.main {
+  padding: 48px 56px;
+  min-width: 0; /* 防止表格撑破布局 */
+  background: var(--bg-base);
+}
+
+/* ============================================================
+   响应式：≤980px 侧边栏折叠为顶部静态区块
+   ============================================================ */
+@media (max-width: 980px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: static;
+    height: auto;
+    padding: 14px 16px;
+  }
+  .logo { padding: 0 8px 14px; margin-bottom: 10px; }
+  .nav { flex-direction: row; overflow-x: auto; gap: 6px; padding-bottom: 8px; }
+  .navItem { white-space: nowrap; padding: 10px 14px; }
+  .navActive::before { display: none; }
+  .footer { border-top: none; padding-top: 8px; }
+  .userRow { margin-bottom: 0; }
+  .main { padding: 32px 24px; }
+}

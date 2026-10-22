@@ -1,0 +1,68 @@
+# ============================================================
+# 文件功能：Git 忽略规则
+# 原则：只要"换台机器能重新生成"或"机器本地才有"的东西，都不入库。
+#       反过来说，只要"别人 clone 下来必须拿到才能跑起来"的东西，就必须入库。
+# ============================================================
+
+# ===== 依赖（装一次就有，不用传）=====
+node_modules/
+.npm-cache/
+
+# ===== 前端构建产物（源码在，npm run build 可重现）=====
+# 想让它进仓库时单独执行：git add -f apps/web/dist
+apps/web/dist/
+apps/admin/dist/
+
+# ===== Vite 构建临时文件（进程崩溃时残留，纯垃圾）=====
+*.timestamp-*.mjs
+*.timestamp-*.js
+
+# ===== Python 后端本地环境 =====
+server/.venv/
+server/__pycache__/
+server/.pytest_cache/
+__pycache__/
+
+# ===== 运行日志 =====
+*.log
+
+# ===== 测试残留（pytest 上传用例每次都会生成新的空文件，不入库）=====
+server/uploads/cakes/cake_*.jpg
+server/uploads/cakes/x_*.png
+
+# 说明：server/uploads/ 下的正式图片【必须入库】。
+#   数据库里 cake.image_url / store.image_url / banner 共 15 处引用了这些文件，
+#   它们不入库的话，别人 clone 下来首页就是满屏裂图。图片已全部转成 WebP（26MB → 1.4MB）。
+
+# ===== AI 生图原始素材（体积大，且已有压缩后的成品在 uploads / public）=====
+# 这里是 17 张 1024px 原始 PNG，共 23MB。成品图已转 WebP 上传到对应目录，
+# 原始素材保留在本地作二次加工用，不入库。
+assets/generated/
+
+# ===== WorkBuddy 本地数据（不是项目代码）=====
+.workbuddy/
+
+# ===== 调试/测试残留的垃圾文件 =====
+acl_log.txt
+diag*.txt
+*_log.txt
+del_progress.txt
+write_test_*.txt
+__test_del__.txt
+mv_log.txt
+port_*.txt
+kill_log*.txt
+
+# ===== 验证截图（可重新生成，可选）=====
+屏幕截图*.png
+截图/
+verify/
+
+# ===== 个人材料（不属于项目交付物，不必公开）=====
+麦屿手作-简历项目经历.md
+
+# ===== 密钥（保险起见，永远别传）=====
+.env
+# 但"配置项样例"文件必须传，否则别人拿到项目不知道要配哪些变量
+!.env.example
+!server/.env.example

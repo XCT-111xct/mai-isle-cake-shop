@@ -1,0 +1,40 @@
+// ============================================================
+// 文件功能：TypeScript 编译配置（前台官网）
+// 作用：
+//   1. 告诉 TypeScript 编译器项目里有哪些源文件、编译成什么规范
+//   2. target: 编译成 ES2020 规范（现代浏览器都支持）
+//   3. jsx: "react-jsx" 表示使用 React 17+ 的新 JSX 转换（无需手动 import React）
+//   4. 开启严格模式（strict），让类型检查更严格，提前发现错误
+// ============================================================
+
+{
+  "compilerOptions": {
+    // 编译目标：ES2020（async/await、可选链等语法都能用）
+    "target": "ES2020",
+    // 模块系统：ESModule（配合 Vite 使用）
+    "module": "ESNext",
+    // 使用新的 JSX 转换方式（React 17+）
+    "jsx": "react-jsx",
+    // 允许 import 时省略 .ts/.tsx 后缀
+    "moduleResolution": "bundler",
+    // 严格模式：null/undefined 检查、隐式 any 检查等全部开启
+    "strict": true,
+    // 不生成编译后的 .js 文件（Vite 自己处理打包，TS 只做类型检查）
+    "noEmit": true,
+    // 允许从 JSON 文件导入数据
+    "resolveJsonModule": true,
+    // 允许 import 使用 .js 后缀（某些库的写法兼容）
+    "allowImportingTsExtensions": true,
+    // 跳过 node_modules 里的类型检查，加快编译速度
+    "skipLibCheck": true,
+    // 让 Vite 的 import.meta.env 有类型提示
+    "types": ["vite/client"],
+    // 定义 import 的路径别名：@/ 指向 src/ 目录（需要配合 vite.config 里的 alias 使用）
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  // 参与编译的文件范围：src 下所有文件
+  "include": ["src"]
+}

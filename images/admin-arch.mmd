@@ -1,0 +1,35 @@
+flowchart TB
+    subgraph ADMIN["后台管理 React 应用（apps/admin · admin.mai-isle.com）"]
+        direction TB
+        subgraph AU["认证模块"]
+            direction LR
+            AU1["登录页 LoginPage"]
+            AU2["AuthContext<br/>登录态 Context"]
+            AU3["路由守卫<br/>权限守卫 RequireSuper"]
+        end
+        subgraph BP["业务页面模块 pages/"]
+            direction LR
+            BP1["仪表盘<br/>DashboardPage"]
+            BP2["商品管理<br/>ProductPage"]
+            BP3["订单管理<br/>OrderPage"]
+            BP4["门店管理<br/>StoreManagePage"]
+            BP5["内容管理<br/>ContentPage"]
+            BP6["留言管理<br/>MessagePage"]
+            BP7["管理员管理<br/>UserPage · 仅超管"]
+        end
+        subgraph BF["框架与通用组件模块"]
+            direction LR
+            BF1["Sidebar 侧边栏<br/>按角色渲染菜单"]
+            BF2["Table · Modal · Switch<br/>Upload · StatusBadge · Tag"]
+        end
+        subgraph BA["API 层 api/"]
+            direction LR
+            BA1["client.ts<br/>Bearer Token 拦截器"]
+            BA2["auth · cake · order<br/>store · content · user"]
+        end
+    end
+    BP --> BF
+    BP --> AU
+    BF --> BA
+    BA --> AU
+    BA -->|"HTTP + JSON + JWT"| BBE["FastAPI 后端<br/>/api/v1/admin 后台接口"]

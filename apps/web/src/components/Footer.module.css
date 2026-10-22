@@ -1,0 +1,144 @@
+/* ============================================================
+   文件功能：页脚样式（UI-UX §5.0）
+   ============================================================ */
+
+.footer {
+  background: var(--footer-bg, #6b5238);
+  color: rgba(255, 252, 246, 0.85);
+  margin-top: 0;
+  /* 顶部 3px 渐变线：cream → khaki → cream */
+  border-top: 3px solid;
+  border-image: linear-gradient(90deg, var(--cream), var(--khaki), var(--cream)) 1;
+}
+
+.inner {
+  max-width: var(--wrap, 1280px);
+  margin: 0 auto;
+  padding: 80px 40px 36px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+
+/* ---------- 品牌区 ---------- */
+.brandLogo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.brandMark {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--khaki), var(--brown));
+  color: var(--bg-card);
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brandName {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+  font-size: 18px;
+  letter-spacing: 0.2em;
+  color: var(--bg-card);
+}
+
+.brandEn {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 12px;
+  letter-spacing: 0.4em;
+  color: var(--cream);
+}
+
+.brandSlogan {
+  font-size: 14px;
+  line-height: 1.9;
+  color: rgba(255, 252, 246, 0.7);
+  margin-bottom: 22px;
+}
+
+.socials { display: flex; gap: 12px; }
+
+.social {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(255, 252, 246, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: rgba(255, 252, 246, 0.8);
+  cursor: default;
+  transition: background 0.3s, color 0.3s;
+}
+
+.social:hover { background: var(--cream); color: var(--brown-deep); }
+
+/* ---------- 通用栏 ---------- */
+.colTitle {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  color: var(--cream);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.colList { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+
+.colList a {
+  color: rgba(255, 252, 246, 0.75);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  transition: color 0.3s;
+}
+
+.colList a:hover { color: var(--cream); }
+
+.colList li { font-size: 14px; color: rgba(255, 252, 246, 0.75); letter-spacing: 0.06em; }
+
+.colLabel {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: rgba(255, 252, 246, 0.45);
+  margin-bottom: 2px;
+}
+
+/* ---------- 版权条 ---------- */
+.copyright {
+  border-top: 1px solid rgba(255, 252, 246, 0.15);
+  padding: 22px 40px;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 252, 246, 0.45);
+}
+
+/* ============================================================
+   响应式
+   ============================================================ */
+@media (max-width: 980px) {
+  .inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 60px 24px 32px;
+  }
+  .copyright { padding: 18px 24px; }
+}
+
+@media (max-width: 640px) {
+  .inner { grid-template-columns: 1fr; gap: 32px; }
+}

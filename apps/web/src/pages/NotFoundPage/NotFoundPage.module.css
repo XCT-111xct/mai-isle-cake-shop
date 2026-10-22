@@ -1,0 +1,36 @@
+/* 404 页面样式 */
+.wrap {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.code {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 88px;
+  color: var(--khaki);
+  margin: 0;
+}
+
+.title { font-size: 28px; margin: 8px 0 10px; letter-spacing: 0.1em; }
+
+.desc { color: var(--ink-soft); margin-bottom: 28px; }
+
+.home {
+  display: inline-block;
+  padding: 12px 36px;
+  background: var(--brown);
+  color: var(--bg-card);
+  border-radius: var(--radius);
+  text-decoration: none;
+  letter-spacing: 0.12em;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.home:hover { background: var(--brown-deep); }

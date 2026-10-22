@@ -1,0 +1,145 @@
+/* ============================================================
+   文件功能：内容管理页样式（UI-UX §6.6）
+   ============================================================ */
+
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  padding: 24px 26px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.cardHead { display: flex; gap: 14px; align-items: flex-start; }
+
+.cardNo {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--khaki);
+  flex-shrink: 0;
+  min-width: 30px;
+}
+
+.cardTitle { font-size: 17px; margin: 0 0 6px; letter-spacing: 0.04em; }
+
+.cardDesc { font-size: 12px; color: var(--ink-mute); margin: 0; line-height: 1.6; }
+
+.badge {
+  flex-shrink: 0;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.badgeDone { background: var(--badge-completed-bg, #d2ddd9); color: var(--badge-completed-text, #3f5a56); }
+.badgeNew { background: var(--badge-pending-bg, #f0e1b9); color: var(--badge-pending-text, #6b5a47); }
+
+.cardActions { flex-shrink: 0; }
+
+/* ---------- 编辑器通用 ---------- */
+.formCol { display: flex; flex-direction: column; }
+
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-base);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--ink);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input:focus { outline: none; border-color: var(--brown); box-shadow: 0 0 0 3px rgba(139, 111, 82, 0.12); }
+
+.mdArea { resize: vertical; min-height: 260px; line-height: 1.8; font-family: var(--font-sans); }
+
+.help { font-size: 12px; color: var(--ink-mute); margin: 0 0 12px; line-height: 1.7; }
+
+.count { font-size: 12px; color: var(--ink-mute); text-align: right; margin: 6px 0 0; }
+
+.emptyHint { font-size: 13px; color: var(--ink-mute); background: var(--bg-soft); border-radius: var(--radius); padding: 14px 16px; }
+
+.subTitle { font-size: 15px; margin: 20px 0 12px; letter-spacing: 0.06em; border-left: 3px solid var(--brown); padding-left: 10px; }
+.subTitle:first-child { margin-top: 0; }
+
+/* ---------- Banner 行 ---------- */
+.bannerRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.bannerIndex { font-family: var(--font-en); font-style: italic; font-size: 16px; color: var(--brown); flex-shrink: 0; padding-top: 4px; }
+
+.bannerFields { display: flex; gap: 16px; flex: 1; min-width: 0; }
+
+.bannerText { flex: 1; min-width: 0; }
+
+.bannerDel {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: none;
+  color: var(--ink-mute);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.25s;
+}
+
+.bannerDel:hover { border-color: var(--danger); color: var(--danger); }
+
+/* ---------- 条目行 ---------- */
+.itemRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.itemFields { flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+
+.itemDel {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: none;
+  color: var(--ink-mute);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.25s;
+}
+
+.itemDel:hover { border-color: var(--danger); color: var(--danger); }
+
+/* ============================================================
+   响应式
+   ============================================================ */
+@media (max-width: 1180px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .bannerFields { flex-direction: column; }
+  .card { flex-direction: column; }
+}

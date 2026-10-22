@@ -1,0 +1,82 @@
+erDiagram
+    ADMIN_USER ||--o{ ORDERS : "录入"
+    CATEGORY ||--o{ CAKE : "包含"
+    CAKE ||--|{ CAKE_SPEC : "多规格"
+    CAKE ||--o{ ORDERS : "被订购(快照)"
+
+    ADMIN_USER {
+        int id PK
+        string username UK
+        string name
+        string password_hash
+        string role "super|ops"
+        int is_active
+        int failed_attempts
+        datetime locked_until
+        datetime last_login_at
+        datetime created_at
+    }
+    CATEGORY {
+        int id PK
+        string name UK
+        int sort_order
+        datetime created_at
+    }
+    CAKE {
+        int id PK
+        string name UK
+        int category_id FK
+        string description
+        string image_url
+        int is_featured
+        int is_active
+        int sort_order
+        datetime created_at
+        datetime updated_at
+    }
+    CAKE_SPEC {
+        int id PK
+        int cake_id FK
+        string name
+        decimal price
+        int sort_order
+    }
+    ORDERS {
+        int id PK
+        string order_no UK
+        string customer_name
+        string customer_phone
+        string cake_snapshot "JSON快照"
+        int quantity
+        decimal amount
+        string pickup_type "self|delivery"
+        string delivery_address
+        string custom_note
+        string remark
+        string status "pending|confirmed|completed|cancelled"
+        datetime created_at
+    }
+    STORE {
+        int id PK
+        string name
+        string address
+        string phone
+        string hours
+        int sort_order
+        int is_active
+        datetime created_at
+    }
+    MESSAGE {
+        int id PK
+        string name
+        string phone
+        string content
+        string status "pending|done"
+        datetime created_at
+    }
+    CONTENT {
+        int id PK
+        string key UK
+        string value "JSON或Markdown"
+        datetime updated_at
+    }

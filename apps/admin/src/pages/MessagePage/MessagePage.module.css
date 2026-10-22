@@ -1,0 +1,36 @@
+/* ============================================================
+   文件功能：留言管理页样式（UI-UX §6.7）
+   ============================================================ */
+
+.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+
+.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.toolRight { display: flex; gap: 12px; align-items: center; }
+
+.phone { font-family: var(--font-sans); color: var(--ink-soft); }
+
+.preview { max-width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; vertical-align: bottom; }
+
+.time { color: var(--ink-mute); font-size: 12px; }
+
+.ops { display: flex; gap: 2px; white-space: nowrap; }
+
+.detail { display: flex; flex-direction: column; }
+
+.detailRow { display: flex; gap: 20px; padding: 11px 0; border-bottom: 1px solid var(--line-soft); font-size: 14px; }
+
+.detailLabel { width: 90px; flex-shrink: 0; color: var(--ink-mute); font-size: 13px; }
+
+.detailContent { padding: 14px 0 4px; }
+
+.detailText {
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  font-size: 14px;
+  line-height: 1.9;
+  margin: 10px 0 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
