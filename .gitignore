@@ -26,6 +26,10 @@ __pycache__/
 # ===== 运行日志 =====
 *.log
 
+# ===== 数据库临时备份（改数据前手工备份用，验证通过后应删除）=====
+*.db.bak*
+*.bak_before_*
+
 # ===== 测试残留（pytest 上传用例每次都会生成新的空文件，不入库）=====
 server/uploads/cakes/cake_*.jpg
 server/uploads/cakes/x_*.png
