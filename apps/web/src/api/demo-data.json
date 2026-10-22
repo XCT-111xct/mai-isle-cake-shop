@@ -1,0 +1,414 @@
+{
+ "_comment": "由 tools/export_demo_data.py 从 database/mai_isle.db 导出，仅供静态演示使用",
+ "categories": [
+  {
+   "id": 1,
+   "name": "红丝绒系列",
+   "count": 1
+  },
+  {
+   "id": 2,
+   "name": "慕斯系列",
+   "count": 2
+  },
+  {
+   "id": 3,
+   "name": "芝士系列",
+   "count": 1
+  },
+  {
+   "id": 4,
+   "name": "抹茶系列",
+   "count": 1
+  },
+  {
+   "id": 5,
+   "name": "巧克力系列",
+   "count": 1
+  },
+  {
+   "id": 6,
+   "name": "水果系列",
+   "count": 2
+  },
+  {
+   "id": 7,
+   "name": "翻糖系列",
+   "count": 1
+  },
+  {
+   "id": 8,
+   "name": "节日限定",
+   "count": 1
+  }
+ ],
+ "cakes": [
+  {
+   "id": 9,
+   "name": "草莓蛋糕",
+   "category_id": 6,
+   "category": "水果系列",
+   "description": "当季新鲜草莓与轻盈奶油的双重奏，酸甜多汁的草莓果肉夹层，入口清爽，甜而不腻。",
+   "image_url": "/uploads/cakes/strawberry_cake.webp",
+   "specs": [
+    {
+     "name": "6寸",
+     "price": 168.0
+    },
+    {
+     "name": "8寸",
+     "price": 258.0
+    }
+   ],
+   "price_from": 168.0,
+   "is_featured": false,
+   "is_active": true,
+   "sort_order": 1,
+   "created_at": "2026-08-27 14:21:58.515204"
+  },
+  {
+   "id": 8,
+   "name": "圣诞限定款",
+   "category_id": 8,
+   "category": "节日限定",
+   "description": "每年圣诞限时供应，雪顶造型与热红酒风味。",
+   "image_url": "/uploads/cakes/christmas_limited.webp",
+   "specs": [
+    {
+     "name": "6 寸",
+     "price": 268.0
+    },
+    {
+     "name": "8 寸",
+     "price": 348.0
+    }
+   ],
+   "price_from": 268.0,
+   "is_featured": false,
+   "is_active": true,
+   "sort_order": 1,
+   "created_at": "2026-08-27 10:24:14.561231"
+  },
+  {
+   "id": 2,
+   "name": "经典芝士蛋糕",
+   "category_id": 3,
+   "category": "芝士系列",
+   "description": "法式重芝士，细腻绵密，搭配酥脆饼底，经典永不过时。",
+   "image_url": "/uploads/cakes/cheesecake_classic.webp",
+   "specs": [
+    {
+     "name": "6 寸",
+     "price": 178.0
+    },
+    {
+     "name": "8 寸",
+     "price": 238.0
+    }
+   ],
+   "price_from": 178.0,
+   "is_featured": true,
+   "is_active": true,
+   "sort_order": 1,
+   "created_at": "2026-08-27 10:23:49.799428"
+  },
+  {
+   "id": 1,
+   "name": "醇香红丝绒",
+   "category_id": 1,
+   "category": "红丝绒系列",
+   "description": "比利时可可与马达加斯加香草的曼妙碰撞，绵密红丝绒蛋糕体，入口丝滑，回味悠长。",
+   "image_url": "/uploads/cakes/red_velvet.webp",
+   "specs": [
+    {
+     "name": "6 寸",
+     "price": 168.0
+    },
+    {
+     "name": "8 寸",
+     "price": 228.0
+    },
+    {
+     "name": "10 寸",
+     "price": 288.0
+    }
+   ],
+   "price_from": 168.0,
+   "is_featured": true,
+   "is_active": true,
+   "sort_order": 1,
+   "created_at": "2026-08-27 10:23:45.652016"
+  },
+  {
+   "id": 3,
+   "name": "抹茶千层",
+   "category_id": 4,
+   "category": "抹茶系列",
+   "description": "宇治抹茶与动物奶油的层层交叠，微苦回甘，清新不腻。",
+   "image_url": "/uploads/cakes/matcha_mille_crepe.webp",
+   "specs": [
+    {
+     "name": "6 寸",
+     "price": 198.0
+    },
+    {
+     "name": "8 寸",
+     "price": 268.0
+    }
+   ],
+   "price_from": 198.0,
+   "is_featured": true,
+   "is_active": true,
+   "sort_order": 2,
+   "created_at": "2026-08-27 10:23:53.934808"
+  },
+  {
+   "id": 4,
+   "name": "黑森林巧克力",
+   "category_id": 5,
+   "category": "巧克力系列",
+   "description": "70% 黑巧与车厘子的经典组合，浓郁醇厚。",
+   "image_url": "/uploads/cakes/black_forest_chocolate.webp",
+   "specs": [
+    {
+     "name": "6 寸",
+     "price": 188.0
+    },
+    {
+     "name": "8 寸",
+     "price": 258.0
+    }
+   ],
+   "price_from": 188.0,
+   "is_featured": true,
+   "is_active": true,
+   "sort_order": 3,
+   "created_at": "2026-08-27 10:23:58.064398"
+  },
+  {
+   "id": 5,
+   "name": "草莓奶油蛋糕",
+   "category_id": 6,
+   "category": "水果系列",
+   "description": "当季草莓与轻盈奶油，清爽的少女心之选。",
+   "image_url": "/uploads/cakes/strawberry_cream.webp",
+   "specs": [
+    {
+     "name": "6 寸",
+     "price": 158.0
+    },
+    {
+     "name": "8 寸",
+     "price": 218.0
+    }
+   ],
+   "price_from": 158.0,
+   "is_featured": false,
+   "is_active": true,
+   "sort_order": 4,
+   "created_at": "2026-08-27 10:24:02.201930"
+  },
+  {
+   "id": 6,
+   "name": "芒果慕斯",
+   "category_id": 2,
+   "category": "慕斯系列",
+   "description": "新鲜芒果果肉与慕斯的绵密结合，热带风情。",
+   "image_url": "/uploads/cakes/mango_mousse.webp",
+   "specs": [
+    {
+     "name": "6 寸",
+     "price": 168.0
+    },
+    {
+     "name": "8 寸",
+     "price": 228.0
+    }
+   ],
+   "price_from": 168.0,
+   "is_featured": false,
+   "is_active": true,
+   "sort_order": 5,
+   "created_at": "2026-08-27 10:24:06.349707"
+  },
+  {
+   "id": 7,
+   "name": "节日翻糖礼盒",
+   "category_id": 7,
+   "category": "翻糖系列",
+   "description": "可定制图案的翻糖蛋糕，节日送礼首选。",
+   "image_url": "/uploads/cakes/fondant_gift_box.webp",
+   "specs": [
+    {
+     "name": "小盒",
+     "price": 258.0
+    },
+    {
+     "name": "大盒",
+     "price": 388.0
+    }
+   ],
+   "price_from": 258.0,
+   "is_featured": false,
+   "is_active": true,
+   "sort_order": 6,
+   "created_at": "2026-08-27 10:24:10.445367"
+  },
+  {
+   "id": 10,
+   "name": "黑森林慕斯",
+   "category_id": 2,
+   "category": "慕斯系列",
+   "description": "黑巧克力慕斯与酒渍樱桃的经典融合，绵密丝滑的慕斯口感，可可香气醇厚悠长。",
+   "image_url": "/uploads/cakes/black_forest_mousse.webp",
+   "specs": [
+    {
+     "name": "6寸",
+     "price": 145.0
+    },
+    {
+     "name": "8寸",
+     "price": 240.0
+    }
+   ],
+   "price_from": 145.0,
+   "is_featured": false,
+   "is_active": true,
+   "sort_order": 10,
+   "created_at": "2026-08-27 14:26:23.366345"
+  }
+ ],
+ "stores": [
+  {
+   "id": 1,
+   "name": "联洋店",
+   "address": "上海市浦东新区迎春路 767 号",
+   "phone": "021-58388761",
+   "hours": "08:00-21:00",
+   "image_url": "/uploads/stores/store_lianyang.webp"
+  },
+  {
+   "id": 2,
+   "name": "静安嘉里店",
+   "address": "上海市静安区南京西路 1515 号",
+   "phone": "021-62896666",
+   "hours": "09:00-22:00",
+   "image_url": "/uploads/stores/store_jingan.webp"
+  },
+  {
+   "id": 3,
+   "name": "徐汇滨江店",
+   "address": "上海市徐汇区龙腾大道 3399 号",
+   "phone": "021-64876677",
+   "hours": "09:00-21:30",
+   "image_url": "/uploads/stores/store_xuhui.webp"
+  }
+ ],
+ "contents": {
+  "banners": {
+   "banners": [
+    {
+     "id": 2,
+     "image_url": "/uploads/banners/banner_1.webp",
+     "slogan": "甄选食材，让味道回归本真",
+     "subtitle": "SELECTED INGREDIENTS",
+     "sort_order": 1,
+     "is_active": true
+    },
+    {
+     "id": 1787883333026,
+     "image_url": "/uploads/banners/banner_2.webp",
+     "slogan": "",
+     "subtitle": "",
+     "sort_order": 2,
+     "is_active": true
+    }
+   ]
+  },
+  "brand_story": "城市的节奏总是匆匆，流水线的甜品层出不穷，大多追逐网红爆款与花哨外表，却慢慢丢失了烘焙本身最质朴的味道。\n\n麦屿手作的主理人深耕甜品行业多年，走访多地学习烘焙技艺，尝过无数甜点之后，内心萌生一个想法：想要在喧嚣的城市之中，打造一座专属于甜蜜的小小岛屿。\n\n2020 年，麦屿手作正式诞生。取名“麦屿”，“麦”代表面粉、谷物，是一切烘焙的起点；“屿”寓意一处远离浮躁、安下心打磨甜品的静谧小岛。",
+  "brand_value": "匠，是一种极致之道。\n\n在工业化与规模化的今天，我们仍选择保留手作的方式。因为我们相信：一份蛋糕的温度，来自于双手与时间的共同作用。\n\n无论是面团的揉捏、发酵的时间，还是烘焙的温度，每一道工序都凝聚着手作人对生活方式的回应。\n\n我们希望通过手作，传递一种慢下来的生活方式。",
+  "brand_chars": {
+   "brand_chars": [
+    {
+     "title": "甄选食材 · Selected",
+     "desc": " 选用法国 AOP 黄油、日本日清面粉、京都宇治抹茶等世界优质原料，每一份食材都可追溯源头。"
+    },
+    {
+     "title": "手作工艺 · Handcraft",
+     "desc": " 坚持低温慢发酵、手工揉面、逐个烘焙。不添加防腐剂与人造香精，让食物呈现本真的味道。"
+    },
+    {
+     "title": "服务初心 · Sincere ",
+     "desc": "从下单到送达，每一个环节都由专人跟进。我们希望为您提供的不只是一份蛋糕，更是一份用心。"
+    }
+   ]
+  },
+  "brand_journey": {
+   "brand_journey": [
+    {
+     "year": "2020",
+     "title": " 麦屿手作 · 诞生 ",
+     "desc": "主理人走访多地学习烘焙技艺后，于上海正式创立麦屿手作，首店落地浦东联洋。\"麦\" 是起点，\"屿\" 是归处。"
+    },
+    {
+     "year": "2021",
+     "title": "中央手作工坊建立",
+     "desc": " 自建 1200㎡ 中央手作工坊，所有产品由工坊每日新鲜手作，统一冷链配送至全部门店。"
+    },
+    {
+     "year": "2022",
+     "title": "甄选食材体系",
+     "desc": " 与法国 AOP 奶源、日本日清面粉、京都宇治抹茶建立长期合作，搭建可追溯的食材供应体系。"
+    },
+    {
+     "year": "2024",
+     "title": "门店拓展至 8 家",
+     "desc": " 线下门店覆盖上海、苏州，逐步构建长三角品牌矩阵，\"麦屿\" 成为都市里的一处甜蜜小岛。"
+    },
+    {
+     "year": "2026",
+     "title": "官网 & 数字化运营 ",
+     "desc": "品牌官网与后台管理系统正式上线，开启可持续的品牌数字化运营，让每份甜蜜都能在线上被温柔呈现。"
+    }
+   ]
+  },
+  "hardware": [
+   {
+    "name": "中央冷链配送",
+    "desc": "全程 0-4℃ 冷链配送 自有冷链车队与第三方专业冷链双备份，从工坊到门店全程温控监测，守护每一份新鲜。"
+   },
+   {
+    "name": "独立烘焙车间",
+    "desc": "1200㎡ 中央手作工坊 自建符合食品级 SC 认证的中央工坊，恒温恒湿，全工坊紫外线杀菌 + 二次更衣风淋。"
+   },
+   {
+    "name": "SC 食品生产许可",
+    "desc": " 通过国家 SC 食品生产许可认证，每年接受第三方飞行检查，所有产品投保食品安全责任险。"
+   }
+  ],
+  "software": [
+   {
+    "name": "专业资深手作团队",
+    "desc": " 主厨团队均拥有 10 年以上法式 / 日式烘焙经验，定期前往日本、法国学习进修。"
+   },
+   {
+    "name": "1V1 顾问服务",
+    "desc": " 每位客户配专属甜品顾问，从场景推荐到定制设计全程跟进，承载每一份专属心意。"
+   },
+   {
+    "name": "可追溯服务体系",
+    "desc": " 订单全程可视化追踪，从下单到送达每一步可查，客户反馈 24 小时内响应。"
+   }
+  ],
+  "order_info": {
+   "hotline": "021-XXXXXXX",
+   "hours": "08:00-18:00",
+   "delivery_note": "11 点前订购当日送达 · 市内免费配送"
+  },
+  "contact_info": {
+   "address": "上海市浦东新区迎春路 767 号",
+   "email": "hello@mai-isle.com"
+  },
+  "custom_tips": "支持尺寸/口味/图案/祝福语定制，建议提前 1 天电话预约"
+ }
+}

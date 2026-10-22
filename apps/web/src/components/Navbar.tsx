@@ -65,7 +65,7 @@ export default function Navbar() {
       <div className={styles.inner}>
         {/* ---- Logo ---- */}
         <NavLink to="/" className={styles.logo} aria-label="麦屿手作首页">
-          <img src="/logo.webp" alt="麦屿手作 LOGO" className={styles.logoMark} />
+          <img src={`${import.meta.env.BASE_URL}logo.webp`} alt="麦屿手作 LOGO" className={styles.logoMark} />
           <span className={styles.logoText}>
             <span className={styles.logoZh}>麦屿手作</span>
             <span className={styles.logoEn}>MAI·ISLE</span>

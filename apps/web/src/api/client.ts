@@ -8,12 +8,21 @@
 
 import axios from 'axios'
 import type { ApiResponse } from './types'
+import { IS_DEMO, demoAdapter } from './demoAdapter'
 
 // 创建 axios 实例：所有前台请求统一走这里
 export const client = axios.create({
   baseURL: '/api/v1', // 开发环境经 Vite 代理 → http://localhost:8000/api/v1
   timeout: 10000,     // 10 秒超时，避免请求挂死
 })
+
+// ---------- 演示模式开关 ----------
+// 构建时设 VITE_DEMO=1 即启用：所有请求改由本地数据应答，不访问后端。
+// 用途是部署成"纯静态可浏览版"（GitHub Pages 等），让人不必装环境就能看效果。
+// 正常开发与生产构建时 IS_DEMO 为 false，这一行不会执行，行为与原来完全一致。
+if (IS_DEMO) {
+  client.defaults.adapter = demoAdapter
+}
 
 // ---------- 响应拦截器 ----------
 // 作用：把"业务失败"统一转成 Error 对象，页面代码只需 try/catch

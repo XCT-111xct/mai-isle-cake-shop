@@ -79,7 +79,7 @@ export default function AboutPage() {
                 <div className={styles.markdown}><ReactMarkdown>{story}</ReactMarkdown></div>
               </div>
               <div className={styles.imgCol}>
-                <img src="/brand-story.webp" alt="麦屿手作品牌故事" loading="lazy" />
+                <img src={`${import.meta.env.BASE_URL}brand-story.webp`} alt="麦屿手作品牌故事" loading="lazy" />
               </div>
             </div>
           </div>
@@ -92,7 +92,7 @@ export default function AboutPage() {
           <div className={styles.wrap}>
             <div className={`${styles.split} ${styles.flip}`}>
               <div className={styles.imgCol}>
-                <img src="/brand-value.webp" alt="麦屿手作品牌理念" loading="lazy" />
+                <img src={`${import.meta.env.BASE_URL}brand-value.webp`} alt="麦屿手作品牌理念" loading="lazy" />
                 {/* 漂浮卡片（UI-UX §5.2 品牌理念） */}
                 <div className={styles.floatCard}>
                   <span className={styles.floatEn}>Brand Value</span>
@@ -130,7 +130,7 @@ export default function AboutPage() {
                 ))}
               </div>
               <div className={styles.imgCol}>
-                <img src="/brand-chars.webp" alt="麦屿手作品牌特色" loading="lazy" />
+                <img src={`${import.meta.env.BASE_URL}brand-chars.webp`} alt="麦屿手作品牌特色" loading="lazy" />
               </div>
             </div>
           </div>

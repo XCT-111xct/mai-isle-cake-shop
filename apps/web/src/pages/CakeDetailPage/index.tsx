@@ -75,7 +75,7 @@ export default function CakeDetailPage() {
         <div className={styles.body}>
           {/* 左：产品大图 4:5 */}
           <div className={styles.imgWrap}>
-            <img src={cake.image_url || '/placeholder-cake.svg'} alt={cake.name} />
+            <img src={cake.image_url || `${import.meta.env.BASE_URL}placeholder-cake.svg`} alt={cake.name} />
           </div>
 
           {/* 右：信息区 */}

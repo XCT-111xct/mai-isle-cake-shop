@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     文件功能：GitHub Pages 站点首页（演示版入口）
+     为什么需要这个文件：
+       GitHub Pages 的部署源设为 main 分支的 /docs 目录后，站点根就是 docs/。
+       而演示站的实际产物在 docs/demo/ 里，所以直接访问仓库域名根会 404。
+       这个页面做两件事：① 把人自动送到 demo/ ② 在跳转的一瞬间别让人看到白屏。
+     ============================================================ -->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>麦屿手作 · 品牌官网演示</title>
+  <meta name="description" content="麦屿手作蛋糕店官网（React + TypeScript + FastAPI）在线演示，纯静态免安装。" />
+  <!-- 核心跳转：0 秒后进入 demo/（相对路径，子路径部署也能正确跳） -->
+  <meta http-equiv="refresh" content="0; url=./demo/" />
+  <link rel="icon" href="./demo/favicon-32.png" />
+  <style>
+    :root {
+      --cream: #fdfaf6;      /* 奶油底色，与官网主色一致 */
+      --ink: #3d3226;        /* 正文深棕 */
+      --wood: #8b6f47;       /* 品牌棕 */
+      --line: #e8ddcd;       /* 浅描边 */
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      text-align: center;
+      padding: 24px;
+    }
+    .mark {
+      font-size: 13px;
+      letter-spacing: 0.34em;
+      color: var(--wood);
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+    p {
+      margin: 0;
+      max-width: 30em;
+      line-height: 1.8;
+      font-size: 15px;
+      color: #6b5c4a;
+    }
+    a.enter {
+      display: inline-block;
+      padding: 12px 30px;
+      border: 1px solid var(--wood);
+      border-radius: 999px;
+      color: var(--wood);
+      text-decoration: none;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      transition: background 0.2s, color 0.2s;
+    }
+    a.enter:hover { background: var(--wood); color: var(--cream); }
+    .rule { width: 46px; height: 1px; background: var(--line); }
+  </style>
+</head>
+<body>
+  <div class="mark">Mai&nbsp;Isle</div>
+  <h1>麦屿手作</h1>
+  <div class="rule"></div>
+  <p>正在进入品牌官网演示站……如果没有自动跳转，请点下面的按钮。</p>
+  <a class="enter" href="./demo/">进入演示站</a>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#F0E1B9"/>
+  <!-- 蛋糕主体 -->
+  <rect x="300" y="360" width="200" height="120" rx="10" fill="#8B6F52"/>
+  <rect x="280" y="330" width="240" height="40" rx="8" fill="#C6B291"/>
+  <rect x="310" y="430" width="180" height="50" rx="8" fill="#6B5238"/>
+  <!-- 奶油裱花 -->
+  <circle cx="340" cy="330" r="16" fill="#FBF7F0"/>
+  <circle cx="400" cy="330" r="16" fill="#FBF7F0"/>
+  <circle cx="460" cy="330" r="16" fill="#FBF7F0"/>
+  <!-- 蜡烛 -->
+  <rect x="394" y="250" width="12" height="80" rx="6" fill="#E6D098"/>
+  <circle cx="400" cy="245" r="10" fill="#A32D2D"/>
+  <path d="M400 235 L404 222 L396 222 Z" fill="#F0C419"/>
+  <!-- 文字 -->
+  <text x="400" y="540" text-anchor="middle" font-family="Georgia, serif" font-size="30" fill="#6B5238">麦屿手作 · 图片占位</text>
+  <text x="400" y="570" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="16" letter-spacing="4" fill="#8B6F52">MAI·ISLE</text>
+</svg>

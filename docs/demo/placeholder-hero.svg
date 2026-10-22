@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#2A1F15"/>
+  <!-- 光晕 -->
+  <circle cx="1150" cy="350" r="380" fill="#8B6F52" opacity="0.28"/>
+  <circle cx="1280" cy="520" r="260" fill="#C6B291" opacity="0.18"/>
+  <!-- 蛋糕剪影 -->
+  <rect x="980" y="520" width="340" height="200" rx="16" fill="#3A2A1A"/>
+  <rect x="950" y="480" width="400" height="60" rx="12" fill="#6B5238"/>
+  <circle cx="1060" cy="480" r="22" fill="#FBF7F0" opacity="0.9"/>
+  <circle cx="1220" cy="480" r="22" fill="#FBF7F0" opacity="0.9"/>
+  <text x="1120" y="590" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="54" letter-spacing="6" fill="#F0E1B9">MAI·ISLE</text>
+  <text x="1120" y="650" text-anchor="middle" font-family="Georgia, serif" font-size="26" letter-spacing="10" fill="#C6B291">手作每一份甜蜜</text>
+</svg>

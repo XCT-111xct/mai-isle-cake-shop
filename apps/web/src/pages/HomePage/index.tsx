@@ -79,7 +79,7 @@ export default function HomePage() {
                     <Link to="/about" className={styles.ghostBtn}>了解麦屿</Link>
                   </div>
                   <div className={styles.aboutImg}>
-                    <img src="/brand-story.webp" alt="麦屿手作品牌故事" loading="lazy" />
+                    <img src={`${import.meta.env.BASE_URL}brand-story.webp`} alt="麦屿手作品牌故事" loading="lazy" />
                   </div>
                 </div>
               </div>
@@ -165,7 +165,7 @@ function HeroCarousel({ banners }: { banners: BannerItem[] }) {
     <section className={styles.hero}
       onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
       aria-roledescription="轮播" aria-label="首页轮播">
-      <div className={styles.heroBg} style={{ backgroundImage: `url(${active.image_url || '/placeholder-hero.svg'})` }} />
+      <div className={styles.heroBg} style={{ backgroundImage: `url(${active.image_url || import.meta.env.BASE_URL + 'placeholder-hero.svg'})` }} />
       <div className={styles.heroContent}>
         <p className={styles.heroEyebrow}>SLIDE {String(safeIndex + 1).padStart(2, '0')} · {active.subtitle || 'EST. 2020 SHANGHAI'}</p>
         <h1 className={styles.heroTitle}>{active.slogan || '麦屿手作，手作每一份甜蜜'}</h1>
