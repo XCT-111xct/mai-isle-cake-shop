@@ -5,6 +5,8 @@ import { client } from '@/api/client'
 import type { BannerItem, CakeListItem, OrderInfo, StoreItem } from '@/api/types'
 import CakeCard from '@/components/CakeCard'
 import { SectionHead, Spinner } from '@/components/Common'
+import { useHotline } from '@/hooks/useHotline'
+import { trackHotlineClick } from '@/utils/tracker'
 import styles from './HomePage.module.css'
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -16,6 +18,8 @@ export default function HomePage() {
   const [stores, setStores] = useState<StoreItem[]>([])
   const [orderInfo, setOrderInfo] = useState<OrderInfo | null>(null)
   const [loading, setLoading] = useState(true)
+  // 渠道专属号优先（归因需要），后台订购信息兜底
+  const hotline = useHotline(orderInfo?.hotline)
 
   useEffect(() => {
     Promise.all([
@@ -117,7 +121,15 @@ export default function HomePage() {
                 <div className={styles.orderGrid}>
                   <div className={styles.orderCard}>
                     <p className={styles.orderLabel}>订购专线</p>
-                    <p className={styles.orderValue}>{orderInfo.hotline}</p>
+                    <p className={styles.orderValue}>
+                      <a
+                        href={`tel:${hotline.phone}`}
+                        onClick={() => trackHotlineClick('home_order_section', '/')}
+                        style={{ color: 'inherit', textDecoration: 'none' }}
+                      >
+                        {hotline.phone}
+                      </a>
+                    </p>
                     <p className={styles.orderDesc}>专业顾问为您一对一推荐</p>
                   </div>
                   <div className={styles.orderCard}>

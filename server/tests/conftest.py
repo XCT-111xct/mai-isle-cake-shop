@@ -39,9 +39,23 @@ TEST_CONTENT = {
 
 
 def seed_test_data(session):
-    """清空全部表 + 写入测试种子数据（幂等可重复）"""
-    # 清空（顺序注意外键：先删子表）
-    for table in ["cake_spec", "cake", "orders", "message", "content", "store", "category", "admin_user"]:
+    """清空全部表 + 写入测试种子数据（幂等可重复）。
+
+    ⚠️ 清空列表必须覆盖**所有**业务表，包括归因/发布新增的 10 张。
+    漏一张的后果是：上一个用例留下的来电/版本记录被下一个用例读到，
+    表现为「单独跑通过、全量跑失败」这种最难查的串味问题。
+    顺序注意外键：先删子表（order_attribution → orders）。
+    """
+    tables = [
+        # 归因链路（order_attribution 引用 orders，必须排在 orders 前面）
+        "order_attribution", "call_log", "visit_event", "visitor_session",
+        "visitor_identity", "tracking_number", "attribution_rule",
+        # 发布保护
+        "content_preview_token", "content_publish_log", "content_version",
+        # 原有业务表（保持原顺序：先子表后父表）
+        "cake_spec", "cake", "orders", "message", "content", "store", "category", "admin_user",
+    ]
+    for table in tables:
         session.execute(text(f"DELETE FROM {table}"))
     session.commit()
 

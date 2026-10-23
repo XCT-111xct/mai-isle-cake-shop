@@ -5,6 +5,7 @@
 
 import json
 from math import ceil
+from typing import Optional
 
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy import select
@@ -13,18 +14,13 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import Cake, CakeSpec, Category, Content, Message, Store
 from app.schemas import MessageCreate
+from app.utils import publish as publish_svc
+from app.utils.attribution import hash_phone, mask_phone
 from app.utils.captcha_gen import verify_captcha
+from app.utils.content_rules import ALL_KEYS, JSON_KEYS, MARKDOWN_KEYS, deserialize
 from app.utils.response import BizError, bad_request, not_found, ok
 
 router = APIRouter()
-
-# 内容 key：JSON 解析型 vs Markdown 原样型（技术文档 §4.3 key 一览表）
-JSON_KEYS = {
-    "banners", "brand_chars", "brand_journey",
-    "hardware", "software", "order_info", "contact_info",
-}
-MARKDOWN_KEYS = {"brand_story", "brand_value", "custom_tips"}
-ALL_KEYS = JSON_KEYS | MARKDOWN_KEYS
 
 
 # ---------- 工具：最低规格价子查询 ----------
@@ -213,11 +209,35 @@ def list_stores(db: Session = Depends(get_db)):
 # 内容区块 GET /api/v1/content/{key}
 # ============================================================
 @router.get("/content/{key}")
-def get_content(key: str, db: Session = Depends(get_db)):
-    """读取前台内容区块：JSON keys 解析为对象；Markdown keys 原样返回文本"""
+def get_content(
+    key: str,
+    preview_token: Optional[str] = Query(None, description="预览令牌（后台生成，仅返回草稿内容）"),
+    db: Session = Depends(get_db),
+):
+    """读取前台内容区块：JSON keys 解析为对象；Markdown keys 原样返回文本。
+
+    预览语义（重要）：
+      带合法 preview_token 时返回**草稿内容**，并标记 preview=true；
+      token 非法/过期/超次时**降级返回线上内容**，并标记 preview=false。
+      为什么不直接报错：预览链接过期是常态（默认 30 分钟），报错会让预览者
+      只看到空白页而不知道发生了什么；降级 + 明确标记，前台可以横条提示
+      「预览已失效，当前显示线上内容」，既不误导也不打断。
+    """
     if key not in ALL_KEYS:
         raise not_found("内容不存在")
 
+    # ---------- 预览通道 ----------
+    if preview_token:
+        ver = publish_svc.resolve_preview_token(db, preview_token, key)
+        if ver is not None:
+            return ok({
+                "key": key,
+                "value": deserialize(key, ver.value),
+                "preview": True,
+                "preview_version": ver.version,
+            })
+
+    # ---------- 线上通道（也作为预览失效后的降级路径） ----------
     row = db.query(Content).filter(Content.key == key).first()
     if not row:
         # 记录不存在：按 key 类型返回空默认值（前端区块隐藏规则）
@@ -234,7 +254,12 @@ def get_content(key: str, db: Session = Depends(get_db)):
     if key == "banners" and isinstance(value, list):
         value = {"banners": value}
 
-    return ok({"key": key, "value": value})
+    return ok({
+        "key": key,
+        "value": value,
+        "preview": False,
+        "preview_invalid": bool(preview_token),   # 带了 token 却没生效 → 前台提示预览已失效
+    })
 
 
 # ============================================================
@@ -259,4 +284,44 @@ def create_message(payload: MessageCreate, db: Session = Depends(get_db)):
     db.add(msg)
     db.commit()
     db.refresh(msg)
+
+    # ---------- 归因：建立「手机号 ↔ 访客」绑定 ----------
+    # 这是 R3 跨设备归因的唯一可靠入口：用户主动填了手机号，我们才知道
+    # 「这个号码对应屏幕前的这个人」。绑上之后，该号码来电即可精确归因。
+    #
+    # ⚠️ 必须容错：留言是主业务，归因是附属能力。绑定失败**绝不能**让
+    #    用户看到「提交失败」——他明明已经留言成功了。
+    if payload.visitor_id:
+        try:
+            _bind_visitor_identity(db, payload.visitor_id, payload.phone)
+        except Exception:
+            db.rollback()   # 只回滚失败的绑定，留言已经提交过了
+
     return ok({"id": msg.id})
+
+
+def _bind_visitor_identity(db: Session, visitor_id: str, phone: str) -> None:
+    """把访客与手机号绑定（幂等：同一对 visitor+phone 只存一条）"""
+    from app.models_attribution import VisitorIdentity
+
+    ph = hash_phone(phone)
+    if not ph:
+        return
+    exists = (
+        db.query(VisitorIdentity)
+        .filter(
+            VisitorIdentity.visitor_id == visitor_id,
+            VisitorIdentity.phone_hash == ph,
+        )
+        .first()
+    )
+    if exists:
+        return
+    db.add(VisitorIdentity(
+        visitor_id=visitor_id,
+        phone_hash=ph,
+        phone_mask=mask_phone(phone),
+        bind_source="message",
+    ))
+    db.commit()
+

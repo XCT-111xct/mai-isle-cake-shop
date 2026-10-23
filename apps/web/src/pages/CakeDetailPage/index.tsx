@@ -12,6 +12,8 @@ import { client } from '@/api/client'
 import type { CakeDetail, OrderInfo } from '@/api/types'
 import CakeCard from '@/components/CakeCard'
 import { Breadcrumb, PageBanner, Spinner } from '@/components/Common'
+import { useHotline } from '@/hooks/useHotline'
+import { trackEvent, trackHotlineClick } from '@/utils/tracker'
 import styles from './CakeDetailPage.module.css'
 
 export default function CakeDetailPage() {
@@ -20,6 +22,16 @@ export default function CakeDetailPage() {
   const [notFound, setNotFound] = useState(false)
   const [orderInfo, setOrderInfo] = useState<OrderInfo | null>(null)
   const [loading, setLoading] = useState(true)
+  // 订购号码：渠道专属号优先，后台订购信息兜底（归因依赖它）
+  const hotline = useHotline(orderInfo?.hotline)
+
+  // 详情页浏览事件：记到具体蛋糕，便于事后看「看了哪款才打的电话」
+  useEffect(() => {
+    const cakeId = Number(id)
+    if (Number.isFinite(cakeId) && cakeId > 0) {
+      trackEvent('cake_view', { refObjectType: 'cake', refObjectId: cakeId })
+    }
+  }, [id])
 
   // 加载蛋糕详情 + 订购信息
   useEffect(() => {
@@ -112,13 +124,18 @@ export default function CakeDetailPage() {
             )}
 
             {/* 订购引导卡（最突出转化元素） */}
-            <a className={styles.orderCard} href={`tel:${orderInfo?.hotline || '021-XXXXXXX'}`}>
+            <a
+              className={styles.orderCard}
+              href={`tel:${hotline.phone}`}
+              // 这是归因链路里最关键的一次点击：记下「从哪款蛋糕点的电话」
+              onClick={() => trackHotlineClick('detail_order_card', `/cakes/${id}`)}
+            >
               <span className={styles.orderIcon} aria-hidden="true">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
               </span>
               <span className={styles.orderText}>
                 <span className={styles.orderLabel}>订购热线</span>
-                <span className={styles.orderHotline}>{orderInfo?.hotline || '021-XXXXXXX'}</span>
+                <span className={styles.orderHotline}>{hotline.phone}</span>
                 <span className={styles.orderSub}>
                   服务时间 {orderInfo?.hours || '08:00 — 18:00'}
                   {orderInfo?.delivery_note ? ` ｜ ${orderInfo.delivery_note}` : ''}

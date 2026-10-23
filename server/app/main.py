@@ -16,8 +16,9 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
-from app.database import init_db
+from app.database import get_db, init_db
 from app.routers import (
+    attribution,
     auth,
     cakes,
     captcha,
@@ -27,16 +28,71 @@ from app.routers import (
     messages,
     orders,
     stores,
+    track,
     upload,
     users,
 )
 from app.utils.response import BizError
+
+# 新增的 10 张表（归因 7 + 发布 3）必须在这里显式 import，
+# 否则 Base.metadata 里没有它们，init_db() 的 create_all 不会建表。
+# 放在此处而不是 models.py 里，是为了让「原有 8 表」文件保持零改动。
+from app import models_attribution  # noqa: F401
+from app import models_publish  # noqa: F401
+
+
+def _seed_attribution_defaults() -> None:
+    """首次启动补齐归因/发布系统的默认配置。
+
+    幂等：已存在就跳过。做两件事：
+      ① 写入归因规则默认值（时间窗等）
+      ② 若一个专属号码都没有，就把「订购信息」里现有的订购专线
+         建成 direct 渠道的默认号码 —— 让系统开箱就能记录来电，
+         而不是等运营先去配号码才有数据。
+    """
+    from app.models import Content
+    from app.models_attribution import AttributionRule, TrackingNumber, DEFAULT_ATTRIBUTION_RULES
+    from app.models_publish import DEFAULT_PUBLISH_SETTINGS
+
+    db = next(get_db())
+    try:
+        if db.query(AttributionRule).count() == 0:
+            for key, value, desc in DEFAULT_ATTRIBUTION_RULES + DEFAULT_PUBLISH_SETTINGS:
+                db.add(AttributionRule(key=key, value=value, description=desc))
+            db.commit()
+
+        if db.query(TrackingNumber).count() == 0:
+            # 从 order_info 里取现有订购专线作为默认展示号码
+            row = db.query(Content).filter(Content.key == "order_info").first()
+            hotline = ""
+            if row and row.value:
+                try:
+                    import json as _json
+                    hotline = str(_json.loads(row.value).get("hotline", "") or "")
+                except Exception:
+                    hotline = ""
+            if hotline:
+                db.add(TrackingNumber(
+                    tracking_no=hotline,
+                    display_no=hotline,
+                    label="官网默认订购专线",
+                    channel="direct",
+                    channel_detail="default",
+                    remark="系统初始化时由「订购信息」自动创建；如需分渠道归因，请为各渠道另配专属号码",
+                ))
+                db.commit()
+    except Exception:
+        db.rollback()
+    finally:
+        db.close()
+
 
 # ---------- 启动/关闭事件 ----------
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # 启动：首次运行自动建表（幂等）
     init_db()
+    _seed_attribution_defaults()
     yield
     # 关闭：暂无清理逻辑
 
@@ -146,6 +202,7 @@ app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads"
 # 前台（无需登录）
 app.include_router(front.router, prefix="/api/v1")
 app.include_router(captcha.router, prefix="/api/v1")
+app.include_router(track.router, prefix="/api/v1")      # 埋点上报 + 专属号码下发
 # 后台（需登录）
 app.include_router(auth.router, prefix="/api/v1/admin")
 app.include_router(dashboard.router, prefix="/api/v1/admin")
@@ -156,6 +213,7 @@ app.include_router(content.router, prefix="/api/v1/admin")
 app.include_router(messages.router, prefix="/api/v1/admin")
 app.include_router(users.router, prefix="/api/v1/admin")
 app.include_router(upload.router, prefix="/api/v1/admin")
+app.include_router(attribution.router, prefix="/api/v1/admin")  # 归因管理
 
 
 # ---------- 健康检查 ----------

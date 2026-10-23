@@ -44,6 +44,35 @@ class MessageCreate(BaseModel):
     captcha: str
     captcha_id: str
 
+    # ---------- 归因链路：访客身份回填（可选，向后兼容） ----------
+    # 前端埋点会把当前 visitor_id / session_id 一并带上。留言是用户**主动
+    # 提供手机号**的唯一入口，因此它天然是「手机号 ↔ 访客」的绑定时机：
+    # 绑上之后，这个号码打来电话（哪怕换了设备、打的是门店普通号）也能被
+    # 规则 R3 精确归因到访客。不传该字段时行为与原来完全一致。
+    visitor_id: str = ""
+    session_id: str = ""
+
+    @field_validator("visitor_id")
+    @classmethod
+    def _v_visitor_id(cls, v: str) -> str:
+        v = (v or "").strip()
+        # 只接受 UUID 形态，防止被塞任意字符串污染归因关联
+        if not v:
+            return ""
+        if len(v) > 36:
+            raise ValueError("visitor_id 不合法")
+        return v
+
+    @field_validator("session_id")
+    @classmethod
+    def _v_session_id(cls, v: str) -> str:
+        v = (v or "").strip()
+        if not v:
+            return ""
+        if len(v) > 36:
+            raise ValueError("session_id 不合法")
+        return v
+
     @field_validator("name")
     @classmethod
     def _v_name(cls, v: str) -> str:

@@ -76,6 +76,14 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30   # Token 有效期 30 分钟（无操作失效
 LOGIN_MAX_FAIL = 5           # 连续错误 5 次触发锁定
 LOGIN_LOCK_MINUTES = 15      # 锁定 15 分钟
 
+# ---------- 归因链路：手机号哈希盐值 ----------
+# 作用：来电号码、留言号码都以 sha256(号码 + 盐) 存储，库里不落明文手机号。
+# ⚠️ 这个盐**一旦上线就绝不能再改**：改写会让全部历史哈希作废，
+#    历史来电与新访客再也匹配不上，归因链路当场断裂且无法修复（除非重算全表）。
+#    所以它必须独立于 JWT SECRET_KEY —— 密钥可以轮换，这个不行。
+# 生产环境请用环境变量 MAI_ISLE_PHONE_SALT 提供固定值并写进部署文档。
+PHONE_HASH_SALT = (os.getenv("MAI_ISLE_PHONE_SALT") or "").strip() or "mai-isle-attribution-salt-v1"
+
 # ---------- 图形验证码（技术文档 §7.7） ----------
 CAPTCHA_EXPIRE_MINUTES = 5   # 验证码 5 分钟有效
 CAPTCHA_LENGTH = 4           # 4 位字符
@@ -164,6 +172,7 @@ settings = SimpleNamespace(
     LOGIN_LOCK_MINUTES=LOGIN_LOCK_MINUTES,  # 登录锁定分钟数
     CAPTCHA_EXPIRE_MINUTES=CAPTCHA_EXPIRE_MINUTES,  # 验证码有效期（分钟）
     CAPTCHA_LENGTH=CAPTCHA_LENGTH,          # 验证码字符数
+    PHONE_HASH_SALT=PHONE_HASH_SALT,        # 手机号哈希盐值（归因链路用，上线后不可变更）
     MAX_UPLOAD_SIZE=MAX_UPLOAD_SIZE,        # 图片上传大小上限（字节）
     ALLOWED_EXTENSIONS=ALLOWED_EXTENSIONS,  # 允许的图片扩展名集合
     UPLOAD_DIRS=UPLOAD_DIRS,                # 上传子目录白名单

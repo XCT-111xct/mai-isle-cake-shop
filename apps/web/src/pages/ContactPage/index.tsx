@@ -12,6 +12,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { client } from '@/api/client'
 import type { ContactInfo, OrderInfo } from '@/api/types'
 import { PageBanner } from '@/components/Common'
+import { getSessionId, getVisitorId, trackEvent } from '@/utils/tracker'
 import styles from './ContactPage.module.css'
 
 // 字段错误结构（BUG-001：由 state 派生）
@@ -107,10 +108,16 @@ export default function ContactPage() {
         content: content.trim(),
         captcha: captcha.trim(),
         captcha_id: captchaId,
+        // 归因：把当前访客标识一并提交，后端据此建立「手机号 ↔ 访客」绑定。
+        // 这是跨设备归因（规则 R3）的唯一可靠入口——用户主动填了手机号，
+        // 我们才知道这个号码对应屏幕前的哪个人。不带也不影响留言成功。
+        visitor_id: getVisitorId(),
+        session_id: getSessionId(),
       })
       // 成功：清空表单 + 成功提示 + 刷新验证码（BUG-001 验收）
       setName(''); setPhone(''); setContent(''); setCaptcha('')
       refreshCaptcha()
+      trackEvent('message_submit', { payload: { source: 'contact_form' } })
       showToast('success', '提交成功，我们会尽快与您联系')
     } catch (err) {
       const msg = (err as Error).message

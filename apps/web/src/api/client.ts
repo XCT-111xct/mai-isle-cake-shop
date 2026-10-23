@@ -9,6 +9,7 @@
 import axios from 'axios'
 import type { ApiResponse } from './types'
 import { IS_DEMO, demoAdapter } from './demoAdapter'
+import { getPreviewToken } from '@/utils/tracker'
 
 // 创建 axios 实例：所有前台请求统一走这里
 export const client = axios.create({
@@ -23,6 +24,24 @@ export const client = axios.create({
 if (IS_DEMO) {
   client.defaults.adapter = demoAdapter
 }
+
+// ---------- 请求拦截器：预览令牌 ----------
+// 处于预览模式时，给内容接口自动附上 preview_token。
+// 后端校验通过则返回「草稿内容」，校验失败会降级返回线上内容并标记
+// preview_invalid，页面据此横条提示——不会让人误以为看到的就是草稿。
+// 为什么只在 /content 上加：其它接口（蛋糕、门店…）不参与版本化发布，
+// 多带一个参数只会污染日志。
+client.interceptors.request.use((config) => {
+  const token = getPreviewToken()
+  const isContentGet =
+    (config.method || '').toLowerCase() === 'get' &&
+    typeof config.url === 'string' &&
+    config.url.startsWith('/content')
+  if (token && isContentGet) {
+    config.params = { ...(config.params || {}), preview_token: token }
+  }
+  return config
+})
 
 // ---------- 响应拦截器 ----------
 // 作用：把"业务失败"统一转成 Error 对象，页面代码只需 try/catch

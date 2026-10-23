@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { client } from '@/api/client'
 import type { ContactInfo, OrderInfo } from '@/api/types'
+import { useHotline } from '@/hooks/useHotline'
+import { trackHotlineClick } from '@/utils/tracker'
 import styles from './Footer.module.css'
 
 // 固定导航链接（不可后台配置）
@@ -27,6 +29,8 @@ const JOIN_LINKS = ['企业订购', '媒体合作', '门店加盟', '供应商�
 export default function Footer() {
   const [orderInfo, setOrderInfo] = useState<OrderInfo | null>(null)
   const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null)
+  // 渠道专属号优先，后台订购信息兜底
+  const hotline = useHotline(orderInfo?.hotline)
 
   // 页脚加载：并发拉取订购信息 + 联系方式（空内容隐藏对应区块）
   useEffect(() => {
@@ -77,8 +81,17 @@ export default function Footer() {
           <div className={styles.col}>
             <h4 className={styles.colTitle}>CONTACT</h4>
             <ul className={styles.colList}>
-              {orderInfo?.hotline && (
-                <li><span className={styles.colLabel}>订购专线</span>{orderInfo.hotline}</li>
+              {hotline.phone && (
+                <li>
+                  <span className={styles.colLabel}>订购专线</span>
+                  <a
+                    href={`tel:${hotline.phone}`}
+                    onClick={() => trackHotlineClick('footer', 'footer')}
+                    style={{ color: 'inherit' }}
+                  >
+                    {hotline.phone}
+                  </a>
+                </li>
               )}
               {orderInfo?.hours && (
                 <li><span className={styles.colLabel}>服务时间</span>{orderInfo.hours}</li>
